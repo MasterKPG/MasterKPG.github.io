@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mohammad Amara — ingénierie des systèmes & développement hardware. Systèmes embarqués, VHDL, conception de cartes électroniques et logiciel.">
     <!-- Portfolio for Mohammad Amara -->
     <title>Mohammad Amara | Portfolio</title>
     <link rel="stylesheet" href="style.css">
@@ -20,6 +21,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#academics">Academics</a></li>
                 <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -28,7 +30,10 @@
 
     <!-- ====== HERO ====== -->
     <section id="hero" class="hero">
-        <div class="hero-bg-glow"></div>
+        <div class="hero-bg-glow" id="heroGlow"></div>
+        <div class="hero-shape hero-shape--1"></div>
+        <div class="hero-shape hero-shape--2"></div>
+        <div class="hero-shape hero-shape--3"></div>
         <div class="hero-content animate-fadeup">
             <div class="avatar-wrap">
                 <div class="avatar-placeholder">
@@ -40,20 +45,19 @@
                 </div>
             </div>
             <h1 class="hero-name">Mohammad Amara</h1>
-            <p class="hero-tagline">Étudiant ingénieur informatique · Modélisation mathématique · Calcul scientifique</p>
+            <p class="hero-tagline">Ingénierie des systèmes &amp; développement hardware · Systèmes embarqués · VHDL &amp; conception de cartes électroniques</p>
             <div class="hero-badges">
-                <span class="badge">Python</span>
+                <span class="badge">VHDL</span>
+                <span class="badge">Conception de cartes</span>
+                <span class="badge">Arduino</span>
+                <span class="badge">Systèmes embarqués</span>
+                <span class="badge">Électronique</span>
                 <span class="badge">C / C++</span>
-                <span class="badge">Java</span>
-                <span class="badge">JavaScript</span>
-                <span class="badge">NumPy · SciPy</span>
-                <span class="badge">Matplotlib · PIL</span>
-                <span class="badge">Algorithmique</span>
-                <span class="badge">APIs & JSON</span>
+                <span class="badge">Python</span>
                 <span class="badge">Git</span>
             </div>
             <div class="hero-cta">
-                <a href="#about" class="btn btn-primary">Discover More</a>
+                <a href="#projects" class="btn btn-primary">View Projects</a>
                 <a href="#contact" class="btn btn-ghost">Get in Touch</a>
             </div>
         </div>
@@ -70,14 +74,15 @@
             <div class="about-grid">
                 <div class="about-text animate-fadeup">
                     <p>
-                        Étudiant en école d'ingénieur (ENSSAT – Université de Rennes), je me spécialise en développement logiciel,
-                        modélisation algorithmique et calcul scientifique. Intérêt marqué pour l'automatisation, la simulation
-                        numérique et les applications scientifiques en Python.
+                        Étudiant en école d'ingénieur (ENSSAT – Université de Rennes), je m'oriente vers
+                        l'<strong>ingénierie des systèmes et le développement hardware</strong> : systèmes embarqués,
+                        électronique, conception de cartes et description matérielle en VHDL, à l'interface entre le logiciel et le matériel.
                     </p>
                     <p>
-                        Formé en CPGE MPSI/MP, j'ai une solide base en mathématiques appliquées et en algorithmique avancée.
-                        À l'aise avec la structuration de code, l'implémentation d'algorithmes complexes et l'interfaçage avec des API,
-                        je recherche un stage pour apporter rigueur analytique et esprit d'équipe à des projets à impact.
+                        Formé en CPGE MPSI/MP, j'ai une solide base en mathématiques appliquées, en algorithmique et en
+                        sciences de l'ingénieur. À l'aise aussi bien avec le code qu'avec le fer à souder, je conçois des
+                        prototypes de bout en bout — du schéma électronique au firmware. Je recherche un stage pour
+                        apporter rigueur analytique et sens du concret à des projets à impact.
                     </p>
                 </div>
                 <div class="contact-card animate-fadein">
@@ -152,16 +157,18 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <span class="timeline-date">Sept. 2024 – En cours</span>
-                        <h3>Ingénierie Informatique</h3>
+                        <h3>Ingénierie des systèmes &amp; embarqué</h3>
                         <p class="timeline-institution">ENSSAT – Université de Rennes — Lannion, France</p>
                         <p class="timeline-desc">
-                            Formation spécialisée en ingénierie logicielle, algorithmique avancée et systèmes embarqués.
-                            Développement d'applications, modélisation mathématique et gestion de projets informatiques.
+                            Formation tournée vers les systèmes embarqués, l'électronique numérique et la description
+                            matérielle (VHDL), la conception de cartes et l'algorithmique avancée. Conception de
+                            prototypes du schéma au firmware.
                         </p>
                         <div class="tag-row">
-                            <span class="tag">Ingénierie logicielle</span>
-                            <span class="tag">Algorithmique</span>
                             <span class="tag">Systèmes embarqués</span>
+                            <span class="tag">VHDL</span>
+                            <span class="tag">Électronique</span>
+                            <span class="tag">Algorithmique</span>
                         </div>
                     </div>
                 </div>
@@ -179,7 +186,7 @@
                         <div class="tag-row">
                             <span class="tag">Mathématiques</span>
                             <span class="tag">Physique</span>
-                            <span class="tag">Algorithmique</span>
+                            <span class="tag">Sciences de l'ingénieur</span>
                         </div>
                     </div>
                 </div>
@@ -267,16 +274,168 @@
         </div>
     </section>
 
+    <!-- ====== SKILLS (rolling marquee) ====== -->
+    <section id="skills" class="section section-dark">
+        <div class="container skills-intro">
+            <div class="section-label animate-fadein">Stack</div>
+            <h2 class="section-title animate-fadeup">Skills &amp; Technologies</h2>
+            <p class="section-sub animate-fadeup">
+                Un éventail hardware &amp; software — du transistor au programme. Survolez pour mettre en pause.
+            </p>
+        </div>
+
+        <!-- Row 1 — languages & tools -->
+        <div class="marquee animate-fadein">
+            <div class="marquee-track">
+                <span class="skill-chip">VHDL</span>
+                <span class="skill-chip">C / C++</span>
+                <span class="skill-chip">Python</span>
+                <span class="skill-chip">Java</span>
+                <span class="skill-chip">JavaScript</span>
+                <span class="skill-chip">Bash</span>
+                <span class="skill-chip">Git</span>
+                <span class="skill-chip">Algorithmique</span>
+                <!-- duplicate set for seamless loop -->
+                <span class="skill-chip" aria-hidden="true">VHDL</span>
+                <span class="skill-chip" aria-hidden="true">C / C++</span>
+                <span class="skill-chip" aria-hidden="true">Python</span>
+                <span class="skill-chip" aria-hidden="true">Java</span>
+                <span class="skill-chip" aria-hidden="true">JavaScript</span>
+                <span class="skill-chip" aria-hidden="true">Bash</span>
+                <span class="skill-chip" aria-hidden="true">Git</span>
+                <span class="skill-chip" aria-hidden="true">Algorithmique</span>
+            </div>
+        </div>
+
+        <!-- Row 2 — hardware & domains (reverse direction) -->
+        <div class="marquee marquee--reverse animate-fadein">
+            <div class="marquee-track">
+                <span class="skill-chip is-hw">Conception de cartes</span>
+                <span class="skill-chip is-hw">Électronique</span>
+                <span class="skill-chip is-hw">Arduino</span>
+                <span class="skill-chip is-hw">Systèmes embarqués</span>
+                <span class="skill-chip is-hw">Microcontrôleurs</span>
+                <span class="skill-chip">NumPy · SciPy</span>
+                <span class="skill-chip">Matplotlib</span>
+                <span class="skill-chip">APIs &amp; JSON</span>
+                <span class="skill-chip">Linux</span>
+                <!-- duplicate set for seamless loop -->
+                <span class="skill-chip is-hw" aria-hidden="true">Conception de cartes</span>
+                <span class="skill-chip is-hw" aria-hidden="true">Électronique</span>
+                <span class="skill-chip is-hw" aria-hidden="true">Arduino</span>
+                <span class="skill-chip is-hw" aria-hidden="true">Systèmes embarqués</span>
+                <span class="skill-chip is-hw" aria-hidden="true">Microcontrôleurs</span>
+                <span class="skill-chip" aria-hidden="true">NumPy · SciPy</span>
+                <span class="skill-chip" aria-hidden="true">Matplotlib</span>
+                <span class="skill-chip" aria-hidden="true">APIs &amp; JSON</span>
+                <span class="skill-chip" aria-hidden="true">Linux</span>
+            </div>
+        </div>
+    </section>
+
     <!-- ====== PROJECTS ====== -->
-    <section id="projects" class="section section-dark">
+    <section id="projects" class="section">
         <div class="container">
             <div class="section-label animate-fadein">Work</div>
             <h2 class="section-title animate-fadeup">Selected Projects</h2>
             <div class="projects-grid">
 
-                <div class="project-card animate-fadeup">
+                <!-- FEATURED — Arduino clone + Ping-Pong + Adder -->
+                <article class="project-card project-card--featured animate-fadeup" data-tilt>
+                    <div class="featured-visual">
+                        <span class="featured-chip">Featured · Hardware</span>
+                        <div class="featured-icon">
+                            <!-- microchip -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="7" y="7" width="10" height="10" rx="1.5"/>
+                                <path d="M10 10h4v4h-4z"/>
+                                <path d="M9 3v3M12 3v3M15 3v3M9 18v3M12 18v3M15 18v3M3 9h3M3 12h3M3 15h3M18 9h3M18 12h3M18 15h3"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="featured-body">
+                        <h3>Clone Arduino — de la carte au jeu</h3>
+                        <p>
+                            Conception et fabrication d'une carte compatible Arduino (ATmega328P) : schéma électronique,
+                            routage de la carte, soudure des composants et programmation du bootloader. La carte a ensuite
+                            servi de plateforme à deux projets embarqués.
+                        </p>
+                        <div class="subprojects">
+                            <div class="subproj">
+                                <div class="subproj-head">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="6" width="20" height="12" rx="2"/>
+                                        <path d="M7 12h.01M17 12h.01"/>
+                                        <path d="M12 9v6"/>
+                                    </svg>
+                                    <h4>Ping-Pong</h4>
+                                </div>
+                                <p>Jeu Pong rendu sur écran et piloté par boutons : boucle de rafraîchissement, détection de collisions et gestion du score en C/C++.</p>
+                            </div>
+                            <div class="subproj">
+                                <div class="subproj-head">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="9"/>
+                                        <path d="M12 8v8M8 12h8"/>
+                                    </svg>
+                                    <h4>Additionneur</h4>
+                                </div>
+                                <p>Additionneur binaire décrit en VHDL : logique combinatoire, propagation de la retenue et bancs de test (testbench) pour la validation.</p>
+                            </div>
+                        </div>
+                        <div class="tag-row">
+                            <span class="tag">Conception de cartes</span>
+                            <span class="tag">ATmega328P</span>
+                            <span class="tag">VHDL</span>
+                            <span class="tag">Électronique</span>
+                            <span class="tag">C / C++</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Connected plant -->
+                <div class="project-card animate-fadeup" data-tilt>
                     <div class="project-img-wrap">
-                        <div class="project-img-placeholder">TIPE · Voiliers</div>
+                        <div class="project-img-placeholder">
+                            <span class="project-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22V12"/>
+                                    <path d="M12 12C12 8 9 5 4 5c0 5 3 8 8 8z"/>
+                                    <path d="M12 14c0-3 2.5-5.5 6.5-5.5C18.5 12.5 16 14 12 14z"/>
+                                    <path d="M8 22h8"/>
+                                </svg>
+                            </span>
+                            <span>Plante connectée · IoT</span>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <h3>Plante connectée — monitoring IoT</h3>
+                        <p>Système de surveillance d'une plante : capteurs d'humidité du sol, de température et de luminosité reliés à un microcontrôleur, arrosage automatique déclenché par seuils et remontée des mesures.</p>
+                        <div class="tag-row">
+                            <span class="tag">Arduino</span>
+                            <span class="tag">Capteurs</span>
+                            <span class="tag">IoT</span>
+                            <span class="tag">C / C++</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-sm">View Demo</a>
+                            <a href="#" class="btn btn-sm btn-ghost">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card animate-fadeup" data-tilt>
+                    <div class="project-img-wrap">
+                        <div class="project-img-placeholder">
+                            <span class="project-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 18s3-9 9-9 9 9 9 9"/>
+                                    <path d="M3 18h18"/>
+                                    <path d="M12 9V3l5 3-5 3"/>
+                                </svg>
+                            </span>
+                            <span>TIPE · Voiliers</span>
+                        </div>
                     </div>
                     <div class="project-body">
                         <h3>TIPE — Dynamique des voiliers</h3>
@@ -293,12 +452,21 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-fadeup">
+                <div class="project-card animate-fadeup" data-tilt>
                     <div class="project-img-wrap">
-                        <div class="project-img-placeholder">ML · KNN/K-Means</div>
+                        <div class="project-img-placeholder">
+                            <span class="project-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="6" cy="6" r="2"/><circle cx="18" cy="7" r="2"/>
+                                    <circle cx="9" cy="14" r="2"/><circle cx="17" cy="16" r="2"/>
+                                    <path d="M7.6 7.3 8 12M10.6 13.2 16 16M16.7 8.8 10.9 13"/>
+                                </svg>
+                            </span>
+                            <span>ML · KNN / K-Means</span>
+                        </div>
                     </div>
                     <div class="project-body">
-                        <h3>Machine Learning — KNN & K-Means</h3>
+                        <h3>Machine Learning — KNN &amp; K-Means</h3>
                         <p>Implémentation from scratch des algorithmes KNN et K-Means avec calcul matriciel (NumPy/SciPy) et visualisations Matplotlib pour analyser les regroupements.</p>
                         <div class="tag-row">
                             <span class="tag">Python</span>
@@ -313,9 +481,17 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-fadeup">
+                <div class="project-card animate-fadeup" data-tilt>
                     <div class="project-img-wrap">
-                        <div class="project-img-placeholder">API · Météo</div>
+                        <div class="project-img-placeholder">
+                            <span class="project-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17.5 19a4.5 4.5 0 0 0 .5-9 6 6 0 0 0-11.6-1.5A4 4 0 0 0 6 19z"/>
+                                    <path d="M12 12v6M9.5 15l2.5 3 2.5-3"/>
+                                </svg>
+                            </span>
+                            <span>API · Météo</span>
+                        </div>
                     </div>
                     <div class="project-body">
                         <h3>Application météo — API REST</h3>
@@ -332,9 +508,16 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-fadeup">
+                <div class="project-card animate-fadeup" data-tilt>
                     <div class="project-img-wrap">
-                        <div class="project-img-placeholder">C++ · DLL</div>
+                        <div class="project-img-placeholder">
+                            <span class="project-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m8 9-3 3 3 3M16 9l3 3-3 3M13 6l-2 12"/>
+                                </svg>
+                            </span>
+                            <span>C++ · Injection DLL</span>
+                        </div>
                     </div>
                     <div class="project-body">
                         <h3>Projet C++ — Injection DLL</h3>
@@ -351,9 +534,17 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-fadeup">
+                <div class="project-card animate-fadeup" data-tilt>
                     <div class="project-img-wrap">
-                        <div class="project-img-placeholder">ASCII Art</div>
+                        <div class="project-img-placeholder">
+                            <span class="project-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                                    <path d="M7 9h2M7 13h4M13 9l3 3-3 3"/>
+                                </svg>
+                            </span>
+                            <span>ASCII Art</span>
+                        </div>
                     </div>
                     <div class="project-body">
                         <h3>Générateur ASCII Art</h3>
@@ -370,31 +561,12 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-fadeup">
-                    <div class="project-img-wrap">
-                        <div class="project-img-placeholder">API Toolkit</div>
-                    </div>
-                    <div class="project-body">
-                        <h3>Toolkit d'automatisation API</h3>
-                        <p>Scripts Python pour interfacer des API REST, parser du JSON et automatiser des workflows, avec gestion robuste des erreurs et des temps de réponse.</p>
-                        <div class="tag-row">
-                            <span class="tag">Python</span>
-                            <span class="tag">REST</span>
-                            <span class="tag">JSON</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="btn btn-sm">View Demo</a>
-                            <a href="#" class="btn btn-sm btn-ghost">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
     <!-- ====== CONTACT ====== -->
-    <section id="contact" class="section">
+    <section id="contact" class="section section-dark">
         <div class="container">
             <div class="section-label animate-fadein">Say Hello</div>
             <h2 class="section-title animate-fadeup">Get in Touch</h2>
