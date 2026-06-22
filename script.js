@@ -5,16 +5,22 @@
 (function () {
     'use strict';
 
+    var reduceMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var finePointer = window.matchMedia &&
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+
     /* ---- Set current year in footer ---- */
-    const yearEl = document.getElementById('year');
+    var yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 
     /* ---- Scroll-reveal (IntersectionObserver) ---- */
-    const revealEls = document.querySelectorAll('.animate-fadeup, .animate-fadein');
+    var revealEls = document.querySelectorAll('.animate-fadeup, .animate-fadein');
 
     if ('IntersectionObserver' in window) {
-        const revealObserver = new IntersectionObserver(
+        var revealObserver = new IntersectionObserver(
             function (entries, observer) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
@@ -90,7 +96,9 @@
     /* ---- Smooth scroll (fallback for browsers without CSS scroll-behavior) ---- */
     document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
         anchor.addEventListener('click', function (e) {
-            var target = document.querySelector(this.getAttribute('href'));
+            var href = this.getAttribute('href');
+            if (href === '#') return;
+            var target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
                 var offset = 64; /* navbar height */
@@ -99,5 +107,52 @@
             }
         });
     });
+
+
+    /* ---- Hero glow drifts gently toward the cursor ---- */
+    var heroGlow = document.getElementById('heroGlow');
+    var hero = document.getElementById('hero');
+
+    if (heroGlow && hero && finePointer && !reduceMotion) {
+        hero.addEventListener('mousemove', function (e) {
+            var rect = hero.getBoundingClientRect();
+            var dx = (e.clientX - rect.left) / rect.width  - 0.5;
+            var dy = (e.clientY - rect.top)  / rect.height - 0.5;
+            heroGlow.style.transform =
+                'translate(-50%, -50%) translate(' + (dx * 60) + 'px, ' + (dy * 60) + 'px)';
+        });
+        hero.addEventListener('mouseleave', function () {
+            heroGlow.style.transform = 'translate(-50%, -50%)';
+        });
+    }
+
+
+    /* ---- Subtle 3D tilt on project cards ---- */
+    var tiltCards = document.querySelectorAll('[data-tilt]');
+
+    if (finePointer && !reduceMotion) {
+        tiltCards.forEach(function (card) {
+            var raf = null;
+
+            card.addEventListener('mousemove', function (e) {
+                if (raf) return;
+                raf = requestAnimationFrame(function () {
+                    raf = null;
+                    var rect = card.getBoundingClientRect();
+                    var px = (e.clientX - rect.left) / rect.width  - 0.5;
+                    var py = (e.clientY - rect.top)  / rect.height - 0.5;
+                    var max = 5; /* degrees */
+                    card.style.transform =
+                        'translateY(-4px) rotateX(' + (-py * max).toFixed(2) + 'deg) ' +
+                        'rotateY(' + (px * max).toFixed(2) + 'deg)';
+                });
+            });
+
+            card.addEventListener('mouseleave', function () {
+                if (raf) { cancelAnimationFrame(raf); raf = null; }
+                card.style.transform = '';
+            });
+        });
+    }
 
 }());
