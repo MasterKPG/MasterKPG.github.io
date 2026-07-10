@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================
+   Design tokens — futuristic aurora system
+   ================================================ */
+:root {
+  --bg: 246 247 251;            /* porcelain */
+  --bg-elevated: 255 255 255;
+  --fg: 15 16 32;
+  --fg-muted: 82 88 110;
+  --line: 15 16 32;             /* used at low alpha */
+  --glass: 255 255 255;
+  --accent: 59 130 246;
+  --glow-1: rgba(34, 211, 238, 0.22);
+  --glow-2: rgba(139, 92, 246, 0.18);
+}
+
+.dark {
+  --bg: 6 6 15;                 /* void */
+  --bg-elevated: 11 11 26;
+  --fg: 237 238 245;
+  --fg-muted: 138 143 160;
+  --line: 237 238 245;
+  --glass: 12 12 28;
+  --accent: 34 211 238;
+  --glow-1: rgba(34, 211, 238, 0.14);
+  --glow-2: rgba(217, 70, 239, 0.10);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body antialiased;
+    background-color: rgb(var(--bg));
+    color: rgb(var(--fg));
+    transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(139, 92, 246, 0.35);
+  }
+
+  /* Hide native cursor when custom cursor is active (fine pointers only) */
+  @media (hover: hover) and (pointer: fine) {
+    body.custom-cursor,
+    body.custom-cursor a,
+    body.custom-cursor button {
+      cursor: none;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(120deg, #22d3ee 0%, #3b82f6 30%, #8b5cf6 65%, #d946ef 100%);
+  }
+
+  .text-muted {
+    color: rgb(var(--fg-muted));
+  }
+
+  .border-line {
+    border-color: rgb(var(--line) / 0.1);
+  }
+
+  /* Liquid glass surface — inspired by 21st.dev liquid-glass (suraj-xd) */
+  .glass {
+    background: rgb(var(--glass) / 0.55);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgb(var(--line) / 0.12);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.08),
+      inset 0 -1px 0 0 rgb(0 0 0 / 0.06),
+      0 8px 32px rgb(0 0 0 / 0.18);
+  }
+
+  .glass-strong {
+    background: rgb(var(--glass) / 0.72);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgb(var(--line) / 0.14);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.1),
+      0 16px 60px rgb(0 0 0 / 0.28);
+  }
+
+  .noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Reduced motion: kill animations globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
