@@ -5,7 +5,13 @@ Vite + Tailwind CSS + Framer Motion**, with a **three.js WebGL line-burst shader
 hero, bilingual (EN/FR) content, and dark/light theming.
 
 Design system per **ui-ux-pro-max**: OLED dark (deep ink surfaces) with a single
-green accent, **Inter** display + **JetBrains Mono** labels, AAA contrast.
+green accent, AAA contrast. Type: **Syne** (artistic display) + **Space Grotesk**
+(body) + **Instrument Serif** (italic accents) + **JetBrains Mono** (labels).
+
+Projects use an **interactive folder gallery** (folders open on hover to reveal
+the cover, then a preview modal on click). Skills are an **asymmetric bento of
+spotlight cards** with proficiency rings. Buttons are **liquid-glass** (SVG
+refraction + specular). No custom cursor.
 
 **Live:** https://masterkpg.github.io
 

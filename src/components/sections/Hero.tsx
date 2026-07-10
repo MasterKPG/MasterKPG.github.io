@@ -84,10 +84,12 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-6xl font-extrabold leading-[1.02] tracking-[-0.03em] text-white sm:text-8xl"
+          className="font-display text-6xl font-extrabold leading-[0.95] tracking-[-0.03em] text-white sm:text-8xl"
           style={{ textShadow: '0 2px 40px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.6)' }}
         >
-          Mohammad Amara
+          Mohammad
+          <br />
+          <span className="font-serif text-[0.92em] font-normal italic text-accent">Amara</span>
         </motion.h1>
 
         {/* Rotating role word */}

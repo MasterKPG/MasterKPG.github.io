@@ -51,14 +51,6 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
-
-  @media (hover: hover) and (pointer: fine) {
-    body.custom-cursor,
-    body.custom-cursor a,
-    body.custom-cursor button {
-      cursor: none;
-    }
-  }
 }
 
 @layer utilities {
