@@ -14,7 +14,7 @@ function Chip({ name, kind }: { name: string; kind: 'hardware' | 'software' }) {
         className={`h-2 w-2 rounded-full ${
           kind === 'hardware'
             ? 'bg-gradient-to-br from-amber-300 to-orange-500'
-            : 'bg-gradient-to-br from-aurora-cyan to-aurora-violet'
+            : 'bg-gradient-to-br from-accent to-accent'
         }`}
       />
       <span className="whitespace-nowrap text-sm font-semibold">{name}</span>
@@ -28,7 +28,7 @@ export function Skills() {
     <section id="skills" className="relative py-28">
       <div className="mx-auto max-w-6xl px-6 text-center">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-aurora-cyan">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
             {t(COPY.skills.label)}
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">
@@ -70,7 +70,7 @@ export function Skills() {
                   className={`h-full rounded-full ${
                     s.kind === 'hardware'
                       ? 'bg-gradient-to-r from-amber-300 to-orange-500'
-                      : 'bg-gradient-to-r from-aurora-cyan via-aurora-blue to-aurora-violet'
+                      : 'bg-gradient-to-r from-accent to-accent-soft'
                   }`}
                 />
               </div>

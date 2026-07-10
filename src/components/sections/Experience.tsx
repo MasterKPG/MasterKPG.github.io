@@ -21,20 +21,20 @@ function TimelineList({ entries }: { entries: TimelineEntry[] }) {
       {/* scrubbed fill */}
       <motion.div
         style={{ height }}
-        className="absolute left-[7px] top-2 w-0.5 rounded-full bg-gradient-to-b from-aurora-cyan via-aurora-violet to-aurora-magenta"
+        className="absolute left-[7px] top-2 w-0.5 rounded-full bg-gradient-to-b from-accent to-accent-soft"
       />
 
       <div className="space-y-8">
         {entries.map((e, i) => (
           <Reveal key={i} delay={i * 0.06}>
             <div className="relative">
-              <span className="absolute -left-[29px] top-1.5 h-4 w-4 rounded-full bg-gradient-to-br from-aurora-cyan to-aurora-violet shadow-[0_0_0_4px_rgba(139,92,246,0.18)]" />
+              <span className="absolute -left-[29px] top-1.5 h-4 w-4 rounded-full bg-gradient-to-br from-accent to-accent-soft shadow-[0_0_0_4px_rgba(34,197,94,0.18)]" />
               <div className="glass rounded-2xl p-5 transition-transform duration-300 hover:translate-x-1">
-                <span className="font-mono text-xs uppercase tracking-wide text-aurora-cyan">
+                <span className="font-mono text-xs uppercase tracking-wide text-accent">
                   {t(e.date)}
                 </span>
                 <h4 className="mt-1.5 font-display text-lg font-semibold">{t(e.title)}</h4>
-                <p className="text-sm text-aurora-violet">{t(e.place)}</p>
+                <p className="text-sm text-accent">{t(e.place)}</p>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{t(e.desc)}</p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {e.tags.map((tag) => (
@@ -60,7 +60,7 @@ export function Experience() {
   return (
     <section id="experience" className="relative mx-auto max-w-6xl px-6 py-28">
       <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-aurora-cyan">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
           {t(COPY.experience.label)}
         </p>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">

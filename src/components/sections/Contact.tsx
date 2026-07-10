@@ -41,7 +41,7 @@ export function Contact() {
       <div className="grid items-center gap-16 md:grid-cols-2">
         <div>
           <Reveal>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-aurora-cyan">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
               {t(COPY.contact.label)}
             </p>
             <h2 className="mt-3 font-display text-4xl font-bold sm:text-6xl">

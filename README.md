@@ -1,18 +1,21 @@
 # Mohammad Amara — Portfolio
 
 A futuristic, fully-remade personal portfolio built with **React + TypeScript +
-Vite + Tailwind CSS + Framer Motion**, with a **WebGL aurora shader** background,
-bilingual (EN/FR) content, and dark/light theming.
+Vite + Tailwind CSS + Framer Motion**, with a **three.js WebGL line-burst shader**
+hero, bilingual (EN/FR) content, and dark/light theming.
+
+Design system per **ui-ux-pro-max**: OLED dark (deep ink surfaces) with a single
+green accent, **Inter** display + **JetBrains Mono** labels, AAA contrast.
 
 **Live:** https://masterkpg.github.io
 
 ## Highlights
 
-- **WebGL aurora shader hero** (theme-aware, mouse-reactive) with a **gooey
-  text morph** cycling the technologies, kinetic typography and a mouse-follow
-  spotlight.
-- **Dark / light theme toggle** with a smooth cross-fade that the shader itself
-  eases between.
+- **three.js line-burst shader hero** (prismatic light-rays on OLED black,
+  code-split into its own chunk) with restrained kinetic typography — a rotating
+  `<Role />` word — and a mouse-follow spotlight.
+- **Dark / light theme toggle** with a smooth cross-fade (dark is default; the
+  shader hero stays cinematic-dark, the body themes light/dark).
 - **Bilingual EN ⇄ FR** — every string is defined in both languages and switches
   live (`src/lib/content.ts`, `src/lib/i18n.tsx`).
 - **Custom cursor** + **magnetic hover** on interactive elements.
@@ -28,10 +31,11 @@ bilingual (EN/FR) content, and dark/light theming.
 
 ## UI credits
 
-Components adapted from [21st.dev](https://21st.dev): Gooey Text Morphing
-(@victorwelander), Shader Animation, Display Cards, Liquid Glass, Liquid Glass
-Button (@aliimam), and Theme Toggle (@ayushmxxn). Project cover art generated
-with Higgsfield (Soul). Fonts: Space Grotesk, Inter, JetBrains Mono.
+Components adapted from [21st.dev](https://21st.dev): Shader Animation
+(three.js line-burst), Display Cards, Liquid Glass, Liquid Glass Button
+(@aliimam), and Theme Toggle (@ayushmxxn). Design guidance from the
+**ui-ux-pro-max** skill. Project cover art generated with Higgsfield (Soul).
+Fonts: Inter, JetBrains Mono.
 
 ## Develop
 

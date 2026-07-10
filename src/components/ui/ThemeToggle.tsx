@@ -23,7 +23,7 @@ export function ThemeToggle() {
             animate={{ rotate: 0, scale: 1, opacity: 1 }}
             exit={{ rotate: 90, scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="h-5 w-5 text-aurora-violet"
+            className="h-5 w-5 text-accent"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

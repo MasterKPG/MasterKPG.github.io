@@ -73,7 +73,7 @@ export function Nav() {
                 {active === l.id && (
                   <motion.span
                     layoutId="nav-pill"
-                    className="absolute inset-0 -z-10 rounded-full bg-aurora-violet/15"
+                    className="absolute inset-0 -z-10 rounded-full bg-accent/15"
                     transition={{ type: 'spring', stiffness: 320, damping: 28 }}
                   />
                 )}
@@ -119,7 +119,7 @@ export function Nav() {
               <button
                 key={l.id}
                 onClick={() => go(l.id)}
-                className="rounded-xl px-4 py-2.5 text-left text-sm text-muted hover:bg-aurora-violet/10 hover:text-[rgb(var(--fg))]"
+                className="rounded-xl px-4 py-2.5 text-left text-sm text-muted hover:bg-accent/10 hover:text-[rgb(var(--fg))]"
               >
                 {t(l.label)}
               </button>

@@ -18,7 +18,7 @@ function DisplayCard({ icon, title, description, date, className }: DisplayCardP
     <div
       className={cn(
         'glass relative flex h-40 w-[22rem] max-w-[85vw] -skew-y-[6deg] select-none flex-col justify-between rounded-2xl px-5 py-4',
-        'transition-all duration-500 hover:border-aurora-cyan/40 hover:bg-[rgb(var(--glass))]/80',
+        'transition-all duration-500 hover:border-accent/40 hover:bg-[rgb(var(--glass))]/80',
         "after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[16rem] after:bg-gradient-to-l after:from-[rgb(var(--bg))] after:to-transparent after:content-['']",
         'hover:after:opacity-0 after:transition-opacity after:duration-500',
         '[&>*]:flex [&>*]:items-center [&>*]:gap-2',
@@ -26,7 +26,7 @@ function DisplayCard({ icon, title, description, date, className }: DisplayCardP
       )}
     >
       <div>
-        <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-aurora-violet/20 text-aurora-cyan">
+        <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent/20 text-accent">
           {icon}
         </span>
         <p className="font-display text-lg font-semibold">{title}</p>

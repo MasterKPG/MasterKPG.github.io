@@ -5,50 +5,44 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Futuristic palette — void dark + porcelain light, aurora accents
-        void: {
-          950: '#030308',
-          900: '#06060f',
-          800: '#0b0b1a',
-          700: '#131327',
+        // OLED dark system — deep ink surfaces, single green accent
+        ink: {
+          950: '#08090c',
+          900: '#0c0e13',
+          800: '#12151d',
+          700: '#1a1e28',
+          600: '#252b38',
         },
         porcelain: {
-          50: '#f6f7fb',
-          100: '#eceef6',
-          200: '#dde1ee',
+          50: '#f7f8fa',
+          100: '#eef0f4',
+          200: '#dfe3ea',
         },
-        aurora: {
-          cyan: '#22d3ee',
-          blue: '#3b82f6',
-          violet: '#8b5cf6',
-          magenta: '#d946ef',
+        accent: {
+          DEFAULT: '#22c55e',
+          soft: '#4ade80',
+          dim: '#16a34a',
         },
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        display: ['"Inter"', 'system-ui', 'sans-serif'],
         body: ['"Inter"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       animation: {
-        marquee: 'marquee 40s linear infinite',
-        'marquee-reverse': 'marquee 48s linear infinite reverse',
-        aurora: 'aurora 14s ease-in-out infinite',
-        'spin-slow': 'spin 9s linear infinite',
-        float: 'float 8s ease-in-out infinite',
+        marquee: 'marquee 42s linear infinite',
+        'marquee-reverse': 'marquee 50s linear infinite reverse',
+        'spin-slow': 'spin 12s linear infinite',
+        float: 'float 9s ease-in-out infinite',
       },
       keyframes: {
         marquee: {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-50%)' },
         },
-        aurora: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)', opacity: '0.6' },
-          '33%': { transform: 'translate(40px,-30px) scale(1.15)', opacity: '0.8' },
-          '66%': { transform: 'translate(-30px,20px) scale(0.95)', opacity: '0.5' },
-        },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-18px)' },
+          '50%': { transform: 'translateY(-14px)' },
         },
       },
     },
