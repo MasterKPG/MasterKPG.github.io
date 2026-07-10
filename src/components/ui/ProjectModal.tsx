@@ -106,7 +106,7 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-aurora-violet/30 bg-aurora-violet/10 px-3 py-1 font-mono text-xs text-[rgb(var(--fg))]"
+                    className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-xs text-[rgb(var(--fg))]"
                   >
                     {tag}
                   </span>

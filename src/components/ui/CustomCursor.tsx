@@ -56,12 +56,12 @@ export function CustomCursor() {
       <div
         ref={dotRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[9999] hidden h-1.5 w-1.5 rounded-full bg-aurora-cyan mix-blend-difference md:block"
+        className="pointer-events-none fixed left-0 top-0 z-[9999] hidden h-1.5 w-1.5 rounded-full bg-accent mix-blend-difference md:block"
       />
       <div
         ref={ringRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[9998] hidden h-8 w-8 rounded-full border border-aurora-violet/70 transition-opacity duration-300 md:block"
+        className="pointer-events-none fixed left-0 top-0 z-[9998] hidden h-8 w-8 rounded-full border border-accent/70 transition-opacity duration-300 md:block"
       />
     </>
   )

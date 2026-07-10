@@ -14,7 +14,7 @@ export function About() {
   return (
     <section id="about" className="relative mx-auto max-w-6xl px-6 py-28">
       <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-aurora-cyan">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
           {t(COPY.about.label)}
         </p>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">{t(COPY.about.title)}</h2>
@@ -76,7 +76,7 @@ function ContactRow({ label, value, href }: { label: string; value: string; href
           href={href}
           target="_blank"
           rel="noreferrer"
-          className="text-right text-[rgb(var(--fg))] transition-colors hover:text-aurora-cyan"
+          className="text-right text-[rgb(var(--fg))] transition-colors hover:text-accent"
         >
           {value}
         </a>

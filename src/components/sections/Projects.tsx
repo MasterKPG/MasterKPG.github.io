@@ -28,7 +28,7 @@ export function Projects() {
   return (
     <section id="projects" className="relative mx-auto max-w-6xl px-6 py-28">
       <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-aurora-cyan">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
           {t(COPY.projects.label)}
         </p>
         <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">{t(COPY.projects.title)}</h2>
@@ -49,7 +49,7 @@ export function Projects() {
               {filter === f && (
                 <motion.span
                   layoutId="filter-pill"
-                  className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-aurora-cyan via-aurora-blue to-aurora-violet"
+                  className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-accent to-accent-soft"
                   transition={{ type: 'spring', stiffness: 320, damping: 28 }}
                 />
               )}
@@ -89,7 +89,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
     <TiltCard className="group relative h-full" maxTilt={6}>
       <button
         onClick={onOpen}
-        className="glass relative flex h-full w-full flex-col overflow-hidden rounded-3xl text-left transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(139,92,246,0.25)]"
+        className="glass relative flex h-full w-full flex-col overflow-hidden rounded-3xl text-left transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(34,197,94,0.18)]"
         data-cursor
       >
         <div className={`relative w-full overflow-hidden ${project.featured ? 'aspect-[16/7]' : 'aspect-[16/9]'}`}>
@@ -117,7 +117,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
             {project.tags.slice(0, 4).map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-aurora-violet/25 bg-aurora-violet/8 px-2.5 py-0.5 font-mono text-[11px] text-[rgb(var(--fg))]"
+                className="rounded-full border border-accent/25 bg-accent/8 px-2.5 py-0.5 font-mono text-[11px] text-[rgb(var(--fg))]"
               >
                 {tag}
               </span>
