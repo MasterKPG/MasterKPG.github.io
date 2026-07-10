@@ -1,81 +1,81 @@
 import { motion } from 'framer-motion'
 import { COPY, SKILLS } from '@/lib/content'
+import type { Skill } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
-import { Marquee } from '@/components/ui/Marquee'
+import { SpotlightCard } from '@/components/ui/SpotlightCard'
 
-const rowA = SKILLS.filter((s) => s.kind === 'software')
-const rowB = SKILLS.filter((s) => s.kind === 'hardware')
+/** Larger tiles for the headline hardware skills — asymmetric bento. */
+const BIG = new Set(['VHDL', 'PCB / Card Design'])
 
-function Chip({ name, kind }: { name: string; kind: 'hardware' | 'software' }) {
+function Ring({ level, hw }: { level: number; hw: boolean }) {
+  const deg = level * 3.6
+  const track = 'rgba(255,255,255,0.09)'
+  const col = hw ? '#f6c66b' : 'rgb(var(--accent))'
   return (
-    <div className="glass mx-2 flex shrink-0 items-center gap-2.5 rounded-full px-5 py-2.5">
-      <span
-        className={`h-2 w-2 rounded-full ${
-          kind === 'hardware'
-            ? 'bg-gradient-to-br from-amber-300 to-orange-500'
-            : 'bg-gradient-to-br from-accent to-accent'
-        }`}
-      />
-      <span className="whitespace-nowrap text-sm font-semibold">{name}</span>
+    <div
+      className="relative grid h-14 w-14 place-items-center rounded-full"
+      style={{ background: `conic-gradient(${col} ${deg}deg, ${track} ${deg}deg)` }}
+    >
+      <div className="grid h-[46px] w-[46px] place-items-center rounded-full bg-[rgb(var(--bg-elevated))]">
+        <span className="font-mono text-[11px] font-semibold">{level}</span>
+      </div>
     </div>
+  )
+}
+
+function SkillTile({ s, big }: { s: Skill; big: boolean }) {
+  const hw = s.kind === 'hardware'
+  return (
+    <SpotlightCard
+      spotlight={hw ? 'rgba(246,198,107,0.16)' : 'rgba(34,197,94,0.16)'}
+      className={big ? 'sm:col-span-2' : ''}
+    >
+      <div className="flex h-full items-center justify-between gap-4 p-5">
+        <div>
+          <span
+            className={`font-mono text-[10px] uppercase tracking-[0.18em] ${hw ? 'text-[#f6c66b]' : 'text-accent'}`}
+          >
+            {hw ? 'Hardware' : 'Software'}
+          </span>
+          <h3 className={`mt-1 font-display font-bold ${big ? 'text-2xl' : 'text-lg'}`}>{s.name}</h3>
+        </div>
+        <Ring level={s.level} hw={hw} />
+      </div>
+    </SpotlightCard>
   )
 }
 
 export function Skills() {
   const { t } = useLang()
+  // hardware first (design-forward), highlights get bigger tiles
+  const ordered = [...SKILLS].sort((a, b) => (a.kind === b.kind ? b.level - a.level : a.kind === 'hardware' ? -1 : 1))
+
   return (
-    <section id="skills" className="relative py-28">
-      <div className="mx-auto max-w-6xl px-6 text-center">
-        <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            {t(COPY.skills.label)}
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">
+    <section id="skills" className="relative mx-auto max-w-6xl px-6 py-28">
+      {/* asymmetric header — offset right */}
+      <Reveal>
+        <div className="mb-12 md:pl-[38%]">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">{t(COPY.skills.label)}</p>
+          <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tight sm:text-6xl">
             {t(COPY.skills.title)}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-muted">{t(COPY.skills.sub)}</p>
-        </Reveal>
-      </div>
+          <p className="mt-4 max-w-md font-serif text-xl italic text-muted">{t(COPY.skills.sub)}</p>
+        </div>
+      </Reveal>
 
-      {/* Rolling marquees */}
-      <div className="mt-12 space-y-3">
-        <Marquee>
-          {rowA.concat(rowB.slice(0, 2)).map((s, i) => (
-            <Chip key={`a-${i}`} name={s.name} kind={s.kind} />
-          ))}
-        </Marquee>
-        <Marquee reverse>
-          {rowB.map((s, i) => (
-            <Chip key={`b-${i}`} name={s.name} kind={s.kind} />
-          ))}
-        </Marquee>
-      </div>
-
-      {/* Proficiency bars */}
-      <div className="mx-auto mt-16 grid max-w-4xl gap-x-10 gap-y-5 px-6 sm:grid-cols-2">
-        {SKILLS.map((s, i) => (
-          <Reveal key={s.name} delay={(i % 6) * 0.05}>
-            <div>
-              <div className="mb-1.5 flex items-center justify-between text-sm">
-                <span className="font-medium">{s.name}</span>
-                <span className="font-mono text-xs text-muted">{s.level}%</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-[rgb(var(--fg))]/8">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${s.level}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className={`h-full rounded-full ${
-                    s.kind === 'hardware'
-                      ? 'bg-gradient-to-r from-amber-300 to-orange-500'
-                      : 'bg-gradient-to-r from-accent to-accent-soft'
-                  }`}
-                />
-              </div>
-            </div>
-          </Reveal>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {ordered.map((s, i) => (
+          <motion.div
+            key={s.name}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, delay: (i % 6) * 0.05, ease: [0.16, 1, 0.3, 1] }}
+            className={BIG.has(s.name) ? 'sm:col-span-2' : ''}
+          >
+            <SkillTile s={s} big={BIG.has(s.name)} />
+          </motion.div>
         ))}
       </div>
     </section>

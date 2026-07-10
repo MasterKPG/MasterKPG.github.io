@@ -25,8 +25,11 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Inter"', 'system-ui', 'sans-serif'],
-        body: ['"Inter"', 'system-ui', 'sans-serif'],
+        // Syne = artistic display; Space Grotesk = characterful body;
+        // Instrument Serif = elegant italic accent; JetBrains Mono = code labels
+        display: ['"Syne"', 'system-ui', 'sans-serif'],
+        body: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       animation: {

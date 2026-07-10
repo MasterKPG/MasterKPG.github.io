@@ -56,7 +56,7 @@ export function Nav() {
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="font-display text-sm font-bold tracking-tight"
-            data-cursor
+           
           >
             <span className="text-gradient">Mohammad Amara</span>
           </button>

@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@/lib/theme'
 import { LangProvider } from '@/lib/i18n'
-import { CustomCursor } from '@/components/ui/CustomCursor'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { Nav } from '@/components/sections/Nav'
 import { Hero } from '@/components/sections/Hero'
@@ -15,7 +14,6 @@ export default function App() {
   return (
     <ThemeProvider>
       <LangProvider>
-        <CustomCursor />
         <ScrollProgress />
         <Nav />
         <main className="relative overflow-hidden">
