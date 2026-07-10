@@ -1,74 +1,66 @@
-# Personal Portfolio Website
+# Mohammad Amara — Portfolio
 
-A sleek personal portfolio / CV website built with HTML, CSS, and vanilla JavaScript.
-Warm "creamy" light theme (beige surfaces + soft light-blue accents, macOS-inspired)
-with captivating, performant animations.
+A futuristic, fully-remade personal portfolio built with **React + TypeScript +
+Vite + Tailwind CSS + Framer Motion**, with a **WebGL aurora shader** background,
+bilingual (EN/FR) content, and dark/light theming.
 
-## Sections
+**Live:** https://masterkpg.github.io
 
-- **Hero** — Profile picture, name, tagline, skill badges, floating ambient glow
-- **About** — Short bio + contact info card (address, email, phone, LinkedIn, GitHub)
-- **Academics** — Education timeline with institution names, dates, and tags
-- **Experience** — Career history cards with dates and tags
-- **Skills** — Rolling (marquee) animation of skills across two rows; pauses on hover
-- **Projects** — Card grid, including a featured *Arduino clone* card (with the
-  Ping-Pong game and VHDL Adder sub-projects) and a *Connected plant (IoT)* card
-- **Contact** — Call-to-action with email and social links
+## Highlights
 
-## Animations & interactions
+- **WebGL aurora shader hero** (theme-aware, mouse-reactive) with a **gooey
+  text morph** cycling the technologies, kinetic typography and a mouse-follow
+  spotlight.
+- **Dark / light theme toggle** with a smooth cross-fade that the shader itself
+  eases between.
+- **Bilingual EN ⇄ FR** — every string is defined in both languages and switches
+  live (`src/lib/content.ts`, `src/lib/i18n.tsx`).
+- **Custom cursor** + **magnetic hover** on interactive elements.
+- **Filterable projects grid** with **3D tilt cards** and a **preview modal**
+  that plays a demo video or shows the cover + documents per project.
+- **Skills** — rolling marquees (dual direction, pause on hover) + animated
+  **proficiency bars**.
+- **Experience timeline** with a **scroll-scrubbed** aurora progress line.
+- **Liquid-glass** buttons and surfaces, aurora scroll-progress bar, sticky
+  footer, scroll-reveal everywhere.
+- Fully **responsive** and **accessible**; all motion respects
+  `prefers-reduced-motion`, pointer effects disabled on touch.
 
-- Scroll-reveal (IntersectionObserver) with staggered delays
-- Rolling skills marquee (CSS), reverse-direction second row, pause on hover
-- Animated gradient hero name + gentle floating shapes
-- Hero ambient glow drifts toward the cursor
-- Subtle 3D tilt on project cards (pointer-driven)
-- Shine sweep on the featured project card
+## UI credits
 
-All motion respects `prefers-reduced-motion` and pointer-driven effects are
-disabled on touch devices.
+Components adapted from [21st.dev](https://21st.dev): Gooey Text Morphing
+(@victorwelander), Shader Animation, Display Cards, Liquid Glass, Liquid Glass
+Button (@aliimam), and Theme Toggle (@ayushmxxn). Project cover art generated
+with Higgsfield (Soul). Fonts: Space Grotesk, Inter, JetBrains Mono.
 
-## Color palette
+## Develop
 
-| Token | Value | Use |
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build → dist/
+npm run preview  # preview the build
+```
+
+## Add your media (videos, documents, covers)
+
+Drop files into `public/assets/` named by project **id** — they're picked up
+automatically with graceful fallbacks. See `public/assets/README.md`.
+
+| Type | Path | Shown |
 |---|---|---|
-| `--cream` | `#F3EEE4` | Main background (warm cream) |
-| `--cream-2` | `#EAE2D3` | Alternate sections (deeper beige) |
-| `--cream-3` | `#FCFAF5` | Card surfaces (near-white cream) |
-| `--ink` | `#353027` | Primary text (warm charcoal) |
-| `--blue` | `#7DA9D5` | Soft light-blue accent |
-| `--blue-ink` | `#3E6FA0` | Accent text (contrast on cream) |
+| Cover | `public/assets/covers/<id>.webp` | Card + modal header (else animated gradient) |
+| Video | `public/assets/videos/<id>.mp4` | Autoplays in the preview modal |
+| Document | `public/assets/docs/<id>.pdf` | Linked from the preview modal |
 
-Adjust these in the `:root` block of `style.css` to retune the whole site.
+## Edit content
 
-## How to update your content
+All copy, projects, skills and timeline entries live in **`src/lib/content.ts`**
+(bilingual). The color system and animations are in `tailwind.config.js` and
+`src/index.css`.
 
-Open `index.html` and edit the relevant section.
+## Deploy
 
-| What to update | Where |
-|---|---|
-| Your name | `<title>`, `.nav-logo`, `.hero-name`, `<footer>` |
-| Your tagline | `.hero-tagline` |
-| Skill badges | `.hero-badges` |
-| Rolling skills | `#skills .marquee-track` (keep both copies in sync) |
-| Bio text | `#about .about-text` |
-| Address, email, phone | `#about .contact-list` |
-| Degrees & schools | `#academics .timeline` |
-| Jobs & companies | `#experience .exp-list` |
-| Projects | `#projects .projects-grid` |
-| Contact email | `#contact` |
-
-> **Skills marquee tip:** each row duplicates its chips (the second copy is
-> marked `aria-hidden="true"`) so the loop is seamless. When you add or remove a
-> chip, update **both** copies.
-
-## Add your profile photo
-
-1. Upload a square photo (400×400 px minimum) to the repo
-2. In `index.html`, replace the `<div class="avatar-placeholder">` block with:
-   ```html
-   <img src="assets/profile.jpg" alt="Mohammad Amara" />
-   ```
-
-## Live at
-
-`https://masterkpg.github.io`
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the Vite
+app and publishes `dist/` to GitHub Pages. Enable **Settings → Pages → Source:
+GitHub Actions** once.
