@@ -1,7 +1,7 @@
 import { COPY, CONTACT } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
-import { TiltCard } from '@/components/ui/TiltCard'
+import { SpotlightCard } from '@/components/ui/SpotlightCard'
 
 const stats = [
   { value: '9+', label: { en: 'Projects', fr: 'Projets' } },
@@ -43,8 +43,8 @@ export function About() {
         </div>
 
         <Reveal delay={0.1}>
-          <TiltCard className="group relative">
-            <div className="glass-strong relative overflow-hidden rounded-3xl p-6">
+          <SpotlightCard className="group relative">
+            <div className="relative overflow-hidden p-6">
               <h3 className="mb-4 border-b border-line pb-3 font-display font-semibold">
                 Contact
               </h3>
@@ -60,7 +60,7 @@ export function About() {
                 <ContactRow label="Languages" value={t(CONTACT.languages)} />
               </ul>
             </div>
-          </TiltCard>
+          </SpotlightCard>
         </Reveal>
       </div>
     </section>

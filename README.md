@@ -4,14 +4,15 @@ A futuristic, fully-remade personal portfolio built with **React + TypeScript +
 Vite + Tailwind CSS + Framer Motion**, with a **three.js WebGL line-burst shader**
 hero, bilingual (EN/FR) content, and dark/light theming.
 
-Design system per **ui-ux-pro-max**: OLED dark (deep ink surfaces) with a single
-green accent, AAA contrast. Type: **Syne** (artistic display) + **Space Grotesk**
-(body) + **Instrument Serif** (italic accents) + **JetBrains Mono** (labels).
+Design system per **ui-ux-pro-max ui-styling**: OLED dark (cool ink surfaces)
+with a single **electric-cyan** accent, AAA contrast. Type: **Inter** +
+**JetBrains Mono**.
 
-Projects use an **interactive folder gallery** (folders open on hover to reveal
-the cover, then a preview modal on click). Skills are an **asymmetric bento of
-spotlight cards** with proficiency rings. Buttons are **liquid-glass** (SVG
-refraction + specular). No custom cursor.
+All projects live in **one interactive folder** — hover fans the covers, click
+opens it into a filterable card grid (each card opens the preview modal).
+Skills are an asymmetric bento of spotlight cards (no percentages). Contact is
+an editorial numbered index. Buttons are **liquid-glass** (SVG refraction +
+specular). No custom cursor.
 
 **Live:** https://masterkpg.github.io
 

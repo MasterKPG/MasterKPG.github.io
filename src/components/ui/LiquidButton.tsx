@@ -29,7 +29,7 @@ const base =
   'group relative inline-flex select-none items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-3.5 text-sm font-semibold tracking-tight transition-[transform,box-shadow] duration-300 will-change-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-[0.97] hover:-translate-y-0.5'
 
 const tone = {
-  primary: 'text-ink-950 shadow-[0_8px_30px_-6px_rgba(34,197,94,0.5)] hover:shadow-[0_14px_44px_-6px_rgba(34,197,94,0.65)]',
+  primary: 'text-ink-950 shadow-[0_8px_30px_-6px_rgba(34,211,238,0.5)] hover:shadow-[0_14px_44px_-6px_rgba(34,211,238,0.65)]',
   glass: 'text-[rgb(var(--fg))] shadow-[0_8px_30px_-8px_rgba(0,0,0,0.6)] hover:shadow-[0_14px_44px_-8px_rgba(0,0,0,0.7)]',
 }
 

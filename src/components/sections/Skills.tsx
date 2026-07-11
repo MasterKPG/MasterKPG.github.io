@@ -8,27 +8,11 @@ import { SpotlightCard } from '@/components/ui/SpotlightCard'
 /** Larger tiles for the headline hardware skills — asymmetric bento. */
 const BIG = new Set(['VHDL', 'PCB / Card Design'])
 
-function Ring({ level, hw }: { level: number; hw: boolean }) {
-  const deg = level * 3.6
-  const track = 'rgba(255,255,255,0.09)'
-  const col = hw ? '#f6c66b' : 'rgb(var(--accent))'
-  return (
-    <div
-      className="relative grid h-14 w-14 place-items-center rounded-full"
-      style={{ background: `conic-gradient(${col} ${deg}deg, ${track} ${deg}deg)` }}
-    >
-      <div className="grid h-[46px] w-[46px] place-items-center rounded-full bg-[rgb(var(--bg-elevated))]">
-        <span className="font-mono text-[11px] font-semibold">{level}</span>
-      </div>
-    </div>
-  )
-}
-
 function SkillTile({ s, big }: { s: Skill; big: boolean }) {
   const hw = s.kind === 'hardware'
   return (
     <SpotlightCard
-      spotlight={hw ? 'rgba(246,198,107,0.16)' : 'rgba(34,197,94,0.16)'}
+      spotlight={hw ? 'rgba(246,198,107,0.16)' : 'rgba(34,211,238,0.16)'}
       className={big ? 'sm:col-span-2' : ''}
     >
       <div className="flex h-full items-center justify-between gap-4 p-5">
@@ -40,7 +24,10 @@ function SkillTile({ s, big }: { s: Skill; big: boolean }) {
           </span>
           <h3 className={`mt-1 font-display font-bold ${big ? 'text-2xl' : 'text-lg'}`}>{s.name}</h3>
         </div>
-        <Ring level={s.level} hw={hw} />
+        <span
+          aria-hidden
+          className={`h-2.5 w-2.5 shrink-0 rounded-full ${hw ? 'bg-[#f6c66b]' : 'bg-accent'} opacity-70`}
+        />
       </div>
     </SpotlightCard>
   )
@@ -60,7 +47,7 @@ export function Skills() {
           <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tight sm:text-6xl">
             {t(COPY.skills.title)}
           </h2>
-          <p className="mt-4 max-w-md font-serif text-xl italic text-muted">{t(COPY.skills.sub)}</p>
+          <p className="mt-4 max-w-md text-lg text-muted">{t(COPY.skills.sub)}</p>
         </div>
       </Reveal>
 

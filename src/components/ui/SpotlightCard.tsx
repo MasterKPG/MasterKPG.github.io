@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 export function SpotlightCard({
   children,
   className,
-  spotlight = 'rgba(34,197,94,0.16)',
+  spotlight = 'rgba(34,211,238,0.16)',
 }: {
   children: ReactNode
   className?: string

@@ -5,31 +5,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        // OLED dark system — deep ink surfaces, single green accent
+        // OLED dark system — cool ink surfaces, single electric-cyan accent
+        // (palette per ui-ux-pro-max ui-styling: electric cyan for tech)
         ink: {
-          950: '#08090c',
-          900: '#0c0e13',
-          800: '#12151d',
-          700: '#1a1e28',
-          600: '#252b38',
+          950: '#05090c',
+          900: '#0a0f14',
+          800: '#10161d',
+          700: '#171f29',
+          600: '#22303c',
         },
         porcelain: {
-          50: '#f7f8fa',
-          100: '#eef0f4',
-          200: '#dfe3ea',
+          50: '#f6f9fa',
+          100: '#ecf1f4',
+          200: '#dce4ea',
         },
         accent: {
-          DEFAULT: '#22c55e',
-          soft: '#4ade80',
-          dim: '#16a34a',
+          DEFAULT: '#22d3ee',
+          soft: '#67e8f9',
+          dim: '#0891b2',
         },
       },
       fontFamily: {
-        // Syne = artistic display; Space Grotesk = characterful body;
-        // Instrument Serif = elegant italic accent; JetBrains Mono = code labels
-        display: ['"Syne"', 'system-ui', 'sans-serif'],
-        body: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        display: ['"Inter"', 'system-ui', 'sans-serif'],
+        body: ['"Inter"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       animation: {
