@@ -51,7 +51,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'arduino-clone',
     cover: 'assets/covers/arduino-clone.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#0f2a1e 60%,#16a34a)',
+    grad: 'linear-gradient(135deg,#0a0f14,#0c2530 60%,#0891b2)',
     featured: true,
     title: { en: 'Arduino Clone — Board to Game', fr: 'Clone Arduino — de la carte au jeu' },
     blurb: {
@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'ping-pong',
     cover: 'assets/covers/ping-pong.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#0e2422 60%,#0d9488)',
+    grad: 'linear-gradient(135deg,#0a0f14,#0e2229 60%,#06b6d4)',
     title: { en: 'Ping-Pong', fr: 'Ping-Pong' },
     blurb: {
       en: 'A Pong game running on the custom board — render loop, collisions, scoring.',
@@ -87,7 +87,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'adder',
     cover: 'assets/covers/adder.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#12211a 55%,#22c55e)',
+    grad: 'linear-gradient(135deg,#0a0f14,#101f2c 55%,#22d3ee)',
     title: { en: 'VHDL Binary Adder', fr: 'Additionneur binaire VHDL' },
     blurb: {
       en: 'Combinational adder described in VHDL with carry propagation and a testbench.',
@@ -104,7 +104,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'connected-plant',
     cover: 'assets/covers/connected-plant.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#0e2a20 60%,#10b981)',
+    grad: 'linear-gradient(135deg,#0a0f14,#0c2620 60%,#14b8a6)',
     title: { en: 'Connected Plant', fr: 'Plante connectée' },
     blurb: {
       en: 'IoT plant monitor: soil, temperature and light sensors with auto-watering.',
@@ -121,7 +121,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'tipe-sailboat',
     cover: 'assets/covers/tipe-sailboat.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#101e26 60%,#22d3a5)',
+    grad: 'linear-gradient(135deg,#0a0f14,#0e1d2c 60%,#38bdf8)',
     title: { en: 'TIPE — Sailboat Dynamics', fr: 'TIPE — Dynamique des voiliers' },
     blurb: {
       en: 'Physical modelling of sailboat performance + Dijkstra on a weighted graph.',
@@ -137,7 +137,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'ml-clustering',
     cover: 'assets/covers/ml-clustering.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#161d16 55%,#4ade80)',
+    grad: 'linear-gradient(135deg,#0a0f14,#131c26 55%,#67e8f9)',
     title: { en: 'Machine Learning — KNN & K-Means', fr: 'Machine Learning — KNN & K-Means' },
     blurb: {
       en: 'KNN and K-Means implemented from scratch with NumPy/SciPy and Matplotlib.',
@@ -153,7 +153,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'weather-api',
     cover: 'assets/covers/weather-api.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#101c22 60%,#2dd4bf)',
+    grad: 'linear-gradient(135deg,#0a0f14,#0e1c26 60%,#2dd4bf)',
     title: { en: 'Weather App — REST API', fr: 'Application météo — API REST' },
     blurb: {
       en: 'Open-Meteo integration with JSON parsing and network error handling.',
@@ -169,7 +169,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'dll-injection',
     cover: 'assets/covers/dll-injection.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#151a20 60%,#34d399)',
+    grad: 'linear-gradient(135deg,#0a0f14,#141a24 60%,#0ea5e9)',
     title: { en: 'C++ — DLL Injection', fr: 'C++ — Injection DLL' },
     blurb: {
       en: 'Windows DLL injector using the Win32 API for process & memory management.',
@@ -185,7 +185,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'ascii-art',
     cover: 'assets/covers/ascii-art.webp',
-    grad: 'linear-gradient(135deg,#0c0e13,#131d18 55%,#16a34a)',
+    grad: 'linear-gradient(135deg,#0a0f14,#101a20 55%,#0891b2)',
     title: { en: 'ASCII Art Generator', fr: 'Générateur ASCII Art' },
     blurb: {
       en: 'Turns images into ASCII via PIL with matrix optimisation for readability.',
