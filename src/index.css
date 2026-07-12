@@ -15,6 +15,15 @@
   --glass: 16 22 29;
   --accent: 34 211 238;        /* electric cyan */
   --scrim: 5 9 12;
+
+  /* shadcn-style tokens for liquid-glass-button.tsx, mapped to our palette */
+  --primary: 34 211 238;
+  --primary-foreground: 5 9 12;
+  --secondary: 16 22 29;
+  --secondary-foreground: 243 247 250;
+  --destructive: 239 68 68;
+  --ring: 34 211 238;
+  --input: 243 247 250;
 }
 
 .light {
@@ -26,6 +35,14 @@
   --glass: 255 255 255;
   --accent: 8 145 178;         /* deeper cyan for contrast on light */
   --scrim: 246 249 250;
+
+  --primary: 8 145 178;
+  --primary-foreground: 255 255 255;
+  --secondary: 236 241 244;
+  --secondary-foreground: 14 20 26;
+  --destructive: 220 38 38;
+  --ring: 8 145 178;
+  --input: 14 20 26;
 }
 
 @layer base {

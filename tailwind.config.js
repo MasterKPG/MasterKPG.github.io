@@ -24,6 +24,21 @@ export default {
           soft: '#67e8f9',
           dim: '#0891b2',
         },
+        // shadcn-style tokens consumed by liquid-glass-button.tsx
+        primary: {
+          DEFAULT: 'rgb(var(--primary) / <alpha-value>)',
+          foreground: 'rgb(var(--primary-foreground) / <alpha-value>)',
+        },
+        secondary: {
+          DEFAULT: 'rgb(var(--secondary) / <alpha-value>)',
+          foreground: 'rgb(var(--secondary-foreground) / <alpha-value>)',
+        },
+        destructive: {
+          DEFAULT: 'rgb(var(--destructive) / <alpha-value>)',
+          foreground: '#ffffff',
+        },
+        ring: 'rgb(var(--ring) / <alpha-value>)',
+        input: 'rgb(var(--input) / <alpha-value>)',
       },
       fontFamily: {
         display: ['"Inter"', 'system-ui', 'sans-serif'],

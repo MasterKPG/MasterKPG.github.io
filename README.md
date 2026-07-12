@@ -8,11 +8,13 @@ Design system per **ui-ux-pro-max ui-styling**: OLED dark (cool ink surfaces)
 with a single **electric-cyan** accent, AAA contrast. Type: **Inter** +
 **JetBrains Mono**.
 
-All projects live in **one interactive folder** — hover fans the covers, click
-opens it into a filterable card grid (each card opens the preview modal).
-Skills are an asymmetric bento of spotlight cards (no percentages). Contact is
-an editorial numbered index. Buttons are **liquid-glass** (SVG refraction +
-specular). No custom cursor.
+All projects live in **one interactive folder** — click to open it, the cards
+fan out (drag any one down, or hit Close, to file them back away), hovering a
+card lifts it above its neighbors to reveal its title, and clicking opens the
+preview modal. Skills are an asymmetric bento of spotlight cards (no
+percentages). Contact is an editorial numbered index. Every button on the site
+is the same **liquid-glass** component (SVG turbulence/displacement backdrop +
+specular rim). No custom cursor.
 
 **Live:** https://masterkpg.github.io
 
@@ -25,24 +27,32 @@ specular). No custom cursor.
   shader hero stays cinematic-dark, the body themes light/dark).
 - **Bilingual EN ⇄ FR** — every string is defined in both languages and switches
   live (`src/lib/content.ts`, `src/lib/i18n.tsx`).
-- **Custom cursor** + **magnetic hover** on interactive elements.
-- **Filterable projects grid** with **3D tilt cards** and a **preview modal**
-  that plays a demo video or shows the cover + documents per project.
-- **Skills** — rolling marquees (dual direction, pause on hover) + animated
-  **proficiency bars**.
-- **Experience timeline** with a **scroll-scrubbed** aurora progress line.
-- **Liquid-glass** buttons and surfaces, aurora scroll-progress bar, sticky
-  footer, scroll-reveal everywhere.
+- **Magnetic hover** on interactive elements.
+- **One interactive project folder** (`interactive-folder-gallery.tsx`) — click
+  to open, drag any card down (or hit Close) to close, hover to preview a
+  title, click to open the **preview modal** (demo video, cover, docs).
+- **Skills** — an asymmetric bento of spotlight cards (cursor-tracked glow),
+  hardware vs. software color-coded, no percentages.
+- **Experience timeline** with a **scroll-scrubbed** cyan progress line.
+- **Liquid-glass buttons** (`liquid-glass-button.tsx`) on every CTA site-wide —
+  SVG turbulence/displacement backdrop-filter + specular rim, `asChild` support
+  for link-style CTAs. Cyan scroll-progress bar, sticky footer, scroll-reveal
+  everywhere.
 - Fully **responsive** and **accessible**; all motion respects
   `prefers-reduced-motion`, pointer effects disabled on touch.
 
 ## UI credits
 
-Components adapted from [21st.dev](https://21st.dev): Shader Animation
-(three.js line-burst), Display Cards, Liquid Glass, Liquid Glass Button
-(@aliimam), and Theme Toggle (@ayushmxxn). Design guidance from the
-**ui-ux-pro-max** skill. Project cover art generated with Higgsfield (Soul).
-Fonts: Inter, JetBrains Mono.
+Components sourced from [21st.dev](https://21st.dev):
+[Liquid Glass Button](https://21st.dev/r/aliimam/liquid-glass-button)
+(@aliimam) and
+[Interactive Folder Gallery](https://21st.dev/@uithefactory/components/interactive-folder-gallery)
+(@uithefactory), both integrated with two correctness fixes documented inline
+in `src/components/ui/liquid-glass-button.tsx` (a dropped-`className` bug and
+an `asChild`/Radix-`Slot` single-child crash) — see that file's header comment
+for details. Shader Animation (three.js line-burst) also from 21st.dev. Design
+guidance from the **ui-ux-pro-max** skill. Project cover art generated with
+Higgsfield (Soul). Fonts: Inter, JetBrains Mono.
 
 ## Develop
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { COPY, MORPH_WORDS } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
-import { LiquidButton } from '@/components/ui/LiquidButton'
+import { LiquidButton } from '@/components/ui/liquid-glass-button'
 import { Magnetic } from '@/components/ui/Magnetic'
 
 // Code-split three.js into its own chunk — keeps initial JS light
@@ -125,10 +125,12 @@ export function Hero() {
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <Magnetic>
-            <LiquidButton onClick={() => scrollTo('projects')}>{t(COPY.hero.viewWork)}</LiquidButton>
+            <LiquidButton size="lg" onClick={() => scrollTo('projects')}>
+              {t(COPY.hero.viewWork)}
+            </LiquidButton>
           </Magnetic>
           <Magnetic>
-            <LiquidButton variant="glass" onClick={() => scrollTo('contact')}>
+            <LiquidButton size="lg" onClick={() => scrollTo('contact')}>
               {t(COPY.hero.getInTouch)}
             </LiquidButton>
           </Magnetic>
