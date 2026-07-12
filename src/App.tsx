@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@/lib/theme'
 import { LangProvider } from '@/lib/i18n'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
+import { GlassFilter } from '@/components/ui/liquid-glass-button'
 import { Nav } from '@/components/sections/Nav'
 import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <LangProvider>
+        <GlassFilter />
         <ScrollProgress />
         <Nav />
         <main className="relative overflow-hidden">

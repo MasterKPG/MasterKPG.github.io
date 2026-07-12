@@ -1,7 +1,7 @@
 import { COPY, CONTACT } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
-import { LiquidLink } from '@/components/ui/LiquidButton'
+import { LiquidButton } from '@/components/ui/liquid-glass-button'
 import { Magnetic } from '@/components/ui/Magnetic'
 
 const CHANNELS = [
@@ -81,7 +81,9 @@ export function Contact() {
       <Reveal delay={0.15}>
         <div className="mt-12 flex justify-center">
           <Magnetic>
-            <LiquidLink href={`mailto:${CONTACT.email}`}>{t(COPY.contact.email)}</LiquidLink>
+            <LiquidButton asChild size="lg">
+              <a href={`mailto:${CONTACT.email}`}>{t(COPY.contact.email)}</a>
+            </LiquidButton>
           </Magnetic>
         </div>
       </Reveal>

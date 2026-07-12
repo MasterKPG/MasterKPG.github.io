@@ -4,7 +4,7 @@ import type { Project } from '@/lib/content'
 import { COPY } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { CoverImage } from './SmartMedia'
-import { LiquidLink } from './LiquidButton'
+import { LiquidButton } from './liquid-glass-button'
 
 /**
  * Project preview modal — cover/video, full description, tags, and links to
@@ -115,14 +115,18 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 {hasVideo && (
-                  <LiquidLink href={project.video} target="_blank" rel="noreferrer" variant="glass">
-                    ▶ {t(COPY.projects.watch)}
-                  </LiquidLink>
+                  <LiquidButton asChild size="sm">
+                    <a href={project.video} target="_blank" rel="noreferrer">
+                      ▶ {t(COPY.projects.watch)}
+                    </a>
+                  </LiquidButton>
                 )}
                 {project.docs?.map((d) => (
-                  <LiquidLink key={d.href} href={d.href} target="_blank" rel="noreferrer" variant="glass">
-                    📄 {t(d.label)}
-                  </LiquidLink>
+                  <LiquidButton key={d.href} asChild size="sm">
+                    <a href={d.href} target="_blank" rel="noreferrer">
+                      📄 {t(d.label)}
+                    </a>
+                  </LiquidButton>
                 ))}
                 {!hasVideo && !project.docs?.length && (
                   <span className="font-mono text-xs text-muted/70">{t(COPY.projects.soon)}</span>
