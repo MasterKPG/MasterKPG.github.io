@@ -109,7 +109,7 @@
   /* Sanded glass for the liquid buttons: frosted enough to read on the black
      hero shader, still translucent. Paired with .liquid-rim for the specular edge. */
   .liquid-frost {
-    background: rgb(var(--frost) / 0.28);
+    background: rgb(var(--frost) / 0.48);
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
     border: 1px solid rgb(var(--line) / 0.18);
@@ -141,6 +141,68 @@
       inset 2px 2px 1px -2px rgb(255 255 255 / 0.9),
       inset -2px -2px 1px -2px rgb(14 20 26 / 0.12),
       0 6px 18px rgb(14 20 26 / 0.1);
+  }
+
+  /* Fan gallery geometry. The gallery positions cards with transforms only, so their
+     size lives here. Layout heights must stay in step with getHeightMultiplier() in
+     fan-card-gallery.tsx, which assumes 22/26/28/34/38rem at these same breakpoints. */
+  .fan-layout {
+    height: 38rem;
+    --fan-card-h: 26rem;
+    --fan-card-w: 19.5rem;
+  }
+
+  .fan-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--fan-card-w);
+    height: var(--fan-card-h);
+    margin-left: calc(var(--fan-card-w) / -2);
+    margin-top: calc(var(--fan-card-h) / -2);
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid rgb(var(--line) / 0.15);
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+    cursor: pointer;
+    will-change: transform;
+  }
+
+  .fan-card:focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 1023px) {
+    .fan-layout {
+      height: 34rem;
+      --fan-card-h: 22rem;
+      --fan-card-w: 16.5rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .fan-layout {
+      height: 28rem;
+      --fan-card-h: 18rem;
+      --fan-card-w: 13.5rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .fan-layout {
+      height: 26rem;
+      --fan-card-h: 16rem;
+      --fan-card-w: 12rem;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .fan-layout {
+      height: 22rem;
+      --fan-card-h: 13rem;
+      --fan-card-w: 9.75rem;
+    }
   }
 
   .noise::after {
