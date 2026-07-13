@@ -3,8 +3,9 @@ import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 
 /**
- * Spotlight card: a radial highlight follows the cursor and a matching
- * border glow tracks with it. Pure CSS vars updated on pointer move; no re-renders.
+ * Spotlight card: a liquid glass surface (see liquid-glass.tsx) with a radial highlight
+ * that follows the cursor and a matching border glow. Pure CSS vars updated on pointer
+ * move; no re-renders.
  */
 export function SpotlightCard({
   children,
@@ -29,16 +30,20 @@ export function SpotlightCard({
     <div
       ref={ref}
       onMouseMove={onMove}
-      className={cn(
-        'group/spot relative overflow-hidden rounded-3xl border border-white/8 bg-[rgb(var(--glass))]/40 backdrop-blur-xl',
-        className,
-      )}
+      className={cn('group/spot liquid-glass relative overflow-hidden rounded-3xl', className)}
       style={{ ['--x' as string]: '50%', ['--y' as string]: '50%' }}
     >
+      {/* liquid glass stack: refraction, tint, rim */}
+      <div aria-hidden className="lg-refract absolute inset-0 z-0 rounded-[inherit]" />
+      <div aria-hidden className="lg-tint absolute inset-0 z-10 rounded-[inherit]" />
+      <div
+        aria-hidden
+        className="lg-rim pointer-events-none absolute inset-0 z-20 rounded-[inherit]"
+      />
       {/* spotlight glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/spot:opacity-100"
+        className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover/spot:opacity-100"
         style={{
           background: `radial-gradient(340px circle at var(--x) var(--y), ${spotlight}, transparent 60%)`,
         }}
@@ -46,7 +51,7 @@ export function SpotlightCard({
       {/* moving border highlight */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover/spot:opacity-100"
+        className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover/spot:opacity-100"
         style={{
           background: `radial-gradient(220px circle at var(--x) var(--y), rgba(255,255,255,0.14), transparent 60%)`,
           WebkitMask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
@@ -55,7 +60,7 @@ export function SpotlightCard({
           padding: '1px',
         }}
       />
-      <div className="relative z-10 h-full">{children}</div>
+      <div className="relative z-30 h-full">{children}</div>
     </div>
   )
 }

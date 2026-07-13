@@ -4,6 +4,7 @@ import { COPY, EDUCATION, EXPERIENCE } from '@/lib/content'
 import type { TimelineEntry } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
+import { LiquidGlass } from '@/components/ui/liquid-glass'
 
 function TimelineList({ entries }: { entries: TimelineEntry[] }) {
   const { t } = useLang()
@@ -29,7 +30,7 @@ function TimelineList({ entries }: { entries: TimelineEntry[] }) {
           <Reveal key={i} delay={i * 0.06}>
             <div className="relative">
               <span className="absolute -left-[29px] top-1.5 h-4 w-4 rounded-full bg-gradient-to-br from-accent to-accent-soft shadow-[0_0_0_4px_rgba(34,211,238,0.18)]" />
-              <div className="glass rounded-2xl p-5 transition-transform duration-300 hover:translate-x-1">
+              <LiquidGlass className="rounded-2xl p-5 transition-transform duration-300 hover:translate-x-1">
                 <span className="font-mono text-xs uppercase tracking-wide text-accent">
                   {t(e.date)}
                 </span>
@@ -46,7 +47,7 @@ function TimelineList({ entries }: { entries: TimelineEntry[] }) {
                     </span>
                   ))}
                 </div>
-              </div>
+              </LiquidGlass>
             </div>
           </Reveal>
         ))}

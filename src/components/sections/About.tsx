@@ -2,11 +2,12 @@ import { COPY, CONTACT } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
 import { SpotlightCard } from '@/components/ui/SpotlightCard'
+import { LiquidGlass } from '@/components/ui/liquid-glass'
 
 const stats = [
   { value: '9+', label: { en: 'Projects', fr: 'Projets' } },
   { value: '3', label: { en: 'Languages', fr: 'Langues' } },
-  { value: '2027', label: { en: 'Graduation', fr: 'Diplôme' } },
+  { value: '2028', label: { en: 'Graduation', fr: 'Diplôme' } },
 ]
 
 export function About() {
@@ -31,12 +32,12 @@ export function About() {
           <Reveal delay={0.18}>
             <div className="mt-8 grid grid-cols-3 gap-4">
               {stats.map((s) => (
-                <div key={s.value} className="glass rounded-2xl p-4 text-center">
+                <LiquidGlass key={s.value} className="rounded-2xl p-4 text-center">
                   <div className="font-display text-2xl font-bold text-gradient sm:text-3xl">
                     {s.value}
                   </div>
                   <div className="mt-1 text-xs text-muted">{t(s.label)}</div>
-                </div>
+                </LiquidGlass>
               ))}
             </div>
           </Reveal>

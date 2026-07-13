@@ -52,16 +52,30 @@ export function Nav() {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6">
-        <div className={`flex w-full items-center justify-between rounded-full px-4 py-2 transition-all ${scrolled ? 'glass-strong' : ''}`}>
+        <div
+          className={`relative flex w-full items-center justify-between overflow-hidden rounded-full px-4 py-2 transition-all ${
+            scrolled ? 'liquid-glass liquid-glass-strong' : ''
+          }`}
+        >
+          {/* liquid glass stack, only once the bar has detached from the top */}
+          {scrolled && (
+            <>
+              <div aria-hidden className="lg-refract absolute inset-0 z-0 rounded-[inherit]" />
+              <div aria-hidden className="lg-tint absolute inset-0 z-10 rounded-[inherit]" />
+              <div
+                aria-hidden
+                className="lg-rim pointer-events-none absolute inset-0 z-20 rounded-[inherit]"
+              />
+            </>
+          )}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="font-display text-sm font-bold tracking-tight"
-           
+            className="relative z-30 font-display text-sm font-bold tracking-tight"
           >
             <span className="text-gradient">Mohammad Amara</span>
           </button>
 
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="relative z-30 hidden items-center gap-1 md:flex">
             {LINKS.map((l) => (
               <button
                 key={l.id}
@@ -82,7 +96,7 @@ export function Nav() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="relative z-30 flex items-center gap-2">
             <button
               onClick={toggleLang}
               aria-label="Toggle language"
