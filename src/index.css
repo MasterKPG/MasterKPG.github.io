@@ -106,8 +106,11 @@
     box-shadow: 0 24px 70px rgb(0 0 0 / 0.5);
   }
 
-  /* Sanded glass for the liquid buttons: frosted enough to read on the black
-     hero shader, still translucent. Paired with .liquid-rim for the specular edge. */
+  /* Buttons.
+     Dark (the default theme): sanded glass, frosted enough to read on the graphite bg.
+     Light: unfrosted. The surface goes clear and only the displaced backdrop and the rim
+     are left, which is the look this started with.
+     The hero opts out of both, see .liquid-frost-hero below. */
   .liquid-frost {
     background: rgb(var(--frost) / 0.48);
     backdrop-filter: blur(12px) saturate(160%);
@@ -116,19 +119,40 @@
   }
 
   .liquid-frost:hover {
-    background: rgb(var(--frost) / 0.38);
+    background: rgb(var(--frost) / 0.6);
   }
 
   .light .liquid-frost {
-    background: rgb(var(--frost) / 0.55);
-    border-color: rgb(var(--line) / 0.22);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: rgb(var(--line) / 0.14);
   }
 
   .light .liquid-frost:hover {
-    background: rgb(var(--frost) / 0.75);
+    background: rgb(var(--frost) / 0.35);
   }
 
-  .liquid-rim {
+  /* The hero is dark in both themes, so its buttons carry their own logic rather than
+     following light/dark: always lightly frosted against the shader, always a light rim
+     (the light text comes from the button's onDark variant). Repeating each selector
+     under `.light` keeps it winning over the themed rules above. */
+  .liquid-frost-hero,
+  .light .liquid-frost-hero {
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border: 1px solid rgb(255 255 255 / 0.22);
+  }
+
+  .liquid-frost-hero:hover,
+  .light .liquid-frost-hero:hover {
+    background: rgb(255 255 255 / 0.2);
+  }
+
+  .liquid-rim,
+  .liquid-rim-hero,
+  .light .liquid-rim-hero {
     box-shadow:
       inset 2px 2px 1px -2px rgb(255 255 255 / 0.55),
       inset -2px -2px 1px -2px rgb(255 255 255 / 0.35),
@@ -158,11 +182,11 @@
   }
 
   .lg-tint {
-    background: rgb(var(--frost) / 0.18);
+    background: rgb(var(--frost) / 0.09);
   }
 
   .light .lg-tint {
-    background: rgb(var(--frost) / 0.5);
+    background: rgb(var(--frost) / 0.3);
   }
 
   /* Denser tint for surfaces that can sit over the always-dark hero (the nav). At the

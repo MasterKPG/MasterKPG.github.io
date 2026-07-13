@@ -105,12 +105,12 @@ export function Hero() {
           className="mt-12 flex flex-wrap items-center justify-center gap-4"
         >
           <Magnetic>
-            <LiquidButton size="lg" onClick={() => scrollTo('projects')}>
+            <LiquidButton variant="onDark" size="lg" onClick={() => scrollTo('projects')}>
               {t(COPY.hero.viewWork)}
             </LiquidButton>
           </Magnetic>
           <Magnetic>
-            <LiquidButton size="lg" onClick={() => scrollTo('contact')}>
+            <LiquidButton variant="onDark" size="lg" onClick={() => scrollTo('contact')}>
               {t(COPY.hero.getInTouch)}
             </LiquidButton>
           </Magnetic>

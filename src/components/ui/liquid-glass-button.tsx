@@ -78,6 +78,10 @@ const liquidbuttonVariants = cva(
       variant: {
         default:
           "liquid-frost text-primary hover:scale-105 duration-300 transition",
+        // For buttons sitting on the hero, which is dark in both themes: frosted and
+        // light-texted regardless of the active theme (see .liquid-frost-hero).
+        onDark:
+          "liquid-frost-hero text-white hover:scale-105 duration-300 transition",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20",
         outline:
@@ -136,7 +140,10 @@ function LiquidButton({
           fire here: this site marks light mode with a `light` class, never `dark`. */}
       <span
         aria-hidden
-        className="liquid-rim pointer-events-none absolute inset-0 z-0 h-full w-full rounded-full transition-all"
+        className={cn(
+          'pointer-events-none absolute inset-0 z-0 h-full w-full rounded-full transition-all',
+          variant === 'onDark' ? 'liquid-rim-hero' : 'liquid-rim',
+        )}
       />
       <span
         aria-hidden
