@@ -1,10 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@/lib/theme'
 
-/**
- * Animated sun ↔ moon theme toggle with spring physics —
- * in the spirit of 21st.dev @ayushmxxn/theme-toggle.
- */
+/** Animated sun/moon theme toggle with spring physics. */
 export function ThemeToggle() {
   const { theme, toggle } = useTheme()
   const isDark = theme === 'dark'

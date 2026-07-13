@@ -42,7 +42,7 @@ export function Contact() {
         </div>
       </Reveal>
 
-      {/* Editorial index — one row per channel */}
+      {/* Editorial index: one row per channel */}
       <Reveal delay={0.1}>
         <div className="mt-14 border-t border-line">
           {CHANNELS.map((c, i) => (

@@ -3,15 +3,15 @@ import { motion } from "framer-motion"
 import { CoverImage } from "./SmartMedia"
 
 /**
- * Source: 21st.dev @uithefactory/interactive-folder-gallery, adapted:
- * - `bg-linear-to-*` (Tailwind v4 syntax) → `bg-gradient-to-*` (this project runs Tailwind v3.4)
- * - flat `image: string` photos → { image, grad } so covers fall back to a gradient via
+ * Interactive folder gallery, adapted from @uithefactory's implementation:
+ * . `bg-linear-to-*` (Tailwind v4 syntax) became `bg-gradient-to-*` (this project runs Tailwind v3.4)
+ * . flat `image: string` photos became { image, grad } so covers fall back to a gradient via
  *   our existing CoverImage component instead of ever showing a broken <img>
- * - fan/stack offset math generalized from a hardcoded 5-photo assumption (`i - 2`) to
+ * . fan/stack offset math generalized from a hardcoded 5-photo assumption (`i - 2`) to
  *   `i - (photos.length - 1) / 2` so it centers correctly for any photo count
- * - added an `onOpen` callback per photo (fired on click, not on drag) so a photo can open
+ * . added an `onOpen` callback per photo (fired on click, not on drag) so a photo can open
  *   something (here, the project detail modal) instead of just being a draggable image
- * - added minimal keyboard/aria affordances to the (originally div-only) folder trigger
+ * . added minimal keyboard/aria affordances to the (originally div-only) folder trigger
  */
 
 export interface GalleryPhoto {
@@ -40,7 +40,7 @@ export function InteractiveFolderGallery({
   const [hoverFolder, setHoverFolder] = useState(false)
   const [hoveredId, setHoveredId] = useState<GalleryPhoto["id"] | null>(null)
   const mid = (photos.length - 1) / 2
-  // Cards overlap when fanned/opened (by design — see stackX/openX below), so a card's
+  // Cards overlap when fanned or opened (by design, see stackX/openX below), so a card's
   // caption would get covered by the next one's opaque edge. Only reveal it on hover,
   // when Framer also bumps that card's z-index above its neighbors.
   const openSpread = Math.min(150, 900 / Math.max(photos.length - 1, 1))
@@ -101,7 +101,7 @@ export function InteractiveFolderGallery({
                 >
                   <CoverImage
                     src={photo.image}
-                    grad={photo.grad ?? "linear-gradient(135deg,#0a0f14,#10161d)"}
+                    grad={photo.grad ?? "linear-gradient(135deg,#181a1e,#22252a)"}
                     alt={photo.label ?? ""}
                     className="pointer-events-none h-full w-full"
                   />
@@ -111,7 +111,7 @@ export function InteractiveFolderGallery({
                     </span>
                   )}
                   {/* Cards overlap when fanned, so only reveal the caption for the hovered
-                      (z-index-boosted) card — otherwise its text would sit under the next card. */}
+                      (z-index boosted) card, otherwise its text would sit under the next card. */}
                   {photo.label && isFolderOpen && hoveredId === photo.id && (
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-2.5">
                       <p className="line-clamp-2 text-xs font-semibold text-white">{photo.label}</p>

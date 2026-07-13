@@ -3,9 +3,8 @@ import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 
 /**
- * Spotlight card — a radial highlight follows the cursor and a matching
- * border glow tracks with it (21st.dev @easemize/spotlight-card concept).
- * Pure CSS vars updated on pointer move; no re-renders.
+ * Spotlight card: a radial highlight follows the cursor and a matching
+ * border glow tracks with it. Pure CSS vars updated on pointer move; no re-renders.
  */
 export function SpotlightCard({
   children,

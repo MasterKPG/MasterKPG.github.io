@@ -2,9 +2,8 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 /**
- * Radial line-burst WebGL shader (three.js) — the reference implementation,
- * hardened for production: capped DPR, paused when off-screen / reduced-motion,
- * and fully disposed on unmount.
+ * Radial line burst WebGL shader (three.js), hardened for production: capped DPR,
+ * paused when off screen or when reduced motion is requested, fully disposed on unmount.
  */
 export function ShaderAnimation({ className = '' }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null)

@@ -2,9 +2,7 @@ import { useRef } from 'react'
 import type { ReactNode } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
-/**
- * Magnetic hover wrapper — children are gently pulled toward the cursor.
- */
+/** Magnetic hover wrapper: children are gently pulled toward the cursor. */
 export function Magnetic({
   children,
   strength = 0.35,

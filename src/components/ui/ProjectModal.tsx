@@ -7,7 +7,7 @@ import { CoverImage } from './SmartMedia'
 import { LiquidButton } from './liquid-glass-button'
 
 /**
- * Project preview modal — cover/video, full description, tags, and links to
+ * Project preview modal: cover/video, full description, tags, and links to
  * demo video and documents. Video/doc links only render when the file exists
  * (probed via HEAD); otherwise a "coming soon" note is shown.
  */

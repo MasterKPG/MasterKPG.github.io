@@ -3,23 +3,23 @@
 @tailwind utilities;
 
 /* ================================================
-   Design tokens — OLED dark + single green accent
-   (ui-ux-pro-max: Dark Mode OLED, WCAG AAA target)
+   Design tokens: graphite dark + single cyan accent
    ================================================ */
 :root {
-  --bg: 5 9 12;                /* ink-950 (cool) */
-  --bg-elevated: 16 22 29;     /* ink-800 */
+  --bg: 24 26 30;              /* ink-950, graphite */
+  --bg-elevated: 34 37 42;     /* ink-800 */
   --fg: 243 247 250;
-  --fg-muted: 145 158 172;
+  --fg-muted: 154 163 175;
   --line: 243 247 250;         /* used at low alpha */
-  --glass: 16 22 29;
+  --glass: 42 46 52;           /* card / nav surfaces */
+  --frost: 86 93 103;          /* sanded button glass, readable on the black hero */
   --accent: 34 211 238;        /* electric cyan */
-  --scrim: 5 9 12;
+  --scrim: 24 26 30;
 
   /* shadcn-style tokens for liquid-glass-button.tsx, mapped to our palette */
   --primary: 34 211 238;
-  --primary-foreground: 5 9 12;
-  --secondary: 16 22 29;
+  --primary-foreground: 24 26 30;
+  --secondary: 34 37 42;
   --secondary-foreground: 243 247 250;
   --destructive: 239 68 68;
   --ring: 34 211 238;
@@ -33,6 +33,7 @@
   --fg-muted: 86 100 112;
   --line: 14 20 26;
   --glass: 255 255 255;
+  --frost: 255 255 255;
   --accent: 8 145 178;         /* deeper cyan for contrast on light */
   --scrim: 246 249 250;
 
@@ -79,7 +80,7 @@
     color: rgb(var(--fg-muted));
   }
 
-  /* Restrained "gradient" — foreground to muted; used sparingly for display type */
+  /* Restrained "gradient": foreground to muted, used sparingly for display type */
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(180deg, rgb(var(--fg)) 30%, rgb(var(--fg-muted)) 130%);
@@ -103,6 +104,43 @@
     -webkit-backdrop-filter: blur(28px) saturate(150%);
     border: 1px solid rgb(var(--line) / 0.12);
     box-shadow: 0 24px 70px rgb(0 0 0 / 0.5);
+  }
+
+  /* Sanded glass for the liquid buttons: frosted enough to read on the black
+     hero shader, still translucent. Paired with .liquid-rim for the specular edge. */
+  .liquid-frost {
+    background: rgb(var(--frost) / 0.28);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid rgb(var(--line) / 0.18);
+  }
+
+  .liquid-frost:hover {
+    background: rgb(var(--frost) / 0.38);
+  }
+
+  .light .liquid-frost {
+    background: rgb(var(--frost) / 0.55);
+    border-color: rgb(var(--line) / 0.12);
+  }
+
+  .light .liquid-frost:hover {
+    background: rgb(var(--frost) / 0.75);
+  }
+
+  .liquid-rim {
+    box-shadow:
+      inset 2px 2px 1px -2px rgb(255 255 255 / 0.55),
+      inset -2px -2px 1px -2px rgb(255 255 255 / 0.35),
+      inset 0 0 8px 2px rgb(255 255 255 / 0.06),
+      0 10px 26px rgb(0 0 0 / 0.35);
+  }
+
+  .light .liquid-rim {
+    box-shadow:
+      inset 2px 2px 1px -2px rgb(255 255 255 / 0.9),
+      inset -2px -2px 1px -2px rgb(14 20 26 / 0.12),
+      0 6px 18px rgb(14 20 26 / 0.1);
   }
 
   .noise::after {

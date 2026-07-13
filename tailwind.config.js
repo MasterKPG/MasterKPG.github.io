@@ -5,14 +5,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        // OLED dark system — cool ink surfaces, single electric-cyan accent
-        // (palette per ui-ux-pro-max ui-styling: electric cyan for tech)
+        // Graphite dark system, single electric cyan accent.
+        // ink-950 must track --bg in index.css: the hero fades into it.
         ink: {
-          950: '#05090c',
-          900: '#0a0f14',
-          800: '#10161d',
-          700: '#171f29',
-          600: '#22303c',
+          950: '#181a1e',
+          900: '#1e2126',
+          800: '#22252a',
+          700: '#2e323a',
+          600: '#3c4149',
         },
         porcelain: {
           50: '#f6f9fa',
@@ -41,7 +41,7 @@ export default {
         input: 'rgb(var(--input) / <alpha-value>)',
       },
       fontFamily: {
-        display: ['"Inter"', 'system-ui', 'sans-serif'],
+        display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
         body: ['"Inter"', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },

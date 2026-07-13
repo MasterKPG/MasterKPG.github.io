@@ -5,7 +5,7 @@ import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
 import { SpotlightCard } from '@/components/ui/SpotlightCard'
 
-/** Larger tiles for the headline hardware skills — asymmetric bento. */
+/** Larger tiles for the headline hardware skills: asymmetric bento. */
 const BIG = new Set(['VHDL', 'PCB / Card Design'])
 
 function SkillTile({ s, big }: { s: Skill; big: boolean }) {
@@ -40,7 +40,7 @@ export function Skills() {
 
   return (
     <section id="skills" className="relative mx-auto max-w-6xl px-6 py-28">
-      {/* asymmetric header — offset right */}
+      {/* asymmetric header, offset right */}
       <Reveal>
         <div className="mb-12 md:pl-[38%]">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">{t(COPY.skills.label)}</p>

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 
 export type Lang = 'en' | 'fr'
 
-/** Bilingual string — every piece of copy carries both languages. */
+/** Bilingual string: every piece of copy carries both languages. */
 export interface Bi {
   en: string
   fr: string

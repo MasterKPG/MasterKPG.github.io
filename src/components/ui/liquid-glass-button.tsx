@@ -5,18 +5,21 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 /**
- * Source: 21st.dev @aliimam/liquid-glass-button, adapted for this Vite (non-Next) app.
+ * Glass button, adapted for this Vite app. Three fixes over the original snippet:
  *
- * Two correctness fixes applied to the upstream snippet:
  * 1. `buttonVariants({ variant, size, className })` / `liquidbuttonVariants({ variant, size, className })`
- *    silently dropped the caller's `className` — cva only resolves keys defined in its `variants`
+ *    silently dropped the caller's `className`: cva only resolves keys defined in its `variants`
  *    schema, so passing `className` through it (instead of appending it via `cn(...)` afterwards)
  *    meant a consumer's custom className (e.g. layout/spacing classes) was never applied.
  * 2. `LiquidButton`'s decorative glass/backdrop-filter `<div>`s were siblings of `{children}`
  *    inside `Comp`. When `asChild` is true, `Comp` becomes Radix `Slot`, which requires exactly
- *    one child and clones props onto it — three children crashes it. The decorative layers are
+ *    one child and clones props onto it, so three children crashes it. The decorative layers are
  *    now siblings of `Comp` (not inside it), so `asChild` can wrap a single element (e.g. `<a>`)
  *    for link-style CTAs while the glass effect still renders around it.
+ * 3. The surface was fully transparent and its rim was styled with Tailwind `dark:` variants,
+ *    which never match here (light mode is marked with a `light` class, dark is the default and
+ *    carries no class), so buttons were near invisible on dark backgrounds. The surface is now
+ *    frosted (.liquid-frost) and the rim themed in index.css (.liquid-rim).
  */
 
 const buttonVariants = cva(
@@ -69,14 +72,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button"
 
 const liquidbuttonVariants = cva(
-  "inline-flex items-center transition-colors justify-center cursor-pointer gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center transition-colors justify-center cursor-pointer gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
         default:
-          "bg-transparent hover:scale-105 duration-300 transition text-primary",
+          "liquid-frost text-primary hover:scale-105 duration-300 transition",
         destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
+          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20",
         outline:
           "border border-input bg-background hover:bg-secondary hover:text-secondary-foreground",
         secondary:
@@ -87,9 +90,9 @@ const liquidbuttonVariants = cva(
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 text-xs gap-1.5 px-4 has-[>svg]:px-4",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        xl: "h-12 rounded-md px-8 has-[>svg]:px-6",
-        xxl: "h-14 rounded-md px-10 has-[>svg]:px-8",
+        lg: "h-11 rounded-full px-7 has-[>svg]:px-5",
+        xl: "h-12 rounded-full px-8 has-[>svg]:px-6",
+        xxl: "h-14 rounded-full px-10 has-[>svg]:px-8",
         icon: "size-9",
       },
     },
@@ -127,25 +130,24 @@ function LiquidButton({
         {children}
       </Comp>
 
-      {/* decorative glass rim — sibling of Comp (not inside it) so `asChild` + Slot's
-          one-child rule still holds when wrapping e.g. an <a> */}
+      {/* Decorative specular rim: a sibling of Comp (not inside it) so `asChild` + Slot's
+          one-child rule still holds when wrapping e.g. an <a>. The rim is themed in
+          index.css (.liquid-rim) rather than with Tailwind `dark:` variants, which never
+          fire here: this site marks light mode with a `light` class, never `dark`. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full rounded-full
-            shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)]
-        transition-all
-        dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]"
+        className="liquid-rim pointer-events-none absolute inset-0 z-0 h-full w-full rounded-full transition-all"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 isolate -z-10 h-full w-full overflow-hidden rounded-md"
+        className="pointer-events-none absolute inset-0 isolate -z-10 h-full w-full overflow-hidden rounded-full"
         style={{ backdropFilter: 'url("#container-glass")' }}
       />
     </span>
   )
 }
 
-/** SVG turbulence/displacement filter the glass buttons reference by id — mount once (see App.tsx). */
+/** SVG turbulence/displacement filter the glass buttons reference by id; mount once (see App.tsx). */
 function GlassFilter() {
   return (
     <svg className="hidden" aria-hidden="true">
