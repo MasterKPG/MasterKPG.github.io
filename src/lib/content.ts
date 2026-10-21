@@ -564,6 +564,16 @@ export const EXPERIENCE: TimelineEntry[] = [
     tags: [{ en: 'Events', fr: 'Événementiel' }, { en: 'Customer Relations', fr: 'Relation client' }],
   },
   {
+    date: { en: 'Aug. 2026', fr: 'Août 2026' },
+    title: { en: 'Web development intern (remote)', fr: 'Stagiaire en développement web (à distance)' },
+    place: { en: 'Remote internship', fr: 'Stage à distance' },
+    desc: {
+      en: 'A one-month internship over August 2026: maintained and updated a website with Framer, React, HTML, CSS and JavaScript.',
+      fr: "Stage d'un mois sur août 2026 : maintenance et mise à jour d'un site web avec Framer, React, HTML, CSS et JavaScript.",
+    },
+    tags: ['Framer', 'React', 'HTML', 'CSS', 'JavaScript'],
+  },
+  {
     date: { en: 'Oct. 2025 to present', fr: "Oct. 2025 à aujourd'hui" },
     title: { en: 'Event host', fr: "Hôte d'accueil événementiel" },
     place: { en: 'City One · Lannion, France', fr: 'City One · Lannion' },
@@ -582,16 +592,6 @@ export const EXPERIENCE: TimelineEntry[] = [
       fr: "Accueil des usagers, prêts, retours et rangement, en parallèle d'une formation d'ingénieur à temps plein.",
     },
     tags: ['Organisation', { en: 'Student Support', fr: 'Accompagnement étudiant' }],
-  },
-  {
-    date: { en: 'One month', fr: 'Un mois' },
-    title: { en: 'Web development intern (remote)', fr: 'Stagiaire en développement web (à distance)' },
-    place: { en: 'Remote internship', fr: 'Stage à distance' },
-    desc: {
-      en: 'Maintained and updated a website with Framer, React, HTML, CSS and JavaScript.',
-      fr: "Maintenance et mise à jour d'un site web avec Framer, React, HTML, CSS et JavaScript.",
-    },
-    tags: ['Framer', 'React', 'HTML', 'CSS', 'JavaScript'],
   },
   {
     date: { en: '2019 to 2021', fr: '2019 à 2021' },
