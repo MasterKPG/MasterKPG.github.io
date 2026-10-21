@@ -107,15 +107,16 @@ export const PROJECTS: Project[] = [
     title: { en: 'Lucent', fr: 'Lucent' },
     period: { en: 'Oct 2026 to present', fr: "Oct. 2026 à aujourd'hui" },
     blurb: {
-      en: 'A macOS style desktop for Debian 13 whose glass panels refract what is behind them instead of just blurring it.',
-      fr: "Un bureau façon macOS pour Debian 13, dont les panneaux de verre réfractent ce qu'il y a derrière au lieu de simplement le flouter.",
+      en: 'A modern desktop environment for Linux: one complete, coherent interface with a glassmorphism design, built to look polished and stay fast.',
+      fr: "Un environnement de bureau moderne pour Linux : une interface complète et cohérente au design glassmorphism, pensée pour être soignée et rester rapide.",
     },
     description: {
-      en: 'A Linux desktop shell for Debian 13 with a "Liquid Glass" look. It runs on the ShojiWM Wayland compositor with a Quickshell (QML) shell: menu bar with real app menus, Dock, Control Center, Spotlight, notifications, lock screen and a System Settings app. The glass is made by the compositor: real refraction of the background, a light that follows the pointer, and a governor that makes it cheaper when frames run late. It started on Hyprland and moved to ShojiWM, which is built from source (Rust) and configured in TypeScript. Small helpers are written in C and the effects in GLSL. Everything is versioned in git from the start, and packaging is still to do.',
-      fr: "Un environnement de bureau pour Debian 13 avec un rendu « Liquid Glass ». Il tourne sur le compositeur Wayland ShojiWM avec un shell Quickshell (QML) : barre de menus avec de vrais menus d'application, Dock, centre de contrôle, Spotlight, notifications, écran de verrouillage et une application Réglages. Le verre est produit par le compositeur : vraie réfraction de l'arrière-plan, une lumière qui suit le pointeur, et un régulateur qui allège l'effet quand les images prennent du retard. Le projet a commencé sur Hyprland puis est passé à ShojiWM, compilé depuis les sources (Rust) et configuré en TypeScript. Les petits utilitaires sont écrits en C et les effets en GLSL. Tout est versionné avec git depuis le début, et le paquet Debian reste à faire.",
+      en: 'Lucent sets out to give Linux a new desktop interface: modern, consistent from the menu bar to the settings, and fast even on integrated graphics. It is a complete environment for Debian 13 rather than a theme: a menu bar with real app menus, a Dock, a Control Center, Spotlight search, notifications, a lock screen and a System Settings app, all following one glassmorphism design language in which panels refract the content behind them. It runs on the ShojiWM Wayland compositor with a Quickshell (QML) shell. ShojiWM is built from source (Rust) and configured in TypeScript, small helpers are written in C and the effects in GLSL. Used daily and still in progress; packaging is next.',
+      fr: "Lucent vise à donner à Linux une nouvelle interface de bureau : moderne, cohérente de la barre de menus jusqu'aux réglages, et rapide même sur une carte graphique intégrée. C'est un environnement complet pour Debian 13 plutôt qu'un thème : barre de menus avec de vrais menus d'application, Dock, centre de contrôle, recherche Spotlight, notifications, écran de verrouillage et application Réglages, le tout dans un même langage visuel glassmorphism où les panneaux réfractent le contenu situé derrière eux. Il tourne sur le compositeur Wayland ShojiWM avec un shell Quickshell (QML). ShojiWM est compilé depuis les sources (Rust) et configuré en TypeScript, les petits utilitaires sont écrits en C et les effets en GLSL. Utilisé au quotidien et toujours en cours ; le paquet Debian est la prochaine étape.",
     },
     categories: ['software'],
     tags: ['Wayland', 'ShojiWM', 'Quickshell', 'QML', 'TypeScript', 'Rust', 'GLSL', 'C', 'Debian 13'],
+    repo: 'https://github.com/MasterKPG/lucent',
   },
 
   // Hardware and embedded
