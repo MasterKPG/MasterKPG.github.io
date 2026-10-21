@@ -9,10 +9,16 @@ export interface Bi {
   fr: string
 }
 
-const LangContext = createContext<{ lang: Lang; toggle: () => void; t: (bi: Bi) => string }>({
+/** A label that is either the same in both languages (a technical term) or translated. */
+export type Term = string | Bi
+
+/** Stable key for a term, whatever the language. */
+export const termKey = (x: Term) => (typeof x === 'string' ? x : x.en)
+
+const LangContext = createContext<{ lang: Lang; toggle: () => void; t: (bi: Term) => string }>({
   lang: 'en',
   toggle: () => {},
-  t: (bi) => bi.en,
+  t: (bi) => (typeof bi === 'string' ? bi : bi.en),
 })
 
 export function LangProvider({ children }: { children: ReactNode }) {
@@ -43,7 +49,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = lang
   }, [lang])
 
-  const t = useCallback((bi: Bi) => bi[lang], [lang])
+  const t = useCallback((bi: Term) => (typeof bi === 'string' ? bi : bi[lang]), [lang])
 
   return <LangContext.Provider value={{ lang, toggle, t }}>{children}</LangContext.Provider>
 }

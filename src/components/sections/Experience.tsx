@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { COPY, EDUCATION, EXPERIENCE } from '@/lib/content'
 import type { TimelineEntry } from '@/lib/content'
-import { useLang } from '@/lib/i18n'
+import { termKey, useLang } from '@/lib/i18n'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 
 function EntryCard({ e }: { e: TimelineEntry }) {
@@ -15,8 +15,8 @@ function EntryCard({ e }: { e: TimelineEntry }) {
       <p className="mt-3 text-sm leading-relaxed text-muted">{t(e.desc)}</p>
       <div className="mt-4 flex flex-wrap gap-1.5">
         {e.tags.map((tag) => (
-          <span key={tag} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
-            {tag}
+          <span key={termKey(tag)} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
+            {t(tag)}
           </span>
         ))}
       </div>

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { COPY, PROJECTS, type Project } from '@/lib/content'
-import { useLang } from '@/lib/i18n'
+import { termKey, useLang } from '@/lib/i18n'
 import { useTheme } from '@/lib/theme'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeader } from '@/components/ui/SectionHeader'
@@ -81,8 +81,8 @@ function FeaturedCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
         )}
         <div className="mt-auto flex flex-wrap gap-1.5 pt-5">
           {p.tags.slice(0, 4).map((tag) => (
-            <span key={tag} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
-              {tag}
+            <span key={termKey(tag)} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
+              {t(tag)}
             </span>
           ))}
         </div>
@@ -129,7 +129,7 @@ export function Projects() {
 
   const folders = (['software', 'other'] as const).map((group) => {
     const projects = byGroup(group)
-    const files: FolderFile[] = projects.map((p) => ({ name: t(p.title), meta: p.tags[0] }))
+    const files: FolderFile[] = projects.map((p) => ({ name: t(p.title), meta: t(p.tags[0]) }))
     return { group, projects, files }
   })
 

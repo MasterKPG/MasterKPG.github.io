@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Project, ProjectDoc } from '@/lib/content'
 import { COPY } from '@/lib/content'
-import { useLang } from '@/lib/i18n'
+import { termKey, useLang } from '@/lib/i18n'
 import { CoverImage } from './SmartMedia'
 
 /** True when a HEAD request finds the file and it has the expected content type. */
@@ -148,8 +148,8 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
 
               <div className="mt-5 flex flex-wrap gap-1.5">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="rounded-md border border-line px-2 py-0.5 font-mono text-xs text-muted">
-                    {tag}
+                  <span key={termKey(tag)} className="rounded-md border border-line px-2 py-0.5 font-mono text-xs text-muted">
+                    {t(tag)}
                   </span>
                 ))}
               </div>

@@ -1,4 +1,4 @@
-import type { Bi } from './i18n'
+import type { Bi, Term } from './i18n'
 
 /* Media assets
    Covers, videos and documents are loaded at runtime from /public/assets so the
@@ -28,7 +28,7 @@ export interface Project {
   blurb: Bi
   description: Bi
   categories: ProjectCategory[]
-  tags: string[]
+  tags: Term[]
   /** Runtime cover path under /public; falls back to `grad` if the file is absent. */
   cover: string
   /** CSS gradient shown before/instead of a cover image. */
@@ -75,7 +75,7 @@ export const PROJECTS: Project[] = [
       fr: "Lauréat du prix PIEED 2026, le prix des initiatives étudiantes d'Étudiants et Développement. Présenté dans Ouest-France.",
     },
     categories: ['embedded', 'software'],
-    tags: ['Raspberry Pi', 'Linux', 'Flask', 'NGINX', 'Gunicorn', 'systemd', 'PostgreSQL', 'Captive portal'],
+    tags: ['Raspberry Pi', 'Linux', 'Flask', 'NGINX', 'Gunicorn', 'systemd', 'PostgreSQL', { en: 'Captive portal', fr: 'Portail captif' }],
   },
   {
     id: 'neurolith',
@@ -94,7 +94,7 @@ export const PROJECTS: Project[] = [
       fr: "Une plateforme d'analyse de tokens crypto : une application web et un bot Discord/Telegram. Elle récupère des données de marché par API, les fait analyser par un grand modèle de langage, puis alimente un modèle de décision probabiliste qui produit des signaux d'achat, de vente ou de conservation. Un module de signaux sociaux (X, Telegram) est en conception, et l'hébergement local du modèle est envisagé pour réduire la latence. Domaine, DNS Cloudflare et e-mail sont configurés.",
     },
     categories: ['software', 'ml'],
-    tags: ['Web app', 'Discord bot', 'Telegram bot', 'Market APIs', 'LLM', 'Cloudflare'],
+    tags: [{ en: 'Web app', fr: 'Application web' }, { en: 'Discord bot', fr: 'Bot Discord' }, { en: 'Telegram bot', fr: 'Bot Telegram' }, { en: 'Market APIs', fr: 'API de marché' }, 'LLM', 'Cloudflare'],
     demo: 'https://neurolith.app',
   },
   {
@@ -135,7 +135,7 @@ export const PROJECTS: Project[] = [
       fr: "Une carte compatible Arduino Uno (ATmega328P) conçue sous EAGLE dans le cadre d'un projet de cours, au lieu d'utiliser un Arduino du commerce : schéma électronique, routage de la carte, soudure des composants et flash du bootloader. J'ai conçu et fabriqué la carte seul. Elle a ensuite fait tourner le jeu Pong réalisé en binôme.",
     },
     categories: ['hardware', 'embedded'],
-    tags: ['EAGLE', 'PCB Design', 'ATmega328P', 'Soldering', 'Electronics'],
+    tags: ['EAGLE', { en: 'PCB Design', fr: 'Conception PCB' }, 'ATmega328P', { en: 'Soldering', fr: 'Soudure' }, { en: 'Electronics', fr: 'Électronique' }],
   },
   {
     id: 'ping-pong',
@@ -153,7 +153,7 @@ export const PROJECTS: Project[] = [
       fr: "Un jeu Pong à deux joueurs réalisé en binôme. Le jeu s'affiche sur une matrice de LED 8×8, chaque joueur a sa manette, et le son passe par une sortie audio. Il tourne sur le clone d'Arduino Uno que j'ai conçu sous EAGLE. Écrit en C/C++ : boucle de rafraîchissement, collisions raquette/balle, suivi du score.",
     },
     categories: ['embedded', 'software'],
-    tags: ['C/C++', 'Arduino', 'LED matrix', 'Audio', 'Game loop'],
+    tags: ['C/C++', 'Arduino', { en: 'LED matrix', fr: 'Matrice de LED' }, 'Audio', { en: 'Game loop', fr: 'Boucle de jeu' }],
     video: 'assets/videos/ping-pong.mp4',
   },
   {
@@ -210,7 +210,7 @@ export const PROJECTS: Project[] = [
       fr: "Projet de première année à l'ENSSAT en C, en équipe de 4. Une carte LPC1768 (ARM Cortex-M3) mesure la température et l'humidité de l'air, l'humidité du sol et la luminosité, et compare chaque valeur à des seuils réglables. Un buzzer donne l'alarme quand une mesure sort de l'intervalle, un écran LCD affiche l'état, des interruptions timer cadencent les mesures et les réglages sont sauvegardés en Flash. Une interface Bluetooth (UART) protégée par mot de passe permet de consulter les données et de modifier les seuils.",
     },
     categories: ['hardware', 'embedded'],
-    tags: ['C', 'LPC1768', 'ARM Cortex-M3', 'ADC', 'Interrupts', 'UART', 'Bluetooth'],
+    tags: ['C', 'LPC1768', 'ARM Cortex-M3', 'ADC', { en: 'Interrupts', fr: 'Interruptions' }, 'UART', 'Bluetooth'],
     video: 'assets/videos/smart-garden.mp4',
   },
   {
@@ -246,7 +246,7 @@ export const PROJECTS: Project[] = [
       fr: "Un additionneur binaire décrit en VHDL : logique combinatoire, propagation de la retenue et banc de test à vérification automatique. Simulé et synthétisé dans le cadre du cours de logique numérique.",
     },
     categories: ['hardware', 'embedded'],
-    tags: ['VHDL', 'Digital Logic', 'Testbench'],
+    tags: ['VHDL', { en: 'Digital Logic', fr: 'Logique numérique' }, 'Testbench'],
   },
 
   // Software
@@ -265,7 +265,7 @@ export const PROJECTS: Project[] = [
       fr: "Modélisation physique des performances d'un voilier selon les allures, représentée en graphe pondéré, avec l'algorithme de Dijkstra pour minimiser le temps de parcours.",
     },
     categories: ['software', 'ml'],
-    tags: ['Physics', 'Graphs', 'Dijkstra', 'Python'],
+    tags: [{ en: 'Physics', fr: 'Physique' }, { en: 'Graphs', fr: 'Graphes' }, 'Dijkstra', 'Python'],
   },
   {
     id: 'ml-clustering',
@@ -316,7 +316,7 @@ export const PROJECTS: Project[] = [
       fr: "Un injecteur de DLL Windows exploitant l'API Win32 pour la gestion des processus, de la mémoire et des pointeurs, un exercice de programmation système bas niveau.",
     },
     categories: ['software'],
-    tags: ['C++', 'Windows API', 'Memory'],
+    tags: ['C++', 'Windows API', { en: 'Memory', fr: 'Mémoire' }],
   },
   {
     id: 'ascii-art',
@@ -333,7 +333,7 @@ export const PROJECTS: Project[] = [
       fr: "Transformation d'images en représentations ASCII via PIL, avec optimisation matricielle pour un rendu lisible.",
     },
     categories: ['software'],
-    tags: ['Python', 'PIL', 'Imaging'],
+    tags: ['Python', 'PIL', { en: 'Imaging', fr: "Traitement d'image" }],
   },
 
   // Other projects
@@ -352,7 +352,7 @@ export const PROJECTS: Project[] = [
       fr: "Un simulateur de parking multi-processus écrit en C sous Linux. Les processus communiquent par FIFO et mémoire partagée, et des sémaphores synchronisent leur accès à l'état partagé.",
     },
     categories: ['software'],
-    tags: ['C', 'Linux', 'IPC', 'FIFOs', 'Shared memory', 'Semaphores'],
+    tags: ['C', 'Linux', 'IPC', 'FIFOs', { en: 'Shared memory', fr: 'Mémoire partagée' }, { en: 'Semaphores', fr: 'Sémaphores' }],
     repo: 'https://github.com/MasterKPG/prog_sys_project',
   },
   {
@@ -409,7 +409,7 @@ export const PROJECTS: Project[] = [
 ]
 
 /** A skill item is either a name that reads the same in both languages, or a translated one. */
-export type SkillItem = string | Bi
+export type SkillItem = Term
 
 export interface SkillGroup {
   title: Bi
@@ -485,7 +485,7 @@ export interface TimelineEntry {
   title: Bi
   place: Bi
   desc: Bi
-  tags: string[]
+  tags: Term[]
 }
 
 export const EDUCATION: TimelineEntry[] = [
@@ -503,7 +503,7 @@ export const EDUCATION: TimelineEntry[] = [
       en: 'Options: hardware design, signal processing, embedded systems, Internet of Things, artificial intelligence, cybersecurity.',
       fr: 'Options : conception matérielle, traitement du signal, systèmes embarqués, Internet des objets, intelligence artificielle, cybersécurité.',
     },
-    tags: ['VHDL', 'FPGA', 'Embedded', 'IoT', 'Signal processing'],
+    tags: ['VHDL', 'FPGA', { en: 'Embedded', fr: 'Embarqué' }, 'IoT', { en: 'Signal processing', fr: 'Traitement du signal' }],
   },
   {
     date: { en: 'Sept. 2022 to Jul. 2024', fr: 'Sept. 2022 à juil. 2024' },
@@ -516,7 +516,7 @@ export const EDUCATION: TimelineEntry[] = [
       en: 'Preparatory classes for the engineering schools: intensive applied mathematics, physics and engineering science.',
       fr: "Classes préparatoires aux grandes écoles : mathématiques appliquées, physique et sciences de l'ingénieur en formation intensive.",
     },
-    tags: ['Mathematics', 'Physics', 'Engineering Science'],
+    tags: [{ en: 'Mathematics', fr: 'Mathématiques' }, { en: 'Physics', fr: 'Physique' }, { en: 'Engineering Science', fr: "Sciences de l'ingénieur" }],
   },
   {
     date: { en: 'Sept. 2021 to Jul. 2022', fr: 'Sept. 2021 à juil. 2022' },
@@ -529,7 +529,7 @@ export const EDUCATION: TimelineEntry[] = [
       en: 'Specialisation in Mathematics and Physical Sciences.',
       fr: 'Spécialité : Mathématiques et Sciences physiques.',
     },
-    tags: ['Mathematics', 'Physical Sciences'],
+    tags: [{ en: 'Mathematics', fr: 'Mathématiques' }, { en: 'Physical Sciences', fr: 'Sciences physiques' }],
   },
 ]
 
@@ -561,7 +561,7 @@ export const EXPERIENCE: TimelineEntry[] = [
       en: 'Welcoming audiences, checking tickets and monitoring the venue during performances.',
       fr: 'Accueil du public, contrôle des billets et surveillance de la salle pendant les spectacles.',
     },
-    tags: ['Events', 'Customer Relations'],
+    tags: [{ en: 'Events', fr: 'Événementiel' }, { en: 'Customer Relations', fr: 'Relation client' }],
   },
   {
     date: { en: 'Oct. 2025 to present', fr: "Oct. 2025 à aujourd'hui" },
@@ -571,7 +571,7 @@ export const EXPERIENCE: TimelineEntry[] = [
       en: 'Scanning tickets, managing queues and crowd flow, seating attendees and running the cloakroom at events.',
       fr: 'Contrôle des billets, gestion des files et des flux, placement du public et vestiaire lors des événements.',
     },
-    tags: ['Events', 'Customer Relations'],
+    tags: [{ en: 'Events', fr: 'Événementiel' }, { en: 'Customer Relations', fr: 'Relation client' }],
   },
   {
     date: { en: 'Sept. 2025 to Jun. 2026', fr: 'Sept. 2025 à juin 2026' },
@@ -581,7 +581,7 @@ export const EXPERIENCE: TimelineEntry[] = [
       en: 'Helping library users, handling loans, returns and shelving, alongside a full-time engineering course load.',
       fr: "Accueil des usagers, prêts, retours et rangement, en parallèle d'une formation d'ingénieur à temps plein.",
     },
-    tags: ['Organisation', 'Student Support'],
+    tags: ['Organisation', { en: 'Student Support', fr: 'Accompagnement étudiant' }],
   },
   {
     date: { en: 'One month', fr: 'Un mois' },
@@ -601,7 +601,7 @@ export const EXPERIENCE: TimelineEntry[] = [
       en: 'Club activities, teamwork and community involvement around sailing.',
       fr: "Activités du club, travail en équipe et engagement associatif autour de la voile.",
     },
-    tags: ['Sailing', 'Teamwork'],
+    tags: [{ en: 'Sailing', fr: 'Voile' }, { en: 'Teamwork', fr: "Travail d'équipe" }],
   },
 ]
 
