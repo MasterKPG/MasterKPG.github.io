@@ -30,7 +30,11 @@ pnpm-debug.log*
 node_modules/.tmp
 
 # local source material, never published
-/CV/
+# (on case-insensitive file systems the personal CV/ folder is the same as the cv/ page
+# folder, so only the page entry is let through)
+/CV/*
+!/CV/index.html
+!/cv/index.html
 /projects/
 /components/
 
