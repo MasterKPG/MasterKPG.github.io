@@ -1,24 +1,52 @@
-import { CONTACT } from '@/lib/content'
+import { COPY, CONTACT } from '@/lib/content'
+import { useLang } from '@/lib/i18n'
+import { useTheme } from '@/lib/theme'
+import HalftoneWordmarkFooter from '@/components/ui/halftone-footer'
 
-export function Footer() {
+// Dot colours per theme; the warm colour is the accent the dots pick up when pushed.
+const PALETTES = {
+  dark: { background: '#121417', ink: '#dfe5ea', warm: '#22d3ee' },
+  light: { background: '#e9eef1', ink: '#151b21', warm: '#0891b2' },
+}
+
+export function Footer({ base = '' }: { base?: string }) {
+  const { t } = useLang()
+  const { theme } = useTheme()
   const year = new Date().getFullYear()
+
   return (
-    <footer className="relative border-t border-line">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-        <span className="font-display text-sm font-bold text-gradient">Mohammad Amara</span>
-        <div className="flex items-center gap-5 text-sm text-muted">
-          <a href={CONTACT.github} target="_blank" rel="noreferrer" className="hover:text-accent">
-            GitHub
-          </a>
-          <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="hover:text-accent">
-            LinkedIn
-          </a>
-          <a href={`mailto:${CONTACT.email}`} className="hover:text-accent">
-            Email
-          </a>
-        </div>
-        <span className="font-mono text-xs text-muted/70">© {year} · Built with React</span>
-      </div>
-    </footer>
+    <HalftoneWordmarkFooter
+      wordmark="amara"
+      label="Mohammad Amara"
+      meta={`© ${year} · ${t(COPY.footer.role)}`}
+      palette={PALETTES[theme]}
+      fontFamily='"Geist", system-ui, sans-serif'
+      monoFamily='"Geist Mono", ui-monospace, monospace'
+      height="clamp(420px, 44vw, 600px)"
+      backToTopLabel={t(COPY.footer.toTop)}
+      columns={[
+        {
+          title: t(COPY.footer.navigate),
+          links: [
+            { label: t(COPY.nav.about), href: `${base}#about` },
+            { label: t(COPY.nav.experience), href: `${base}#experience` },
+            { label: t(COPY.nav.projects), href: `${base}#projects` },
+            { label: t(COPY.nav.contact), href: `${base}#contact` },
+          ],
+        },
+        {
+          title: t(COPY.footer.elsewhere),
+          links: [
+            { label: 'GitHub', href: CONTACT.github, external: true },
+            { label: 'LinkedIn', href: CONTACT.linkedin, external: true },
+            { label: 'Email', href: `mailto:${CONTACT.email}` },
+          ],
+        },
+        {
+          title: t(COPY.footer.documents),
+          links: [{ label: t(COPY.nav.cv), href: `${base}cv/` }],
+        },
+      ]}
+    />
   )
 }
