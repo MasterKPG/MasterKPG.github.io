@@ -114,6 +114,7 @@ export const PROJECTS: Project[] = [
     id: 'arduino-clone',
     group: 'hardware',
     title: { en: 'Arduino Uno Clone in EAGLE', fr: 'Clone Arduino Uno sous EAGLE' },
+    period: { en: 'Apr 2026', fr: 'Avr. 2026' },
     role: { en: 'Individual project', fr: 'Projet individuel' },
     blurb: {
       en: 'An Arduino Uno clone designed in EAGLE as a class project, not a bought board: schematic, routing, soldering and bootloader.',
@@ -131,6 +132,7 @@ export const PROJECTS: Project[] = [
     group: 'hardware',
     cover: 'assets/covers/ping-pong.webp',
     title: { en: 'Arduino Pong', fr: 'Pong sur Arduino' },
+    period: { en: 'Apr 2026', fr: 'Avr. 2026' },
     role: { en: 'Team of 2', fr: 'En binôme' },
     blurb: {
       en: 'Two-player Pong on an LED matrix with sound, running on my own Arduino Uno clone. Made in a team of 2.',
@@ -201,7 +203,7 @@ export const PROJECTS: Project[] = [
     id: 'gate-controller',
     group: 'hardware',
     title: { en: 'Gate Controller', fr: 'Commande de portail' },
-    period: { en: '2025 to 2026', fr: '2025 à 2026' },
+    period: { en: 'Jan 2026', fr: 'Janv. 2026' },
     blurb: {
       en: 'Firmware for a two-leaf motorised gate on an LPC1768: a 13-state machine with obstacle safety and automatic closing.',
       fr: "Le firmware d'un portail motorisé à deux battants sur LPC1768 : une machine à 13 états avec sécurité obstacle et fermeture automatique.",
