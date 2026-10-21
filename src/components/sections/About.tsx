@@ -43,6 +43,11 @@ export function About() {
             <h3 className="mb-4 border-b border-line pb-3 font-display font-semibold">Contact</h3>
             <ul className="space-y-3 text-sm">
               <ContactRow label="Email" href={`mailto:${CONTACT.email}`} value={CONTACT.email} />
+              <ContactRow
+                label={t({ en: 'Phone', fr: 'Téléphone' })}
+                href={`tel:${CONTACT.phone}`}
+                value={CONTACT.phoneDisplay}
+              />
               <ContactRow label={t({ en: 'Location', fr: 'Lieu' })} value={t(CONTACT.location)} />
               <ContactRow label="GitHub" href={CONTACT.github} value="github.com/MasterKPG" />
               <ContactRow label="LinkedIn" href={CONTACT.linkedin} value="in/mohammad-amara" />
@@ -62,7 +67,7 @@ function ContactRow({ label, value, href }: { label: string; value: string; href
       {href ? (
         <a
           href={href}
-          target={href.startsWith('mailto') ? undefined : '_blank'}
+          target={href.startsWith('http') ? '_blank' : undefined}
           rel="noreferrer"
           className="text-right text-[rgb(var(--fg))] transition-colors hover:text-accent"
         >

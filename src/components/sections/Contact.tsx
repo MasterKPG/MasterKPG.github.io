@@ -12,6 +12,12 @@ const CHANNELS = [
     hint: { en: 'Fastest way to reach me', fr: 'Le moyen le plus rapide' },
   },
   {
+    label: { en: 'Phone', fr: 'Téléphone' },
+    value: CONTACT.phoneDisplay,
+    href: `tel:${CONTACT.phone}`,
+    hint: { en: 'Call or text', fr: 'Appel ou SMS' },
+  },
+  {
     label: 'GitHub',
     value: 'github.com/MasterKPG',
     href: CONTACT.github,
@@ -45,15 +51,15 @@ export function Contact() {
         <div className="mt-14 border-t border-line">
           {CHANNELS.map((c, i) => (
             <a
-              key={c.label}
+              key={c.href}
               href={c.href}
-              target={c.href.startsWith('mailto') ? undefined : '_blank'}
+              target={c.href.startsWith('http') ? '_blank' : undefined}
               rel="noreferrer"
               className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line py-7 transition-colors hover:border-accent/40 sm:grid-cols-[3rem_1fr_1fr_auto] sm:gap-8"
             >
               <span className="font-mono text-sm text-muted/50">0{i + 1}</span>
               <span className="font-display text-2xl font-bold transition-colors group-hover:text-accent sm:text-3xl">
-                {c.label}
+                {typeof c.label === 'string' ? c.label : t(c.label)}
               </span>
               <span className="hidden font-mono text-sm text-muted sm:block">{c.value}</span>
               <span className="flex items-center gap-3">

@@ -624,8 +624,8 @@ export const COPY = {
       fr: "Étudiant ingénieur en informatique et systèmes embarqués à l'ENSSAT (Université de Rennes), à Lannion. Je travaille concrètement sur la conception FPGA en VHDL, le C sur microcontrôleurs ARM Cortex-M, les serveurs Linux et le développement web et mobile full-stack.",
     },
     p2: {
-      en: 'Two years of CPGE in mathematics and physics gave me a solid base in applied mathematics and algorithms. I like building things end to end, from a board designed in EAGLE to a Flask server on a Raspberry Pi, and I am looking for internships in embedded, hardware and software engineering.',
-      fr: "Deux années de CPGE en mathématiques et physique m'ont donné une base solide en mathématiques appliquées et en algorithmique. J'aime réaliser des projets de bout en bout, d'une carte conçue sous EAGLE à un serveur Flask sur Raspberry Pi, et je recherche des stages en ingénierie embarquée, matérielle et logicielle.",
+      en: 'Two years of CPGE in mathematics and physics gave me a solid base in applied mathematics and algorithms. I like building things end to end, from a board designed in EAGLE to a Flask server on a Raspberry Pi.',
+      fr: "Deux années de CPGE en mathématiques et physique m'ont donné une base solide en mathématiques appliquées et en algorithmique. J'aime réaliser des projets de bout en bout, d'une carte conçue sous EAGLE à un serveur Flask sur Raspberry Pi.",
     },
   },
   skills: {
@@ -688,12 +688,13 @@ export const COPY = {
 export const CONTACT = {
   email: 'mamara@enssat.fr',
   phone: '+33751332940',
+  phoneDisplay: '+33 7 51 33 29 40',
   linkedin: 'https://www.linkedin.com/in/mohammad-amara/',
   github: 'https://github.com/MasterKPG',
   githubUser: 'MasterKPG',
   location: { en: 'Lannion, France', fr: 'Lannion, France' } as Bi,
   languages: {
-    en: 'French, English, Arabic (Darija)',
-    fr: 'Français, anglais, arabe (darija)',
+    en: 'French, English, Arabic',
+    fr: 'Français, anglais, arabe',
   } as Bi,
 }
