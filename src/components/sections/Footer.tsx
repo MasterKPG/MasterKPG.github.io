@@ -16,7 +16,7 @@ export function Footer({ base = '' }: { base?: string }) {
 
   return (
     <HalftoneWordmarkFooter
-      wordmark="amara"
+      wordmark="Amara"
       label="Mohammad Amara"
       meta={`© ${year} · ${t(COPY.footer.role)}`}
       palette={PALETTES[theme]}

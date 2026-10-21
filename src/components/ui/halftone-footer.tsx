@@ -184,7 +184,7 @@ const HWF_CSS = `
 `
 
 export default function HalftoneWordmarkFooter({
-  wordmark = "amara",
+  wordmark = "Amara",
   label,
   meta,
   columns,
