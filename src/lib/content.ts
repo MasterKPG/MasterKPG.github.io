@@ -34,6 +34,8 @@ export interface Project {
   role?: Bi
   /** Awards and press. */
   recognition?: Bi
+  /** Outside pages about the project (awards, press). */
+  links?: ProjectDoc[]
   inProgress?: boolean
   /** Optional MP4 in /assets/videos, shown in the preview modal when present. */
   video?: string
@@ -70,6 +72,16 @@ export const PROJECTS: Project[] = [
     },
     categories: ['embedded', 'software'],
     tags: ['Raspberry Pi', 'Linux', 'Flask', 'NGINX', 'Gunicorn', 'systemd', 'PostgreSQL', { en: 'Captive portal', fr: 'Portail captif' }],
+    links: [
+      {
+        label: { en: 'PIEED 2026 winners', fr: 'Lauréats PIEED 2026' },
+        href: 'https://pieed.wordpress.com/category/editions-du-pieed/pieed-2026/',
+      },
+      {
+        label: { en: 'Ouest-France article', fr: 'Article Ouest-France' },
+        href: 'https://www.ouest-france.fr/associations/quel-est-limpact-de-votre-telephone-cette-association-bretonne-le-montre-grace-a-solibox-sa-mallette-pedagogique-d03753e6-b826-11f1-ad16-43b274a58389',
+      },
+    ],
   },
   {
     id: 'neurolith',

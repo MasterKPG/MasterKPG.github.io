@@ -151,6 +151,11 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 {project.demo && <LinkButton href={project.demo}>{t(COPY.projects.site)}</LinkButton>}
                 {project.repo && <LinkButton href={project.repo}>{t(COPY.projects.code)}</LinkButton>}
+                {project.links?.map((l) => (
+                  <LinkButton key={l.href} href={l.href}>
+                    {t(l.label)}
+                  </LinkButton>
+                ))}
                 {hasVideo && <LinkButton href={project.video!}>{t(COPY.projects.watch)}</LinkButton>}
                 {docs.map((d) => (
                   <LinkButton key={d.href} href={d.href}>
