@@ -10,11 +10,11 @@ Project ids: `solibox`, `neurolith`, `lucent`, `arduino-clone`, `ping-pong`, `fi
 
 ## Covers → `covers/<id>.webp`
 
-The cover image shown on the project card and at the top of the preview modal. Until a file
-exists, an animated gradient is shown instead, so nothing ever looks broken.
+The cover image shown on the project card and at the top of the preview modal. After adding
+the file, set the project's `cover` field in `src/lib/content.ts` to its path; a project without
+a `cover` shows no image area.
 
-Any 16:9 image works (`.webp`, `.jpg`, `.png`); keep the `.webp` name or update the `cover` field
-in `content.ts`.
+Any 16:9 image works (`.webp`, `.jpg`, `.png`).
 
 ## Videos → `videos/<id>.mp4`
 

@@ -39,7 +39,6 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
   const { t } = useLang()
   const [hasVideo, setHasVideo] = useState(false)
   const [docs, setDocs] = useState<ProjectDoc[]>([])
-  const [hasCover, setHasCover] = useState(true)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -52,7 +51,6 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
     let alive = true
     setHasVideo(false)
     setDocs([])
-    setHasCover(true)
     if (project.video) {
       exists(project.video, 'video').then((ok) => alive && setHasVideo(ok))
     }
@@ -100,8 +98,8 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
               </svg>
             </button>
 
-            <div className={hasVideo || hasCover ? 'relative aspect-[16/8] w-full bg-black' : 'relative h-2 w-full'}>
-              {hasVideo ? (
+            {hasVideo ? (
+              <div className="relative aspect-[16/8] w-full bg-black">
                 <video
                   src={project.video}
                   className="h-full w-full object-contain"
@@ -111,16 +109,12 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
                   loop
                   playsInline
                 />
-              ) : (
-                <CoverImage
-                  src={project.cover}
-                  grad={project.grad}
-                  alt={t(project.title)}
-                  onStatus={setHasCover}
-                  className="h-full w-full"
-                />
-              )}
-            </div>
+              </div>
+            ) : (
+              project.cover && (
+                <CoverImage src={project.cover} alt={t(project.title)} className="aspect-[16/8] w-full" />
+              )
+            )}
 
             <div className="p-6 sm:p-8">
               <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-wide">

@@ -1,41 +1,21 @@
 import { useState } from 'react'
 
 /**
- * Cover image that falls back to a CSS gradient when the file is absent
- * (so the build/preview never shows a broken image before media is dropped in).
+ * Cover image on a plain surface. If the file fails to load, the surface stays empty
+ * instead of showing a broken image.
  */
-export function CoverImage({
-  src,
-  grad,
-  alt,
-  className = '',
-  onStatus,
-}: {
-  src: string
-  grad: string
-  alt: string
-  className?: string
-  /** Called once the image has loaded (true) or failed (false). */
-  onStatus?: (ok: boolean) => void
-}) {
+export function CoverImage({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
   const [ok, setOk] = useState(true)
   return (
-    <div className={`relative overflow-hidden ${className}`} style={{ background: grad }}>
+    <div className={`relative overflow-hidden bg-[rgb(var(--bg-elevated))] ${className}`}>
       {ok && (
         <img
           src={src}
           alt={alt}
           loading="lazy"
-          onLoad={() => onStatus?.(true)}
-          onError={() => {
-            setOk(false)
-            onStatus?.(false)
-          }}
+          onError={() => setOk(false)}
           className="h-full w-full object-cover transition-transform duration-700"
         />
-      )}
-      {!ok && (
-        <div aria-hidden className="absolute inset-0 opacity-40 mix-blend-overlay noise" />
       )}
     </div>
   )

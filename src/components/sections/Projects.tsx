@@ -48,21 +48,13 @@ function SubHeading({ children, hint }: { children: ReactNode; hint?: string }) 
 
 function FeaturedCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   const { t } = useLang()
-  // Until a cover is dropped in, the gradient shrinks to a thin strip instead of an empty box.
-  const [hasCover, setHasCover] = useState(true)
   return (
     <button
       type="button"
       onClick={onOpen}
       className="card group flex h-full w-full flex-col overflow-hidden text-left transition-colors hover:border-accent/40"
     >
-      <CoverImage
-        src={p.cover}
-        grad={p.grad}
-        alt=""
-        onStatus={setHasCover}
-        className={hasCover ? 'aspect-[16/9] w-full' : 'h-1.5 w-full'}
-      />
+      {p.cover && <CoverImage src={p.cover} alt="" className="aspect-[16/9] w-full" />}
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-wide">
           {p.inProgress && (
@@ -120,7 +112,6 @@ export function Projects() {
       HARDWARE.map((p) => ({
         id: p.id,
         image: p.cover,
-        grad: p.grad,
         label: t(p.title),
         onOpen: () => setSelected(p),
       })),

@@ -8,8 +8,8 @@ import { CoverImage } from './SmartMedia'
  *
  * Adapted for this site:
  * . cards open the project modal (`onOpen`) instead of navigating to a link
- * . covers render through CoverImage, so a missing file falls back to the project's
- *   gradient instead of a broken <img>
+ * . covers render through CoverImage; a card without an image shows its title on a
+ *   plain surface instead
  * . the arrows were styled with Tailwind `dark:` variants, which never match here
  *   (light mode is a `light` class; dark is the default and carries no class), so they
  *   now use the site's own glass/accent tokens
@@ -21,8 +21,7 @@ import { CoverImage } from './SmartMedia'
 
 export interface FanCard {
   id: string | number
-  image: string
-  grad?: string
+  image?: string
   label?: string
   featured?: boolean
   onOpen?: () => void
@@ -343,22 +342,26 @@ export function FanCardGallery({ cards }: { cards: FanCard[] }) {
               aria-label={card.label}
               className="fan-card group"
             >
-              <CoverImage
-                src={card.image}
-                grad={card.grad ?? 'linear-gradient(135deg,#181a1e,#22252a)'}
-                alt={card.label ?? `Project ${index + 1}`}
-                className="h-full w-full"
-              />
+              {card.image ? (
+                <CoverImage src={card.image} alt={card.label ?? `Project ${index + 1}`} className="h-full w-full" />
+              ) : (
+                <span aria-hidden className="absolute inset-0 bg-[rgb(var(--bg-elevated))]" />
+              )}
               {card.featured && (
                 <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-accent px-2 py-0.5 font-mono text-[9px] font-bold uppercase text-ink-950">
                   ★
                 </span>
               )}
-              {card.label && (
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-3 pt-8 text-left text-sm font-semibold text-white">
-                  {card.label}
-                </span>
-              )}
+              {card.label &&
+                (card.image ? (
+                  <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-3 pt-8 text-left text-sm font-semibold text-white">
+                    {card.label}
+                  </span>
+                ) : (
+                  <span className="pointer-events-none absolute inset-x-0 bottom-0 p-4 text-left font-display text-base font-semibold leading-snug text-[rgb(var(--fg))] sm:text-lg">
+                    {card.label}
+                  </span>
+                ))}
             </button>
           ))}
         </div>

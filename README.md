@@ -44,7 +44,7 @@ graceful fallbacks. See `public/assets/README.md`.
 
 | Type | Path | Shown |
 |---|---|---|
-| Cover | `public/assets/covers/<id>.webp` | Card + modal header (else a gradient) |
+| Cover | `public/assets/covers/<id>.webp` | Card + modal header, once set as `cover` in `content.ts` |
 | Video | `public/assets/videos/<id>.mp4` | Autoplays in the preview modal |
 | Document | `public/assets/docs/<id>.pdf` | Linked from the preview modal |
 

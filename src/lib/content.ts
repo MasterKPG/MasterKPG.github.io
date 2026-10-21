@@ -1,15 +1,13 @@
 import type { Bi, Term } from './i18n'
 
 /* Media assets
-   Covers, videos and documents are loaded at runtime from /public/assets so the
-   build never breaks on a missing file and media can be dropped in anytime:
+   Covers, videos and documents are loaded at runtime from /public/assets:
 
-     public/assets/covers/<id>.webp   cover image
+     public/assets/covers/<id>.webp   cover image, set as `cover` once the file exists
      public/assets/videos/<id>.mp4    demo video shown in the preview modal
      public/assets/docs/<id>.pdf      document opened from the preview modal
 
-   Until a cover file exists, each project shows its animated gradient fallback
-   (the `grad` field). */
+   A project without a `cover` shows no image area at all. */
 
 export type ProjectCategory = 'hardware' | 'embedded' | 'software' | 'ml'
 
@@ -29,10 +27,8 @@ export interface Project {
   description: Bi
   categories: ProjectCategory[]
   tags: Term[]
-  /** Runtime cover path under /public; falls back to `grad` if the file is absent. */
-  cover: string
-  /** CSS gradient shown before/instead of a cover image. */
-  grad: string
+  /** Cover path under /public, only for projects that have an image. */
+  cover?: string
   period?: Bi
   /** Role or team, shown under the title. */
   role?: Bi
@@ -54,8 +50,6 @@ export const PROJECTS: Project[] = [
     id: 'solibox',
     group: 'featured',
     featured: true,
-    cover: 'assets/covers/solibox.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0c2530 60%,#0891b2)',
     title: { en: 'Solibox', fr: 'Solibox' },
     period: { en: 'Mar 2025 to present', fr: "Mars 2025 à aujourd'hui" },
     role: {
@@ -82,8 +76,6 @@ export const PROJECTS: Project[] = [
     group: 'featured',
     featured: true,
     inProgress: true,
-    cover: 'assets/covers/neurolith.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#131c26 55%,#67e8f9)',
     title: { en: 'Neurolith', fr: 'Neurolith' },
     blurb: {
       en: 'Crypto token analytics: a web app and a Discord/Telegram bot that turn market data and language model analysis into buy, sell or hold signals.',
@@ -102,8 +94,6 @@ export const PROJECTS: Project[] = [
     group: 'featured',
     featured: true,
     inProgress: true,
-    cover: 'assets/covers/lucent.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0e1d2c 60%,#38bdf8)',
     title: { en: 'Lucent', fr: 'Lucent' },
     period: { en: 'Oct 2026 to present', fr: "Oct. 2026 à aujourd'hui" },
     blurb: {
@@ -123,8 +113,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'arduino-clone',
     group: 'hardware',
-    cover: 'assets/covers/arduino-clone.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0c2530 60%,#0891b2)',
     title: { en: 'Arduino Uno Clone in EAGLE', fr: 'Clone Arduino Uno sous EAGLE' },
     role: { en: 'Individual project', fr: 'Projet individuel' },
     blurb: {
@@ -142,7 +130,6 @@ export const PROJECTS: Project[] = [
     id: 'ping-pong',
     group: 'hardware',
     cover: 'assets/covers/ping-pong.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0e2229 60%,#06b6d4)',
     title: { en: 'Arduino Pong', fr: 'Pong sur Arduino' },
     role: { en: 'Team of 2', fr: 'En binôme' },
     blurb: {
@@ -161,8 +148,6 @@ export const PROJECTS: Project[] = [
     id: 'fir-filter',
     group: 'hardware',
     inProgress: true,
-    cover: 'assets/covers/fir-filter.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#101f2c 55%,#22d3ee)',
     title: { en: 'Sequential FIR Filter', fr: 'Filtre RIF séquentiel' },
     period: { en: 'Oct 2026', fr: 'Oct. 2026' },
     blurb: {
@@ -180,7 +165,6 @@ export const PROJECTS: Project[] = [
     id: 'smart-garden',
     group: 'hardware',
     cover: 'assets/covers/smart-garden.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0c2620 60%,#14b8a6)',
     title: { en: 'Smart Garden', fr: 'Plante connectée' },
     period: { en: '2025 to 2026', fr: '2025 à 2026' },
     role: { en: 'Team of 4', fr: 'Équipe de 4' },
@@ -200,7 +184,6 @@ export const PROJECTS: Project[] = [
     id: 'saturating-accumulator',
     group: 'hardware',
     cover: 'assets/covers/saturating-accumulator.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0c2620 60%,#14b8a6)',
     title: { en: 'Saturating Accumulator on FPGA', fr: 'Accumulateur saturant sur FPGA' },
     period: { en: 'May 2026', fr: 'Mai 2026' },
     blurb: {
@@ -217,8 +200,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'gate-controller',
     group: 'hardware',
-    cover: 'assets/covers/gate-controller.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#141a24 60%,#0ea5e9)',
     title: { en: 'Gate Controller', fr: 'Commande de portail' },
     period: { en: '2025 to 2026', fr: '2025 à 2026' },
     blurb: {
@@ -235,8 +216,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'adder',
     group: 'hardware',
-    cover: 'assets/covers/adder.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#101f2c 55%,#22d3ee)',
     title: { en: 'VHDL Binary Adder', fr: 'Additionneur binaire VHDL' },
     blurb: {
       en: 'Combinational adder described in VHDL with carry propagation and a testbench.',
@@ -254,8 +233,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'tipe-sailboat',
     group: 'software',
-    cover: 'assets/covers/tipe-sailboat.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0e1d2c 60%,#38bdf8)',
     title: { en: 'TIPE: Sailboat Dynamics', fr: 'TIPE : dynamique des voiliers' },
     blurb: {
       en: 'Physical modelling of sailboat performance with Dijkstra on a weighted graph.',
@@ -271,8 +248,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'ml-clustering',
     group: 'software',
-    cover: 'assets/covers/ml-clustering.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#131c26 55%,#67e8f9)',
     title: { en: 'Machine Learning: KNN & K-Means', fr: 'Machine Learning : KNN & K-Means' },
     blurb: {
       en: 'KNN and K-Means implemented from scratch with NumPy/SciPy and Matplotlib.',
@@ -288,8 +263,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'weather-api',
     group: 'software',
-    cover: 'assets/covers/weather-api.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0e1c26 60%,#2dd4bf)',
     title: { en: 'Weather App: REST API', fr: 'Application météo : API REST' },
     blurb: {
       en: 'Open Meteo integration with JSON parsing and network error handling.',
@@ -305,8 +278,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'dll-injection',
     group: 'software',
-    cover: 'assets/covers/dll-injection.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#141a24 60%,#0ea5e9)',
     title: { en: 'C++ DLL Injection', fr: 'Injection DLL en C++' },
     blurb: {
       en: 'Windows DLL injector using the Win32 API for process & memory management.',
@@ -322,8 +293,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'ascii-art',
     group: 'software',
-    cover: 'assets/covers/ascii-art.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#101a20 55%,#0891b2)',
     title: { en: 'ASCII Art Generator', fr: 'Générateur ASCII Art' },
     blurb: {
       en: 'Turns images into ASCII via PIL with matrix optimisation for readability.',
@@ -341,8 +310,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'parking-sim',
     group: 'other',
-    cover: 'assets/covers/parking-sim.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#141a24 60%,#0ea5e9)',
     title: { en: 'Multi-process Parking Simulator', fr: 'Simulateur de parking multi-processus' },
     blurb: {
       en: 'A car park simulator in C using Linux IPC: FIFOs, shared memory and semaphores.',
@@ -359,8 +326,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'agrimarket',
     group: 'other',
-    cover: 'assets/covers/agrimarket.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0c2620 60%,#14b8a6)',
     title: { en: 'AgriMarket', fr: 'AgriMarket' },
     blurb: {
       en: 'An agricultural marketplace for Morocco, on the web and on mobile.',
@@ -376,8 +341,6 @@ export const PROJECTS: Project[] = [
   {
     id: 'half-half',
     group: 'other',
-    cover: 'assets/covers/half-half.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#131c26 55%,#67e8f9)',
     title: { en: 'Half / Half', fr: 'Half / Half' },
     blurb: {
       en: 'A precision shape-cutting duel game on Roblox.',
