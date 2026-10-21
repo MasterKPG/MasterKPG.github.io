@@ -619,7 +619,6 @@ export const COPY = {
   },
   about: {
     label: { en: 'About', fr: 'À propos' },
-    title: { en: 'From the board to the server', fr: 'De la carte au serveur' },
     p1: {
       en: "I'm an engineering student in computer science and embedded systems at ENSSAT (Université de Rennes) in Lannion, France. My hands-on work covers FPGA design in VHDL, C on ARM Cortex-M microcontrollers, Linux servers, and full-stack web and mobile development.",
       fr: "Étudiant ingénieur en informatique et systèmes embarqués à l'ENSSAT (Université de Rennes), à Lannion. Je travaille concrètement sur la conception FPGA en VHDL, le C sur microcontrôleurs ARM Cortex-M, les serveurs Linux et le développement web et mobile full-stack.",
@@ -631,7 +630,6 @@ export const COPY = {
   },
   skills: {
     label: { en: 'Stack', fr: 'Stack' },
-    title: { en: 'Skills & Technologies', fr: 'Compétences & technologies' },
     sub: {
       en: 'What I use, grouped by where it sits between the hardware and the screen.',
       fr: "Ce que j'utilise, classé selon sa place entre le matériel et l'écran.",
@@ -644,7 +642,6 @@ export const COPY = {
   },
   projects: {
     label: { en: 'Work', fr: 'Réalisations' },
-    title: { en: 'Projects', fr: 'Projets' },
     featured: { en: 'Featured', fr: 'À la une' },
     hardware: { en: 'Hardware and embedded', fr: 'Matériel et embarqué' },
     more: { en: 'More projects', fr: 'Autres projets' },
@@ -666,7 +663,6 @@ export const COPY = {
   },
   activity: {
     label: { en: 'Activity', fr: 'Activité' },
-    title: { en: 'On GitHub', fr: 'Sur GitHub' },
     sub: {
       en: 'Public contributions over the last year. Most project repositories are private.',
       fr: "Contributions publiques sur la dernière année. La plupart des dépôts de projets sont privés.",
@@ -674,7 +670,6 @@ export const COPY = {
   },
   contact: {
     label: { en: 'Say Hello', fr: 'Dire bonjour' },
-    title: { en: "Let's build something", fr: 'Construisons ensemble' },
     sub: {
       en: 'For an internship, a collaboration or just to chat, I would love to hear from you.',
       fr: "Pour un stage, une collaboration ou simplement échanger, je serai ravi de vous répondre.",

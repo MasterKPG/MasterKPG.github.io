@@ -40,7 +40,7 @@ export function Experience() {
   const { t } = useLang()
   return (
     <section id="experience" className="relative mx-auto max-w-6xl px-6 py-28">
-      <SectionHeader index="03" label={t(COPY.experience.label)} title={t(COPY.nav.experience)} />
+      <SectionHeader index="03" label={t(COPY.experience.label)} />
 
       <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-10">
         {[

@@ -31,12 +31,10 @@ export function Contact() {
   return (
     <section id="contact" className="relative mx-auto max-w-6xl px-6 py-28">
       <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          {t(COPY.contact.label)}
-        </p>
-        <div className="mt-3 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-6xl">
-            {t(COPY.contact.title)}
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-5xl">
+            <span className="mr-3 text-accent sm:mr-4">06</span>
+            {t(COPY.contact.label)}
           </h2>
           <p className="max-w-sm text-lg text-muted md:text-right">{t(COPY.contact.sub)}</p>
         </div>

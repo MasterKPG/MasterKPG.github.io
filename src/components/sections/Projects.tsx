@@ -140,7 +140,7 @@ export function Projects() {
 
   return (
     <section id="projects" className="relative mx-auto max-w-6xl px-6 py-28">
-      <SectionHeader index="04" label={t(COPY.projects.label)} title={t(COPY.projects.title)} />
+      <SectionHeader index="04" label={t(COPY.projects.label)} />
 
       <div className="mt-14">
         <SubHeading>{t(COPY.projects.featured)}</SubHeading>

@@ -13,7 +13,6 @@ export function Skills() {
       <SectionHeader
         index="02"
         label={t(COPY.skills.label)}
-        title={t(COPY.skills.title)}
         sub={t(COPY.skills.sub)}
       />
 

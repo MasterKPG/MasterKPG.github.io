@@ -13,7 +13,7 @@ export function About() {
   const { t } = useLang()
   return (
     <section id="about" className="relative mx-auto max-w-6xl px-6 py-28">
-      <SectionHeader index="01" label={t(COPY.about.label)} title={t(COPY.about.title)} />
+      <SectionHeader index="01" label={t(COPY.about.label)} />
 
       <div className="mt-12 grid gap-10 md:grid-cols-[1.5fr_1fr] md:gap-14">
         <div className="space-y-5">

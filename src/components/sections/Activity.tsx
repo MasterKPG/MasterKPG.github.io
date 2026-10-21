@@ -77,7 +77,6 @@ export function Activity() {
       <SectionHeader
         index="05"
         label={t(COPY.activity.label)}
-        title={t(COPY.activity.title)}
         sub={t(COPY.activity.sub)}
       />
       <Reveal delay={0.1} className="mt-12">
