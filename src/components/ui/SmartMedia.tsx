@@ -9,11 +9,14 @@ export function CoverImage({
   grad,
   alt,
   className = '',
+  onStatus,
 }: {
   src: string
   grad: string
   alt: string
   className?: string
+  /** Called once the image has loaded (true) or failed (false). */
+  onStatus?: (ok: boolean) => void
 }) {
   const [ok, setOk] = useState(true)
   return (
@@ -23,7 +26,11 @@ export function CoverImage({
           src={src}
           alt={alt}
           loading="lazy"
-          onError={() => setOk(false)}
+          onLoad={() => onStatus?.(true)}
+          onError={() => {
+            setOk(false)
+            onStatus?.(false)
+          }}
           className="h-full w-full object-cover transition-transform duration-700"
         />
       )}
