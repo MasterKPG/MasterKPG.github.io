@@ -627,8 +627,8 @@ export const COPY = {
   activity: {
     label: { en: 'Activity', fr: 'Activité' },
     sub: {
-      en: 'Public contributions over the last year. Most project repositories are private.',
-      fr: "Contributions publiques sur la dernière année. La plupart des dépôts de projets sont privés.",
+      en: 'My GitHub contributions over the last year.',
+      fr: 'Mes contributions GitHub sur la dernière année.',
     },
   },
   contact: {
