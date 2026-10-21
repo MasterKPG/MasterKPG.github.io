@@ -640,6 +640,7 @@ export const COPY = {
     label: { en: 'Journey', fr: 'Parcours' },
     education: { en: 'Education', fr: 'Formation' },
     career: { en: 'Experience', fr: 'Expérience' },
+    seeAll: { en: 'See all experience', fr: "Voir toute l'expérience" },
   },
   projects: {
     label: { en: 'Work', fr: 'Réalisations' },
