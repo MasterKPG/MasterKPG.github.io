@@ -422,12 +422,18 @@ export const SKILL_GROUPS: SkillGroup[] = [
     items: [
       'C',
       'VHDL',
-      'Python (Flask)',
+      'Python',
+      'Java',
       'JavaScript',
       'TypeScript',
       'Rust',
       { en: 'HTML and CSS', fr: 'HTML et CSS' },
-      'LaTeX',
+      'NumPy',
+      'SciPy',
+      'Pandas',
+      'Matplotlib',
+      'Flask',
+      'Pillow',
     ],
   },
   {
@@ -442,7 +448,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
       'ADC',
       { en: 'Interrupts', fr: 'Interruptions' },
       { en: 'UART and Bluetooth', fr: 'UART et Bluetooth' },
-      { en: 'FIR filters', fr: 'Filtres RIF' },
     ],
   },
   {
@@ -452,7 +457,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
       'Raspberry Pi',
       'NGINX',
       'Gunicorn',
-      'systemd',
+      { en: 'POSIX API (processes, threads, IPC)', fr: 'API POSIX (processus, threads, IPC)' },
       'PostgreSQL',
       { en: 'Git and GitHub', fr: 'Git et GitHub' },
     ],
@@ -630,10 +635,6 @@ export const COPY = {
   },
   skills: {
     label: { en: 'Stack', fr: 'Stack' },
-    sub: {
-      en: 'What I use, grouped by where it sits between the hardware and the screen.',
-      fr: "Ce que j'utilise, classé selon sa place entre le matériel et l'écran.",
-    },
   },
   experience: {
     label: { en: 'Journey', fr: 'Parcours' },
