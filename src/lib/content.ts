@@ -390,23 +390,6 @@ export const PROJECTS: Project[] = [
     categories: ['software'],
     tags: ['Roblox', 'Game design', 'Async'],
   },
-  {
-    id: 'led-chaser',
-    group: 'other',
-    cover: 'assets/covers/led-chaser.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#101f2c 55%,#22d3ee)',
-    title: { en: 'VHDL LED Chaser', fr: 'Chenillard de LED en VHDL' },
-    blurb: {
-      en: 'An LED chaser in VHDL with a clock-enable generator that brings 50 MHz down to 1 Hz.',
-      fr: "Un chenillard de LED en VHDL avec un générateur d'enable d'horloge qui ramène 50 MHz à 1 Hz.",
-    },
-    description: {
-      en: 'An LED chaser described in VHDL. A clock-enable generator derives a 1 Hz tick from the 50 MHz board clock, so the whole design stays on a single clock.',
-      fr: "Un chenillard de LED décrit en VHDL. Un générateur d'enable d'horloge dérive un top à 1 Hz de l'horloge à 50 MHz de la carte, pour que tout le design reste sur une seule horloge.",
-    },
-    categories: ['hardware'],
-    tags: ['VHDL', 'FPGA', 'Clock enable'],
-  },
 ]
 
 /** A skill item is either a name that reads the same in both languages, or a translated one. */
