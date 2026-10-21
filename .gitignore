@@ -28,3 +28,16 @@ pnpm-debug.log*
 # TS build cache
 *.tsbuildinfo
 node_modules/.tmp
+
+# local source material, never published
+/CV/
+/projects/
+/components/
+
+# fetched at dev/build time
+public/contributions.json
+
+# LaTeX build files
+latex/*.aux
+latex/*.log
+latex/*.out
