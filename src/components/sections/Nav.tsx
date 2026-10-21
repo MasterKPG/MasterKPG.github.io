@@ -17,16 +17,33 @@ const LINKS = [
  * Full-width bar fixed to the top of the page. Over the hero it is transparent with
  * light text (the hero is dark in both themes); once the page scrolls it picks up a
  * blurred, themed background and a hairline underneath.
+ *
+ * On another page (the CV) pass `base`, the path back to the portfolio: the section
+ * links then navigate there instead of scrolling, and the text is themed from the start.
  */
-export function Nav() {
+export function Nav({ base, current }: { base?: string; current?: 'cv' } = {}) {
   const { lang, toggle: toggleLang, t } = useLang()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
 
+  const onPortfolio = base === undefined
+
+  useEffect(() => {
+    // Arriving from the CV page with #section: scroll there once the page has rendered.
+    const id = window.location.hash.slice(1)
+    if (onPortfolio && LINKS.some((l) => l.id === id)) {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(id)
+        if (el) window.scrollTo({ top: el.offsetTop - 64 })
+      })
+    }
+  }, [onPortfolio])
+
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 24)
+      if (!onPortfolio) return
       const y = window.scrollY + 120
       let current = ''
       for (const l of LINKS) {
@@ -38,16 +55,22 @@ export function Nav() {
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [onPortfolio])
 
   const go = (id: string) => {
     setOpen(false)
+    if (!onPortfolio) {
+      window.location.href = `${base}#${id}`
+      return
+    }
     const el = document.getElementById(id)
     if (el) window.scrollTo({ top: el.offsetTop - 64, behavior: 'smooth' })
   }
 
   // Light text while the bar floats over the dark hero, themed text once it is solid.
-  const solid = scrolled || open
+  // Away from the portfolio there is no hero, so the text is themed from the start.
+  const solid = scrolled || open || !onPortfolio
+  const filled = scrolled || open
   const linkBase = solid ? 'text-muted hover:text-[rgb(var(--fg))]' : 'text-white/70 hover:text-white'
   const linkActive = solid ? 'text-[rgb(var(--fg))]' : 'text-white'
 
@@ -55,19 +78,24 @@ export function Nav() {
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-[900] border-b transition-[background-color,border-color,backdrop-filter] duration-300',
-        solid ? 'nav-solid' : 'border-transparent bg-transparent',
+        filled ? 'nav-solid' : 'border-transparent bg-transparent',
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6" aria-label="Main">
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        <a
+          href={onPortfolio ? '#' : base}
+          onClick={(e) => {
+            if (!onPortfolio) return
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
           className={cn(
             'font-display text-[15px] font-semibold tracking-tight transition-colors',
             solid ? 'text-[rgb(var(--fg))]' : 'text-white',
           )}
         >
           Mohammad Amara
-        </button>
+        </a>
 
         <div className="hidden items-center gap-1 md:flex">
           {LINKS.map((l) => (
@@ -90,8 +118,13 @@ export function Nav() {
               )}
             </button>
           ))}
-          <a href="cv/" className={cn('px-3 py-2 text-sm transition-colors', linkBase)}>
+          <a
+            href={onPortfolio ? 'cv/' : undefined}
+            aria-current={current === 'cv' ? 'page' : undefined}
+            className={cn('relative px-3 py-2 text-sm transition-colors', current === 'cv' ? linkActive : linkBase)}
+          >
             {t(COPY.nav.cv)}
+            {current === 'cv' && <span className="absolute inset-x-3 -bottom-px h-px bg-accent" />}
           </a>
         </div>
 
@@ -144,7 +177,10 @@ export function Nav() {
                   {t(l.label)}
                 </button>
               ))}
-              <a href="cv/" className="rounded-md px-2 py-3 text-sm text-muted hover:text-[rgb(var(--fg))]">
+              <a
+                href={onPortfolio ? 'cv/' : undefined}
+                className="rounded-md px-2 py-3 text-sm text-muted hover:text-[rgb(var(--fg))]"
+              >
                 {t(COPY.nav.cv)}
               </a>
             </div>

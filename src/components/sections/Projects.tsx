@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { COPY, PROJECTS, type Project } from '@/lib/content'
 import { termKey, useLang } from '@/lib/i18n'
@@ -107,6 +107,29 @@ export function Projects() {
   const [selected, setSelected] = useState<Project | null>(null)
   const folderWidth = useFolderWidth()
 
+  // Deep links (#project-<id>, used by the CV page) open that project's preview.
+  useEffect(() => {
+    const openFromHash = () => {
+      const id = window.location.hash.match(/^#project-(.+)$/)?.[1]
+      const p = PROJECTS.find((x) => x.id === id)
+      if (!p) return
+      const section = document.getElementById('projects')
+      if (section) window.scrollTo({ top: section.offsetTop - 64 })
+      setSelected(p)
+    }
+    requestAnimationFrame(openFromHash)
+    window.addEventListener('hashchange', openFromHash)
+    return () => window.removeEventListener('hashchange', openFromHash)
+  }, [])
+
+  const closeModal = useCallback(() => {
+    setSelected(null)
+    // Drop the deep link so following it again reopens the preview.
+    if (window.location.hash.startsWith('#project-')) {
+      history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+  }, [])
+
   const cards: FanCard[] = useMemo(
     () =>
       HARDWARE.map((p) => ({
@@ -169,7 +192,7 @@ export function Projects() {
         </div>
       </div>
 
-      <ProjectModal project={selected} onClose={() => setSelected(null)} />
+      <ProjectModal project={selected} onClose={closeModal} />
     </section>
   )
 }

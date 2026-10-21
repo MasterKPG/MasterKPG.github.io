@@ -5,11 +5,16 @@ import type { Bi } from '@/lib/i18n'
  * sources of the downloadable PDFs: when one changes, change the other two with it.
  */
 
+/** A piece of text, optionally a link. */
+export type Seg = Bi | { text: Bi; href: string }
+/** Plain text, or text made of segments where some are links. */
+export type Rich = Bi | Seg[]
+
 export interface CvEntry {
-  title: Bi
-  org: Bi
+  title: Rich
+  org: Rich
   date: Bi
-  bullets?: Bi[]
+  bullets?: Rich[]
 }
 
 export interface CvLink {
@@ -18,6 +23,13 @@ export interface CvLink {
 }
 
 const same = (s: string): Bi => ({ en: s, fr: s })
+const link = (text: Bi, href: string): Seg => ({ text, href })
+/** Opens the project's preview on the portfolio. */
+const project = (id: string, text: Bi): Seg => link(text, `../#project-${id}`)
+
+const PIEED = 'https://pieed.wordpress.com/category/editions-du-pieed/pieed-2026/'
+const OUEST_FRANCE =
+  'https://www.ouest-france.fr/associations/quel-est-limpact-de-votre-telephone-cette-association-bretonne-le-montre-grace-a-solibox-sa-mallette-pedagogique-d03753e6-b826-11f1-ad16-43b274a58389'
 
 export const CV = {
   name: 'Mohammad Amara',
@@ -25,14 +37,19 @@ export const CV = {
     en: 'Computer Science and Embedded Systems Engineering Student',
     fr: 'Élève ingénieur en informatique et systèmes embarqués',
   },
+  /** Two lines, as in the LaTeX header. */
   contact: [
-    { label: 'Lannion, France' },
-    { label: '+33 7 51 33 29 40', href: 'tel:+33751332940' },
-    { label: 'mamara@enssat.fr', href: 'mailto:mamara@enssat.fr' },
-    { label: 'github.com/MasterKPG', href: 'https://github.com/MasterKPG' },
-    { label: 'linkedin.com/in/mohammad-amara', href: 'https://www.linkedin.com/in/mohammad-amara/' },
-    { label: 'masterkpg.github.io', href: 'https://masterkpg.github.io' },
-  ] as CvLink[],
+    [
+      { label: 'Lannion, France' },
+      { label: '+33 7 51 33 29 40', href: 'tel:+33751332940' },
+      { label: 'mamara@enssat.fr', href: 'mailto:mamara@enssat.fr' },
+    ],
+    [
+      { label: 'github.com/MasterKPG', href: 'https://github.com/MasterKPG' },
+      { label: 'linkedin.com/in/mohammad-amara', href: 'https://www.linkedin.com/in/mohammad-amara/' },
+      { label: 'masterkpg.github.io', href: 'https://masterkpg.github.io' },
+    ],
+  ] as CvLink[][],
   pdf: {
     en: 'assets/cv/Mohammad_Amara_CV_EN.pdf',
     fr: 'assets/cv/Mohammad_Amara_CV_FR.pdf',
@@ -88,10 +105,13 @@ export const CV = {
 
   experience: [
     {
-      title: {
-        en: 'Lead developer and technical coordinator (volunteer), Solibox',
-        fr: 'Développeur principal et coordinateur technique (bénévole), Solibox',
-      },
+      title: [
+        {
+          en: 'Lead developer and technical coordinator (volunteer), ',
+          fr: 'Développeur principal et coordinateur technique (bénévole), ',
+        },
+        project('solibox', same('Solibox')),
+      ],
       org: {
         en: 'Togo Vert et Vivant Trégor (non-profit), Brittany, France',
         fr: 'Togo Vert et Vivant Trégor (association), Bretagne',
@@ -106,10 +126,13 @@ export const CV = {
           en: 'Flask web application behind NGINX (Gunicorn, systemd) with PostgreSQL for newsletter subscribers, quizzes with user accounts and an admin dashboard.',
           fr: "Application web Flask derrière NGINX (Gunicorn, systemd) avec PostgreSQL pour les abonnés à la newsletter, des quiz avec comptes utilisateurs et un tableau de bord d'administration.",
         },
-        {
-          en: 'Won the 2026 PIEED student initiatives award (Étudiants et Développement). Featured in Ouest-France.',
-          fr: 'Lauréat du prix PIEED 2026 (Étudiants et Développement), présenté dans Ouest-France.',
-        },
+        [
+          { en: 'Won the ', fr: 'Lauréat du ' },
+          link({ en: '2026 PIEED student initiatives award', fr: 'prix PIEED 2026' }, PIEED),
+          { en: ' (Étudiants et Développement). Featured in ', fr: ' (Étudiants et Développement), présenté dans ' },
+          link(same('Ouest-France'), OUEST_FRANCE),
+          same('.'),
+        ],
       ],
     },
     {
@@ -156,11 +179,11 @@ export const CV = {
 
   projects: [
     {
-      title: {
-        en: 'Neurolith, crypto token analytics platform',
-        fr: "Neurolith, plateforme d'analyse de tokens crypto",
-      },
-      org: { en: 'Personal project, neurolith.app', fr: 'Projet personnel, neurolith.app' },
+      title: [
+        project('neurolith', same('Neurolith')),
+        { en: ', crypto token analytics platform', fr: ", plateforme d'analyse de tokens crypto" },
+      ],
+      org: [{ en: 'Personal project, ', fr: 'Projet personnel, ' }, link(same('neurolith.app'), 'https://neurolith.app')],
       date: { en: 'In progress', fr: 'En cours' },
       bullets: [
         {
@@ -174,14 +197,14 @@ export const CV = {
       ],
     },
     {
-      title: {
-        en: 'Lucent, a modern desktop environment for Linux',
-        fr: 'Lucent, un environnement de bureau moderne pour Linux',
-      },
-      org: {
-        en: 'Personal project, github.com/MasterKPG/lucent',
-        fr: 'Projet personnel, github.com/MasterKPG/lucent',
-      },
+      title: [
+        project('lucent', same('Lucent')),
+        { en: ', a modern desktop environment for Linux', fr: ', un environnement de bureau moderne pour Linux' },
+      ],
+      org: [
+        { en: 'Personal project, ', fr: 'Projet personnel, ' },
+        link(same('github.com/MasterKPG/lucent'), 'https://github.com/MasterKPG/lucent'),
+      ],
       date: { en: 'Oct 2026 to present', fr: "Oct. 2026 à aujourd'hui" },
       bullets: [
         {
@@ -195,10 +218,10 @@ export const CV = {
       ],
     },
     {
-      title: {
-        en: 'Sequential FIR filter (systolic project), VHDL and Quartus',
-        fr: 'Filtre RIF séquentiel (projet systolique), VHDL et Quartus',
-      },
+      title: [
+        project('fir-filter', { en: 'Sequential FIR filter', fr: 'Filtre RIF séquentiel' }),
+        { en: ' (systolic project), VHDL and Quartus', fr: ' (projet systolique), VHDL et Quartus' },
+      ],
       org: { en: 'ENSSAT, second year', fr: 'ENSSAT, deuxième année' },
       date: { en: 'Oct 2026, in progress', fr: 'Oct. 2026, en cours' },
       bullets: [
@@ -209,7 +232,10 @@ export const CV = {
       ],
     },
     {
-      title: { en: 'Saturating accumulator on FPGA, VHDL', fr: 'Accumulateur saturant sur FPGA, VHDL' },
+      title: [
+        project('saturating-accumulator', { en: 'Saturating accumulator on FPGA', fr: 'Accumulateur saturant sur FPGA' }),
+        same(', VHDL'),
+      ],
       org: { en: 'ENSSAT, Digital Systems track', fr: 'ENSSAT, majeure Systèmes numériques' },
       date: { en: 'May 2026', fr: 'Mai 2026' },
       bullets: [
@@ -224,7 +250,11 @@ export const CV = {
       ],
     },
     {
-      title: { en: 'Arduino Uno clone and Pong game', fr: 'Clone Arduino Uno et jeu Pong' },
+      title: [
+        project('arduino-clone', { en: 'Arduino Uno clone', fr: 'Clone Arduino Uno' }),
+        { en: ' and ', fr: ' et ' },
+        project('ping-pong', { en: 'Pong game', fr: 'jeu Pong' }),
+      ],
       org: { en: 'ENSSAT, class project', fr: 'ENSSAT, projet de cours' },
       date: { en: 'Apr 2026', fr: 'Avr. 2026' },
       bullets: [
@@ -239,7 +269,10 @@ export const CV = {
       ],
     },
     {
-      title: { en: 'Gate controller, embedded software in C', fr: 'Commande de portail, logiciel embarqué en C' },
+      title: [
+        project('gate-controller', { en: 'Gate controller', fr: 'Commande de portail' }),
+        { en: ', embedded software in C', fr: ', logiciel embarqué en C' },
+      ],
       org: same('ENSSAT'),
       date: { en: 'Jan 2026', fr: 'Janv. 2026' },
       bullets: [
@@ -250,10 +283,10 @@ export const CV = {
       ],
     },
     {
-      title: {
-        en: 'Smart Garden, microcontroller project in C (team of 4)',
-        fr: 'Plante connectée, projet microcontrôleur en C (équipe de 4)',
-      },
+      title: [
+        project('smart-garden', { en: 'Smart Garden', fr: 'Plante connectée' }),
+        { en: ', microcontroller project in C (team of 4)', fr: ', projet microcontrôleur en C (équipe de 4)' },
+      ],
       org: { en: 'ENSSAT, first year', fr: 'ENSSAT, première année' },
       date: { en: '2025 to 2026', fr: '2025 à 2026' },
       bullets: [
@@ -269,21 +302,33 @@ export const CV = {
     },
     {
       title: { en: 'Other projects', fr: 'Autres projets' },
-      org: same('github.com/MasterKPG'),
+      org: [link(same('github.com/MasterKPG'), 'https://github.com/MasterKPG')],
       date: same(''),
       bullets: [
-        {
-          en: 'Multi-process parking simulator in C with the POSIX API (FIFOs, shared memory, semaphores).',
-          fr: "Simulateur de parking multi-processus en C avec l'API POSIX (FIFO, mémoire partagée, sémaphores).",
-        },
-        {
-          en: 'AgriMarket: agricultural marketplace for Morocco (Next.js, React Native/Expo, Supabase).',
-          fr: 'AgriMarket : place de marché agricole pour le Maroc (Next.js, React Native/Expo, Supabase).',
-        },
-        {
-          en: 'Half / Half: Roblox precision duel game, asynchronous architecture, full design document.',
-          fr: 'Half / Half : duel de précision sur Roblox, architecture asynchrone, game design complet.',
-        },
+        [
+          project('parking-sim', {
+            en: 'Multi-process parking simulator',
+            fr: 'Simulateur de parking multi-processus',
+          }),
+          {
+            en: ' in C with the POSIX API (FIFOs, shared memory, semaphores).',
+            fr: " en C avec l'API POSIX (FIFO, mémoire partagée, sémaphores).",
+          },
+        ],
+        [
+          project('agrimarket', same('AgriMarket')),
+          {
+            en: ': agricultural marketplace for Morocco (Next.js, React Native/Expo, Supabase).',
+            fr: ' : place de marché agricole pour le Maroc (Next.js, React Native/Expo, Supabase).',
+          },
+        ],
+        [
+          project('half-half', same('Half / Half')),
+          {
+            en: ': Roblox precision duel game, asynchronous architecture, full design document.',
+            fr: ' : duel de précision sur Roblox, architecture asynchrone, game design complet.',
+          },
+        ],
         {
           en: 'Project management coursework (Ada Lovelace challenge): risk analysis with a criticality matrix.',
           fr: 'Cours de gestion de projet (défi Ada Lovelace) : analyse des risques avec une matrice de criticité.',
