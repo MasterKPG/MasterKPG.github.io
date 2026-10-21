@@ -1,58 +1,38 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { COPY, EDUCATION, EXPERIENCE } from '@/lib/content'
 import type { TimelineEntry } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
-import { Reveal } from '@/components/ui/Reveal'
-import { LiquidGlass } from '@/components/ui/liquid-glass'
+import { SectionHeader } from '@/components/ui/SectionHeader'
 
-function TimelineList({ entries }: { entries: TimelineEntry[] }) {
+/**
+ * One entry, driven by its own scroll position rather than a one-shot reveal: it
+ * slides up and fades in as it travels from the bottom of the viewport to about a
+ * third of the way up, and plays back in reverse when scrolling up.
+ */
+function Entry({ e }: { e: TimelineEntry }) {
   const { t } = useLang()
   const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 80%', 'end 60%'],
-  })
-  const height = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 65%'] })
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const y = useTransform(scrollYProgress, [0, 1], [56, 0])
+  const scale = useTransform(scrollYProgress, [0, 1], [0.96, 1])
 
   return (
-    <div ref={ref} className="relative pl-8">
-      {/* track */}
-      <div className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-0.5 rounded-full bg-[rgb(var(--fg))]/10" />
-      {/* scrubbed fill */}
-      <motion.div
-        style={{ height }}
-        className="absolute left-[7px] top-2 w-0.5 rounded-full bg-gradient-to-b from-accent to-accent-soft"
-      />
-
-      <div className="space-y-8">
-        {entries.map((e, i) => (
-          <Reveal key={i} delay={i * 0.06}>
-            <div className="relative">
-              <span className="absolute -left-[29px] top-1.5 h-4 w-4 rounded-full bg-gradient-to-br from-accent to-accent-soft shadow-[0_0_0_4px_rgba(34,211,238,0.18)]" />
-              <LiquidGlass className="rounded-2xl p-5 transition-transform duration-300 hover:translate-x-1">
-                <span className="font-mono text-xs uppercase tracking-wide text-accent">
-                  {t(e.date)}
-                </span>
-                <h4 className="mt-1.5 font-display text-lg font-semibold">{t(e.title)}</h4>
-                <p className="text-sm text-accent">{t(e.place)}</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{t(e.desc)}</p>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {e.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-[rgb(var(--fg))]/6 px-2.5 py-0.5 font-mono text-[11px] text-muted"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </LiquidGlass>
-            </div>
-          </Reveal>
+    <motion.div ref={ref} style={reduce ? undefined : { opacity, y, scale }} className="card p-5 sm:p-6">
+      <span className="font-mono text-xs uppercase tracking-wide text-accent">{t(e.date)}</span>
+      <h4 className="mt-2 font-display text-lg font-semibold leading-snug">{t(e.title)}</h4>
+      <p className="mt-0.5 text-sm text-muted">{t(e.place)}</p>
+      <p className="mt-3 text-sm leading-relaxed text-muted">{t(e.desc)}</p>
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {e.tags.map((tag) => (
+          <span key={tag} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
+            {tag}
+          </span>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -60,28 +40,22 @@ export function Experience() {
   const { t } = useLang()
   return (
     <section id="experience" className="relative mx-auto max-w-6xl px-6 py-28">
-      <Reveal>
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          {t(COPY.experience.label)}
-        </p>
-        <h2 className="mt-3 font-display text-3xl font-bold sm:text-5xl">
-          {t(COPY.nav.experience)}
-        </h2>
-      </Reveal>
+      <SectionHeader index="03" label={t(COPY.experience.label)} title={t(COPY.nav.experience)} />
 
-      <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-16">
-        <div>
-          <h3 className="mb-6 font-display text-xl font-semibold text-muted">
-            {t(COPY.experience.education)}
-          </h3>
-          <TimelineList entries={EDUCATION} />
-        </div>
-        <div>
-          <h3 className="mb-6 font-display text-xl font-semibold text-muted">
-            {t(COPY.experience.career)}
-          </h3>
-          <TimelineList entries={EXPERIENCE} />
-        </div>
+      <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-10">
+        {[
+          { title: COPY.experience.education, entries: EDUCATION },
+          { title: COPY.experience.career, entries: EXPERIENCE },
+        ].map((col) => (
+          <div key={col.title.en}>
+            <h3 className="mb-6 font-mono text-xs uppercase tracking-[0.18em] text-muted">{t(col.title)}</h3>
+            <div className="space-y-4">
+              {col.entries.map((e) => (
+                <Entry key={e.title.en + e.date.en} e={e} />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )
