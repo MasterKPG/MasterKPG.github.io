@@ -27,6 +27,7 @@ export const CV = {
   },
   contact: [
     { label: 'Lannion, France' },
+    { label: '+33 7 51 33 29 40', href: 'tel:+33751332940' },
     { label: 'mamara@enssat.fr', href: 'mailto:mamara@enssat.fr' },
     { label: 'github.com/MasterKPG', href: 'https://github.com/MasterKPG' },
     { label: 'linkedin.com/in/mohammad-amara', href: 'https://www.linkedin.com/in/mohammad-amara/' },
@@ -47,8 +48,8 @@ export const CV = {
   },
 
   summary: {
-    en: 'Engineering student at ENSSAT (Université de Rennes) in computer science and embedded systems. Hands-on experience in FPGA design with VHDL, C programming on ARM Cortex-M microcontrollers, Linux servers, and full-stack web and mobile development. Lead developer of Solibox, an offline education server on Raspberry Pi that won the 2026 PIEED award and was featured in Ouest-France. Looking for internships in embedded, hardware and software engineering.',
-    fr: "Élève ingénieur à l'ENSSAT (Université de Rennes) en informatique et systèmes embarqués. Expérience pratique en conception FPGA avec VHDL, en programmation C sur microcontrôleurs ARM Cortex-M, en serveurs Linux et en développement web et mobile full-stack. Développeur principal de Solibox, un serveur éducatif hors ligne sur Raspberry Pi, lauréat du prix PIEED 2026 et présenté dans Ouest-France. À la recherche de stages en ingénierie embarquée, matérielle et logicielle.",
+    en: 'Engineering student at ENSSAT (Université de Rennes) in computer science and embedded systems. Hands-on experience in FPGA design with VHDL, C programming on ARM Cortex-M microcontrollers, Linux servers, and full-stack web and mobile development. Lead developer of Solibox, an offline education server on Raspberry Pi that won the 2026 PIEED award and was featured in Ouest-France.',
+    fr: "Élève ingénieur à l'ENSSAT (Université de Rennes) en informatique et systèmes embarqués. Expérience pratique en conception FPGA avec VHDL, en programmation C sur microcontrôleurs ARM Cortex-M, en serveurs Linux et en développement web et mobile full-stack. Développeur principal de Solibox, un serveur éducatif hors ligne sur Raspberry Pi, lauréat du prix PIEED 2026 et présenté dans Ouest-France.",
   } as Bi,
 
   education: [
@@ -130,6 +131,17 @@ export const CV = {
       ],
     },
     {
+      title: { en: 'Web development intern (remote)', fr: 'Stagiaire en développement web (à distance)' },
+      org: { en: 'One-month internship', fr: "Stage d'un mois" },
+      date: { en: 'Aug 2026', fr: 'Août 2026' },
+      bullets: [
+        {
+          en: 'Maintained and updated a website with Framer, React, HTML, CSS and JavaScript.',
+          fr: "Maintenance et mise à jour d'un site web avec Framer, React, HTML, CSS et JavaScript.",
+        },
+      ],
+    },
+    {
       title: { en: 'Student library assistant', fr: 'Moniteur étudiant de bibliothèque' },
       org: { en: 'ENSSAT library, Lannion, France', fr: "Bibliothèque de l'ENSSAT, Lannion" },
       date: { en: 'Sep 2025 to Jun 2026', fr: 'Sept. 2025 à juin 2026' },
@@ -137,17 +149,6 @@ export const CV = {
         {
           en: 'Loans, returns, shelving and helping users, with fixed hours alongside a full-time engineering course load.',
           fr: "Prêts, retours, rangement et accueil des usagers, en parallèle d'une formation à temps plein.",
-        },
-      ],
-    },
-    {
-      title: { en: 'Web development intern (remote)', fr: 'Stagiaire en développement web (à distance)' },
-      org: { en: 'One-month internship', fr: "Stage d'un mois" },
-      date: { en: '1 month', fr: '1 mois' },
-      bullets: [
-        {
-          en: 'Maintained and updated a website with Framer, React, HTML, CSS and JavaScript.',
-          fr: "Maintenance et mise à jour d'un site web avec Framer, React, HTML, CSS et JavaScript.",
         },
       ],
     },
@@ -174,19 +175,22 @@ export const CV = {
     },
     {
       title: {
-        en: 'Lucent, Linux desktop with a "Liquid Glass" look',
-        fr: 'Lucent, bureau Linux au rendu « Liquid Glass »',
+        en: 'Lucent, a modern desktop environment for Linux',
+        fr: 'Lucent, un environnement de bureau moderne pour Linux',
       },
-      org: { en: 'Personal project', fr: 'Projet personnel' },
+      org: {
+        en: 'Personal project, github.com/MasterKPG/lucent',
+        fr: 'Projet personnel, github.com/MasterKPG/lucent',
+      },
       date: { en: 'Oct 2026 to present', fr: "Oct. 2026 à aujourd'hui" },
       bullets: [
         {
-          en: 'macOS style desktop for Debian 13 on the ShojiWM Wayland compositor with a Quickshell (QML) shell: menu bar, Dock, Control Center, Spotlight, System Settings.',
-          fr: 'Bureau façon macOS pour Debian 13 sur le compositeur Wayland ShojiWM avec un shell Quickshell (QML) : barre de menus, Dock, centre de contrôle, Spotlight, Réglages.',
+          en: 'Aims to give Linux a new, coherent interface with a glassmorphism design: menu bar, Dock, Control Center, Spotlight, notifications and System Settings for Debian 13.',
+          fr: 'Vise à donner à Linux une interface nouvelle et cohérente au design glassmorphism : barre de menus, Dock, centre de contrôle, Spotlight, notifications et Réglages pour Debian 13.',
         },
         {
-          en: 'Glass rendered by the compositor with real background refraction, not just blur. ShojiWM built from source (Rust) and configured in TypeScript; C helpers, GLSL effects, full git history.',
-          fr: 'Verre rendu par le compositeur (vraie réfraction, pas un simple flou). ShojiWM compilé depuis les sources (Rust), configuré en TypeScript ; utilitaires C, effets GLSL.',
+          en: 'Glass made by the ShojiWM Wayland compositor (built from source in Rust, configured in TypeScript) with a Quickshell (QML) shell; C helpers, GLSL effects, full git history.',
+          fr: 'Verre produit par le compositeur Wayland ShojiWM (compilé depuis les sources en Rust, configuré en TypeScript) avec un shell Quickshell (QML) ; utilitaires C, effets GLSL.',
         },
       ],
     },
@@ -220,6 +224,32 @@ export const CV = {
       ],
     },
     {
+      title: { en: 'Arduino Uno clone and Pong game', fr: 'Clone Arduino Uno et jeu Pong' },
+      org: { en: 'ENSSAT, class project', fr: 'ENSSAT, projet de cours' },
+      date: { en: 'Apr 2026', fr: 'Avr. 2026' },
+      bullets: [
+        {
+          en: 'Designed an Arduino Uno compatible board (ATmega328P) in EAGLE on my own: schematic, routing, soldering and bootloader.',
+          fr: "Conception en individuel d'une carte compatible Arduino Uno (ATmega328P) sous EAGLE : schéma, routage, soudure et bootloader.",
+        },
+        {
+          en: 'Two-player Pong with a classmate on an 8×8 LED matrix with audio output, on that board.',
+          fr: 'Pong à deux joueurs en binôme sur une matrice de LED 8×8 avec sortie audio, sur cette même carte.',
+        },
+      ],
+    },
+    {
+      title: { en: 'Gate controller, embedded software in C', fr: 'Commande de portail, logiciel embarqué en C' },
+      org: same('ENSSAT'),
+      date: { en: 'Jan 2026', fr: 'Janv. 2026' },
+      bullets: [
+        {
+          en: 'Two-leaf motorised gate on an LPC1768: 13-state machine with a limit switch per leaf, obstacle safety that stops both motors, and automatic closing after 20 seconds.',
+          fr: 'Portail motorisé à deux battants sur LPC1768 : machine à 13 états avec une fin de course par battant, sécurité obstacle qui arrête les deux moteurs, et fermeture automatique au bout de 20 secondes.',
+        },
+      ],
+    },
+    {
       title: {
         en: 'Smart Garden, microcontroller project in C (team of 4)',
         fr: 'Plante connectée, projet microcontrôleur en C (équipe de 4)',
@@ -238,39 +268,13 @@ export const CV = {
       ],
     },
     {
-      title: { en: 'Gate controller, embedded software in C', fr: 'Commande de portail, logiciel embarqué en C' },
-      org: same('ENSSAT'),
-      date: { en: '2025 to 2026', fr: '2025 à 2026' },
-      bullets: [
-        {
-          en: 'Two-leaf motorised gate on an LPC1768: 13-state machine with a limit switch per leaf, obstacle safety that stops both motors, and automatic closing after 20 seconds.',
-          fr: 'Portail motorisé à deux battants sur LPC1768 : machine à 13 états avec une fin de course par battant, sécurité obstacle qui arrête les deux moteurs, et fermeture automatique au bout de 20 secondes.',
-        },
-      ],
-    },
-    {
-      title: { en: 'Arduino Uno clone and Pong game', fr: 'Clone Arduino Uno et jeu Pong' },
-      org: { en: 'ENSSAT, class project', fr: 'ENSSAT, projet de cours' },
-      date: same(''),
-      bullets: [
-        {
-          en: 'Designed an Arduino Uno compatible board (ATmega328P) in EAGLE on my own: schematic, routing, soldering and bootloader.',
-          fr: "Conception en individuel d'une carte compatible Arduino Uno (ATmega328P) sous EAGLE : schéma, routage, soudure et bootloader.",
-        },
-        {
-          en: 'Two-player Pong with a classmate on an 8×8 LED matrix with audio output, on that board.',
-          fr: 'Pong à deux joueurs en binôme sur une matrice de LED 8×8 avec sortie audio, sur cette même carte.',
-        },
-      ],
-    },
-    {
       title: { en: 'Other projects', fr: 'Autres projets' },
       org: same('github.com/MasterKPG'),
       date: same(''),
       bullets: [
         {
-          en: 'Multi-process parking simulator in C with Linux IPC (FIFOs, shared memory, semaphores).',
-          fr: 'Simulateur de parking multi-processus en C avec les IPC Linux (FIFO, mémoire partagée, sémaphores).',
+          en: 'Multi-process parking simulator in C with the POSIX API (FIFOs, shared memory, semaphores).',
+          fr: "Simulateur de parking multi-processus en C avec l'API POSIX (FIFO, mémoire partagée, sémaphores).",
         },
         {
           en: 'AgriMarket: agricultural marketplace for Morocco (Next.js, React Native/Expo, Supabase).',
@@ -279,10 +283,6 @@ export const CV = {
         {
           en: 'Half / Half: Roblox precision duel game, asynchronous architecture, full design document.',
           fr: 'Half / Half : duel de précision sur Roblox, architecture asynchrone, game design complet.',
-        },
-        {
-          en: 'VHDL LED chaser with a clock-enable generator (50 MHz to 1 Hz).',
-          fr: "Chenillard de LED en VHDL avec un générateur d'enable d'horloge (50 MHz vers 1 Hz).",
         },
         {
           en: 'Project management coursework (Ada Lovelace challenge): risk analysis with a criticality matrix.',
@@ -296,22 +296,22 @@ export const CV = {
     {
       label: { en: 'Programming', fr: 'Programmation' },
       value: {
-        en: 'C, VHDL, Python (Flask), JavaScript, TypeScript, Rust, HTML and CSS, LaTeX',
-        fr: 'C, VHDL, Python (Flask), JavaScript, TypeScript, Rust, HTML et CSS, LaTeX',
+        en: 'C, VHDL, Python (NumPy, SciPy, Pandas, Matplotlib, Flask, Pillow), Java, JavaScript, TypeScript, Rust, HTML and CSS',
+        fr: 'C, VHDL, Python (NumPy, SciPy, Pandas, Matplotlib, Flask, Pillow), Java, JavaScript, TypeScript, Rust, HTML et CSS',
       },
     },
     {
       label: { en: 'Hardware', fr: 'Matériel' },
       value: {
-        en: 'FPGA (DE10-Lite), Quartus, ModelSim, ARM Cortex-M3 (LPC1768), Arduino, EAGLE, ADC, interrupts, UART and Bluetooth, FIR filters',
-        fr: 'FPGA (DE10-Lite), Quartus, ModelSim, ARM Cortex-M3 (LPC1768), Arduino, EAGLE, ADC, interruptions, UART et Bluetooth, filtres RIF',
+        en: 'FPGA (DE10-Lite), Quartus, ModelSim, ARM Cortex-M3 (LPC1768), Arduino, EAGLE, ADC, interrupts, UART and Bluetooth',
+        fr: 'FPGA (DE10-Lite), Quartus, ModelSim, ARM Cortex-M3 (LPC1768), Arduino, EAGLE, ADC, interruptions, UART et Bluetooth',
       },
     },
     {
       label: { en: 'Systems', fr: 'Systèmes' },
       value: {
-        en: 'Linux (Ubuntu, Debian), C on Linux (IPC), Raspberry Pi, NGINX, Gunicorn, systemd, PostgreSQL, Git and GitHub',
-        fr: 'Linux (Ubuntu, Debian), C sous Linux (IPC), Raspberry Pi, NGINX, Gunicorn, systemd, PostgreSQL, Git et GitHub',
+        en: 'Linux (Ubuntu, Debian), POSIX API (processes, threads, IPC), Raspberry Pi, NGINX, Gunicorn, PostgreSQL, Git and GitHub',
+        fr: 'Linux (Ubuntu, Debian), API POSIX (processus, threads, IPC), Raspberry Pi, NGINX, Gunicorn, PostgreSQL, Git et GitHub',
       },
     },
     {
@@ -323,8 +323,8 @@ export const CV = {
   languages: {
     label: { en: 'Languages', fr: 'Langues' },
     value: {
-      en: 'French, English, Arabic and Moroccan Darija (all bilingual)',
-      fr: 'Français, anglais, arabe et darija marocaine (bilingue dans les trois)',
+      en: 'French, English, Arabic (all bilingual)',
+      fr: 'Français, anglais, arabe (bilingue dans les trois)',
     },
   },
   interests: {

@@ -13,6 +13,9 @@
 \usepackage{tabularx}
 \usepackage[hidelinks]{hyperref}
 
+% Les raccourcis de babel rendent « : » actif, ce qui casse les URL passées en argument.
+\AtBeginDocument{\shorthandoff{:;!?}}
+
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
@@ -24,6 +27,8 @@
   \noindent\textbf{#1}\\
   \textit{#2}\hfill #3\par
 }
+% \project{id}{Intitulé} : un intitulé qui renvoie au projet sur le portfolio
+\newcommand{\project}[2]{\href{https://masterkpg.github.io/\#project-#1}{#2}}
 
 \begin{document}
 
@@ -31,8 +36,9 @@
   {\LARGE\bfseries Mohammad Amara}\\[5pt]
   {\large Élève ingénieur en informatique et systèmes embarqués}\\[7pt]
   Lannion, France \quad$\cdot$\quad
-  \href{mailto:mamara@enssat.fr}{mamara@enssat.fr} \quad$\cdot$\quad
-  \href{https://github.com/MasterKPG}{github.com/MasterKPG}\\[2pt]
+  \href{tel:+33751332940}{+33 7 51 33 29 40} \quad$\cdot$\quad
+  \href{mailto:mamara@enssat.fr}{mamara@enssat.fr}\\[2pt]
+  \href{https://github.com/MasterKPG}{github.com/MasterKPG} \quad$\cdot$\quad
   \href{https://www.linkedin.com/in/mohammad-amara/}{linkedin.com/in/mohammad-amara} \quad$\cdot$\quad
   \href{https://masterkpg.github.io}{masterkpg.github.io}
 \end{center}
@@ -43,13 +49,13 @@
 pratique en conception FPGA avec VHDL, en programmation C sur microcontrôleurs ARM Cortex-M, en
 serveurs Linux et en développement web et mobile full-stack. Développeur principal de Solibox, un
 serveur éducatif hors ligne sur Raspberry Pi, lauréat du prix PIEED 2026 et présenté dans
-Ouest-France. À la recherche de stages en ingénierie embarquée, matérielle et logicielle.
+Ouest-France.
 
 \section*{Formation}
 
 \entry{Diplôme d'ingénieur (grade de master), informatique et systèmes embarqués}{ENSSAT, Université de Rennes, Lannion}{2024 à aujourd'hui}
 \begin{itemize}
-  \item Options : conception matérielle, traitement du signal, systèmes embarqués, Internet des
+  \item Options~: conception matérielle, traitement du signal, systèmes embarqués, Internet des
         objets, intelligence artificielle, cybersécurité.
 \end{itemize}
 
@@ -60,21 +66,28 @@ Ouest-France. À la recherche de stages en ingénierie embarquée, matérielle e
 
 \section*{Expérience}
 
-\entry{Développeur principal et coordinateur technique (bénévole), Solibox}{Togo Vert et Vivant Trégor (association), Bretagne}{Mars 2025 à aujourd'hui}
+\entry{Développeur principal et coordinateur technique (bénévole), \project{solibox}{Solibox}}{Togo Vert et Vivant Trégor (association), Bretagne}{Mars 2025 à aujourd'hui}
 \begin{itemize}
-  \item Conception et réalisation d'un serveur éducatif hors ligne sur Raspberry Pi : son propre
+  \item Conception et réalisation d'un serveur éducatif hors ligne sur Raspberry Pi~: son propre
         réseau WiFi avec un portail captif donnant accès à des PDF, des quiz, une copie hors ligne
         de Wikipédia et des vidéos, sans internet.
   \item Application web Flask derrière NGINX (Gunicorn, systemd) avec PostgreSQL pour les abonnés à
         la newsletter, des quiz avec comptes utilisateurs et un tableau de bord d'administration.
-  \item Lauréat du prix PIEED 2026 (Étudiants et Développement), présenté dans Ouest-France.
+  \item Lauréat du \href{https://pieed.wordpress.com/category/editions-du-pieed/pieed-2026/}{prix PIEED
+        2026} (Étudiants et Développement), présenté dans
+        \href{https://www.ouest-france.fr/associations/quel-est-limpact-de-votre-telephone-cette-association-bretonne-le-montre-grace-a-solibox-sa-mallette-pedagogique-d03753e6-b826-11f1-ad16-43b274a58389}{Ouest-France}.
 \end{itemize}
 
 \entry{Hôte d'accueil événementiel}{City One et Carré Magique (scène de spectacle vivant), Lannion}{Oct. 2025 à aujourd'hui}
 \begin{itemize}
-  \item City One (depuis oct. 2025) : billetterie, flux, placement et vestiaire, salle de
+  \item City One (depuis oct. 2025)~: billetterie, flux, placement et vestiaire, salle de
         2\,000 places.
-  \item Carré Magique (à partir de nov. 2026) : accueil du public, contrôle des billets, surveillance.
+  \item Carré Magique (à partir de nov. 2026)~: accueil du public, contrôle des billets, surveillance.
+\end{itemize}
+
+\entry{Stagiaire en développement web (à distance)}{Stage d'un mois}{Août 2026}
+\begin{itemize}
+  \item Maintenance et mise à jour d'un site web avec Framer, React, HTML, CSS et JavaScript.
 \end{itemize}
 
 \entry{Moniteur étudiant de bibliothèque}{Bibliothèque de l'ENSSAT, Lannion}{Sept. 2025 à juin 2026}
@@ -82,88 +95,84 @@ Ouest-France. À la recherche de stages en ingénierie embarquée, matérielle e
   \item Prêts, retours, rangement et accueil des usagers, en parallèle d'une formation à temps plein.
 \end{itemize}
 
-\entry{Stagiaire en développement web (à distance)}{Stage d'un mois}{1 mois}
-\begin{itemize}
-  \item Maintenance et mise à jour d'un site web avec Framer, React, HTML, CSS et JavaScript.
-\end{itemize}
-
 \section*{Projets}
 
-\entry{Neurolith, plateforme d'analyse de tokens crypto}{Projet personnel, neurolith.app}{En cours}
+\entry{\project{neurolith}{Neurolith}, plateforme d'analyse de tokens crypto}{Projet personnel, \href{https://neurolith.app}{neurolith.app}}{En cours}
 \begin{itemize}
-  \item Application web et bot Discord/Telegram : données de marché par API, analyse par grand
+  \item Application web et bot Discord/Telegram~: données de marché par API, analyse par grand
         modèle de langage et modèle de décision probabiliste qui produit des signaux d'achat, de
         vente ou de conservation.
   \item Module de signaux sociaux (X, Telegram) en conception, hébergement local du modèle envisagé.
 \end{itemize}
 
-\entry{Lucent, bureau Linux au rendu \og Liquid Glass \fg}{Projet personnel}{Oct. 2026 à aujourd'hui}
+\entry{\project{lucent}{Lucent}, un environnement de bureau moderne pour Linux}{Projet personnel, \href{https://github.com/MasterKPG/lucent}{github.com/MasterKPG/lucent}}{Oct. 2026 à aujourd'hui}
 \begin{itemize}
-  \item Bureau façon macOS pour Debian 13 sur le compositeur Wayland ShojiWM avec un shell
-        Quickshell (QML) : barre de menus, Dock, centre de contrôle, Spotlight, Réglages.
-  \item Verre rendu par le compositeur (vraie réfraction, pas un simple flou). ShojiWM compilé
-        depuis les sources (Rust), configuré en TypeScript ; utilitaires C, effets GLSL.
+  \item Vise à donner à Linux une interface nouvelle et cohérente au design glassmorphism~: barre de
+        menus, Dock, centre de contrôle, Spotlight, notifications et Réglages pour Debian 13.
+  \item Verre produit par le compositeur Wayland ShojiWM (compilé depuis les sources en Rust,
+        configuré en TypeScript) avec un shell Quickshell (QML)~; utilitaires C, effets GLSL.
 \end{itemize}
 
-\entry{Filtre RIF séquentiel (projet systolique), VHDL et Quartus}{ENSSAT, deuxième année}{Oct. 2026, en cours}
+\entry{\project{fir-filter}{Filtre RIF séquentiel} (projet systolique), VHDL et Quartus}{ENSSAT, deuxième année}{Oct. 2026, en cours}
 \begin{itemize}
-  \item Filtre RIF à 13 coefficients autour d'un seul MAC réutilisé 13 fois : générateur d'adresses,
+  \item Filtre RIF à 13 coefficients autour d'un seul MAC réutilisé 13 fois~: générateur d'adresses,
         buffer circulaire, ROM, machine de Moore, banc de test. Compromis surface et débit.
 \end{itemize}
 
-\entry{Accumulateur saturant sur FPGA, VHDL}{ENSSAT, majeure Systèmes numériques}{Mai 2026}
+\entry{\project{saturating-accumulator}{Accumulateur saturant sur FPGA}, VHDL}{ENSSAT, majeure Systèmes numériques}{Mai 2026}
 \begin{itemize}
   \item Entrées 3 bits, somme 4 bits saturée à 15 avec drapeau de dépassement, machine à 5 états.
-  \item Validé par 10 cas de test sous ModelSim, puis sur carte DE10-Lite ; correction de deux
+  \item Validé par 10 cas de test sous ModelSim, puis sur carte DE10-Lite~; correction de deux
         défauts d'intégration invisibles en simulation (standard d'E/S d'une broche, polarité du
         reset).
 \end{itemize}
 
-\entry{Plante connectée, projet microcontrôleur en C (équipe de 4)}{ENSSAT, première année}{2025 à 2026}
+\entry{\project{arduino-clone}{Clone Arduino Uno} et \project{ping-pong}{jeu Pong}}{ENSSAT, projet de cours}{Avr. 2026}
 \begin{itemize}
-  \item LPC1768 (ARM Cortex-M3) mesurant température et humidité de l'air, humidité du sol et
-        luminosité, avec seuils réglables, alarme sonore, état sur écran LCD et interruptions timer.
-  \item Interface Bluetooth (UART) protégée par mot de passe ; réglages sauvegardés en mémoire Flash.
-\end{itemize}
-
-\entry{Commande de portail, logiciel embarqué en C}{ENSSAT}{2025 à 2026}
-\begin{itemize}
-  \item Portail motorisé à deux battants sur LPC1768 : machine à 13 états avec une fin de course par
-        battant, sécurité obstacle qui arrête les deux moteurs, et fermeture automatique au bout de
-        20 secondes.
-\end{itemize}
-
-\entry{Clone Arduino Uno et jeu Pong}{ENSSAT, projet de cours}{}
-\begin{itemize}
-  \item Conception en individuel d'une carte compatible Arduino Uno (ATmega328P) sous EAGLE :
+  \item Conception en individuel d'une carte compatible Arduino Uno (ATmega328P) sous EAGLE~:
         schéma, routage, soudure et bootloader.
   \item Pong à deux joueurs en binôme sur une matrice de LED $8\times8$ avec sortie audio, sur cette
         même carte.
 \end{itemize}
 
+\entry{\project{gate-controller}{Commande de portail}, logiciel embarqué en C}{ENSSAT}{Janv. 2026}
+\begin{itemize}
+  \item Portail motorisé à deux battants sur LPC1768~: machine à 13 états avec une fin de course par
+        battant, sécurité obstacle qui arrête les deux moteurs, et fermeture automatique au bout de
+        20 secondes.
+\end{itemize}
+
+\entry{\project{smart-garden}{Plante connectée}, projet microcontrôleur en C (équipe de 4)}{ENSSAT, première année}{2025 à 2026}
+\begin{itemize}
+  \item LPC1768 (ARM Cortex-M3) mesurant température et humidité de l'air, humidité du sol et
+        luminosité, avec seuils réglables, alarme sonore, état sur écran LCD et interruptions timer.
+  \item Interface Bluetooth (UART) protégée par mot de passe~; réglages sauvegardés en mémoire Flash.
+\end{itemize}
+
 \entry{Autres projets}{\href{https://github.com/MasterKPG}{github.com/MasterKPG}}{}
 \begin{itemize}
-  \item Simulateur de parking multi-processus en C avec les IPC Linux (FIFO, mémoire partagée,
-        sémaphores).
-  \item AgriMarket : place de marché agricole pour le Maroc (Next.js, React Native/Expo, Supabase).
-  \item Half / Half : duel de précision sur Roblox, architecture asynchrone, game design complet.
-  \item Chenillard de LED en VHDL avec un générateur d'enable d'horloge (50\,MHz vers 1\,Hz).
-  \item Cours de gestion de projet (défi Ada Lovelace) : analyse des risques avec une matrice de
+  \item \project{parking-sim}{Simulateur de parking multi-processus} en C avec l'API POSIX (FIFO,
+        mémoire partagée, sémaphores).
+  \item \project{agrimarket}{AgriMarket}~: place de marché agricole pour le Maroc (Next.js, React
+        Native/Expo, Supabase).
+  \item \project{half-half}{Half / Half}~: duel de précision sur Roblox, architecture asynchrone,
+        game design complet.
+  \item Cours de gestion de projet (défi Ada Lovelace)~: analyse des risques avec une matrice de
         criticité.
 \end{itemize}
 
 \section*{Compétences techniques}
 
 \begin{tabularx}{\linewidth}{@{}lX@{}}
-  \textbf{Programmation} & C, VHDL, Python (Flask), JavaScript, TypeScript, Rust, HTML et CSS, LaTeX \\[2pt]
-  \textbf{Matériel}      & FPGA (DE10-Lite), Quartus, ModelSim, ARM Cortex-M3 (LPC1768), Arduino, \mbox{EAGLE}, ADC, interruptions, UART et Bluetooth, filtres RIF \\[2pt]
-  \textbf{Systèmes}      & Linux (Ubuntu, Debian), C sous Linux (IPC), Raspberry Pi, NGINX, Gunicorn, systemd, PostgreSQL, Git et GitHub \\[2pt]
+  \textbf{Programmation} & C, VHDL, Python (NumPy, SciPy, Pandas, Matplotlib, Flask, Pillow), Java, JavaScript, TypeScript, Rust, HTML et CSS \\[2pt]
+  \textbf{Matériel}      & FPGA (DE10-Lite), Quartus, ModelSim, ARM Cortex-M3 (LPC1768), Arduino, \mbox{EAGLE}, ADC, interruptions, UART et Bluetooth \\[2pt]
+  \textbf{Systèmes}      & Linux (Ubuntu, Debian), API POSIX (processus, threads, IPC), Raspberry Pi, NGINX, Gunicorn, PostgreSQL, Git et GitHub \\[2pt]
   \textbf{Web et mobile} & Next.js, React, React Native/Expo, Supabase, Framer \\
 \end{tabularx}
 
 \section*{Langues et centres d'intérêt}
 
-\textbf{Langues} : français, anglais, arabe et darija marocaine (bilingue dans les trois)\\
-\textbf{Centres d'intérêt} : voile (Laser Standard), basket-ball, football
+\textbf{Langues}~: français, anglais, arabe (bilingue dans les trois)\\
+\textbf{Centres d'intérêt}~: voile (Laser Standard), basket-ball, football
 
 \end{document}
