@@ -14,5 +14,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsInlineLimit: 8192,
+    rollupOptions: {
+      // Two pages: the portfolio and the CV at /cv/
+      input: {
+        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        cv: fileURLToPath(new URL('./cv/index.html', import.meta.url)),
+      },
+    },
   },
 })

@@ -1,0 +1,168 @@
+% CV, Mohammad Amara (English)
+% Standard article class in Latin Modern (Computer Modern), default 10pt, normal margins.
+% Build: pdflatex cv_en.tex, then copy cv_en.pdf to public/assets/cv/Mohammad_Amara_CV_EN.pdf
+% The web version on /cv/ mirrors this file (src/cv/cv-data.ts).
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[hidelinks]{hyperref}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=1.4em, itemsep=0pt, topsep=2pt}
+
+% \entry{Title}{Organisation, place}{Dates}
+\newcommand{\entry}[3]{%
+  \par\addvspace{6pt}%
+  \noindent\textbf{#1}\\
+  \textit{#2}\hfill #3\par
+}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries Mohammad Amara}\\[5pt]
+  {\large Computer Science and Embedded Systems Engineering Student}\\[7pt]
+  Lannion, France \quad$\cdot$\quad
+  \href{mailto:mamara@enssat.fr}{mamara@enssat.fr} \quad$\cdot$\quad
+  \href{https://github.com/MasterKPG}{github.com/MasterKPG}\\[2pt]
+  \href{https://www.linkedin.com/in/mohammad-amara/}{linkedin.com/in/mohammad-amara} \quad$\cdot$\quad
+  \href{https://masterkpg.github.io}{masterkpg.github.io}
+\end{center}
+
+\section*{Summary}
+
+Engineering student at ENSSAT (Université de Rennes) in computer science and embedded systems.
+Hands-on experience in FPGA design with VHDL, C programming on ARM Cortex-M microcontrollers, Linux
+servers, and full-stack web and mobile development. Lead developer of Solibox, an offline education
+server on Raspberry Pi that won the 2026 PIEED award and was featured in Ouest-France. Looking for
+internships in embedded, hardware and software engineering.
+
+\section*{Education}
+
+\entry{Engineering degree (Master's level), computer science and embedded systems}{ENSSAT, Université de Rennes, Lannion, France}{2024 to present}
+\begin{itemize}
+  \item French diplôme d'ingénieur, equivalent to a Master's. Options: hardware design, signal
+        processing, embedded systems, Internet of Things, artificial intelligence, cybersecurity.
+\end{itemize}
+
+\entry{CPGE MPSI / MP, mathematics and physics}{Lycée Technique, Mohammedia, Morocco}{2022 to 2024}
+\begin{itemize}
+  \item Two-year intensive program preparing for the engineering school entrance exams.
+\end{itemize}
+
+\section*{Experience}
+
+\entry{Lead developer and technical coordinator (volunteer), Solibox}{Togo Vert et Vivant Trégor (non-profit), Brittany, France}{Mar 2025 to present}
+\begin{itemize}
+  \item Designed and built an offline education server on Raspberry Pi: its own WiFi network with a
+        captive portal giving access to PDFs, quizzes, an offline copy of Wikipedia and videos
+        without internet.
+  \item Flask web application behind NGINX (Gunicorn, systemd) with PostgreSQL for newsletter
+        subscribers, quizzes with user accounts and an admin dashboard.
+  \item Won the 2026 PIEED student initiatives award (Étudiants et Développement). Featured in
+        Ouest-France.
+\end{itemize}
+
+\entry{Event host}{City One and Carré Magique (performing arts venue), Lannion, France}{Oct 2025 to present}
+\begin{itemize}
+  \item City One (since Oct 2025): ticket scanning, crowd flow, seating and cloakroom in a
+        2,000-seat venue.
+  \item Carré Magique (from Nov 2026): welcoming audiences, checking tickets, monitoring the venue.
+\end{itemize}
+
+\entry{Student library assistant}{ENSSAT library, Lannion, France}{Sep 2025 to Jun 2026}
+\begin{itemize}
+  \item Loans, returns, shelving and helping users, with fixed hours alongside a full-time
+        engineering course load.
+\end{itemize}
+
+\entry{Web development intern (remote)}{One-month internship}{1 month}
+\begin{itemize}
+  \item Maintained and updated a website with Framer, React, HTML, CSS and JavaScript.
+\end{itemize}
+
+\section*{Projects}
+
+\entry{Neurolith, crypto token analytics platform}{Personal project, neurolith.app}{In progress}
+\begin{itemize}
+  \item Web app and Discord/Telegram bot: market data through APIs, large language model analysis
+        and a probabilistic decision model that outputs buy, sell or hold signals.
+  \item Social signal module (X, Telegram) in design, local model hosting considered for latency.
+\end{itemize}
+
+\entry{Lucent, Linux desktop with a ``Liquid Glass'' look}{Personal project}{Oct 2026 to present}
+\begin{itemize}
+  \item macOS style desktop for Debian 13 on the ShojiWM Wayland compositor with a Quickshell (QML)
+        shell: menu bar, Dock, Control Center, Spotlight, System Settings.
+  \item Glass rendered by the compositor with real background refraction, not just blur. ShojiWM
+        built from source (Rust) and configured in TypeScript; C helpers, GLSL effects, full git
+        history.
+\end{itemize}
+
+\entry{Sequential FIR filter (systolic project), VHDL and Quartus}{ENSSAT, second year}{Oct 2026, in progress}
+\begin{itemize}
+  \item 13-tap FIR filter around one multiply-accumulate unit reused 13 times: address generator,
+        circular buffer, coefficient ROM, Moore FSM, testbench with a reference model. Area versus
+        throughput.
+\end{itemize}
+
+\entry{Saturating accumulator on FPGA, VHDL}{ENSSAT, Digital Systems track}{May 2026}
+\begin{itemize}
+  \item 3-bit inputs, 4-bit sum saturating at 15 with an overflow flag, driven by a 5-state machine.
+  \item Verified with 10 test cases in ModelSim, then on a DE10-Lite board; fixed two integration
+        defects invisible in simulation (I/O standard on one pin, reset polarity).
+\end{itemize}
+
+\entry{Smart Garden, microcontroller project in C (team of 4)}{ENSSAT, first year}{2025 to 2026}
+\begin{itemize}
+  \item LPC1768 (ARM Cortex-M3) measuring air temperature and humidity, soil humidity and light,
+        with adjustable thresholds, buzzer alarm, LCD status and timer interrupts.
+  \item Password-protected Bluetooth (UART) interface; settings saved in Flash memory.
+\end{itemize}
+
+\entry{Gate controller, embedded software in C}{ENSSAT}{2025 to 2026}
+\begin{itemize}
+  \item Two-leaf motorised gate on an LPC1768: 13-state machine with a limit switch per leaf,
+        obstacle safety that stops both motors, and automatic closing after 20 seconds.
+\end{itemize}
+
+\entry{Arduino Uno clone and Pong game}{ENSSAT, class project}{}
+\begin{itemize}
+  \item Designed an Arduino Uno compatible board (ATmega328P) in EAGLE on my own: schematic,
+        routing, soldering and bootloader.
+  \item Two-player Pong with a classmate on an $8\times8$ LED matrix with audio output, on that
+        board.
+\end{itemize}
+
+\entry{Other projects}{\href{https://github.com/MasterKPG}{github.com/MasterKPG}}{}
+\begin{itemize}
+  \item Multi-process parking simulator in C with Linux IPC (FIFOs, shared memory, semaphores).
+  \item AgriMarket: agricultural marketplace for Morocco (Next.js, React Native/Expo, Supabase).
+  \item Half / Half: Roblox precision duel game, asynchronous architecture, full design document.
+  \item VHDL LED chaser with a clock-enable generator (50\,MHz to 1\,Hz).
+  \item Project management coursework (Ada Lovelace challenge): risk analysis with a criticality
+        matrix.
+\end{itemize}
+
+\section*{Technical Skills}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+  \textbf{Programming}    & C, VHDL, Python (Flask), JavaScript, TypeScript, Rust, HTML and CSS, LaTeX \\[2pt]
+  \textbf{Hardware}       & FPGA (DE10-Lite), Quartus, ModelSim, ARM Cortex-M3 (LPC1768), Arduino, \mbox{EAGLE}, ADC, interrupts, UART and Bluetooth, FIR filters \\[2pt]
+  \textbf{Systems}        & Linux (Ubuntu, Debian), C on Linux (IPC), Raspberry Pi, NGINX, Gunicorn, systemd, PostgreSQL, Git and GitHub \\[2pt]
+  \textbf{Web and mobile} & Next.js, React, React Native/Expo, Supabase, Framer \\
+\end{tabularx}
+
+\section*{Languages and Interests}
+
+\textbf{Languages}: French, English, Arabic and Moroccan Darija (all bilingual)\\
+\textbf{Interests}: Sailing (Laser Standard), basketball, football
+
+\end{document}

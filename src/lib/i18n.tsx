@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 
 export type Lang = 'en' | 'fr'
@@ -37,6 +37,11 @@ export function LangProvider({ children }: { children: ReactNode }) {
       return next
     })
   }, [])
+
+  // Keep <html lang> in step so screen readers and hyphenation follow the toggle.
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
 
   const t = useCallback((bi: Bi) => bi[lang], [lang])
 
