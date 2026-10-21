@@ -41,9 +41,10 @@ export default {
         input: 'rgb(var(--input) / <alpha-value>)',
       },
       fontFamily: {
-        display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
-        body: ['"Inter"', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        display: ['"Geist"', 'system-ui', 'sans-serif'],
+        body: ['"Geist"', 'system-ui', 'sans-serif'],
+        mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
+        latex: ['"Latin Modern Roman"', '"CMU Serif"', '"Computer Modern"', 'Georgia', 'serif'],
       },
       animation: {
         marquee: 'marquee 42s linear infinite',

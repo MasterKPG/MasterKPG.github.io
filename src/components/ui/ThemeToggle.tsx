@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@/lib/theme'
+import { cn } from '@/lib/utils'
 
 /** Animated sun/moon theme toggle with spring physics. */
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { theme, toggle } = useTheme()
   const isDark = theme === 'dark'
 
@@ -10,7 +11,10 @@ export function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-      className="glass relative flex h-10 w-10 items-center justify-center rounded-full transition-transform hover:scale-105 active:scale-95"
+      className={cn(
+        'relative flex h-9 w-9 items-center justify-center rounded-md transition-colors',
+        className ?? 'text-muted hover:text-[rgb(var(--fg))]',
+      )}
     >
       <AnimatePresence mode="wait" initial={false}>
         {isDark ? (
@@ -20,7 +24,7 @@ export function ThemeToggle() {
             animate={{ rotate: 0, scale: 1, opacity: 1 }}
             exit={{ rotate: 90, scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="h-5 w-5 text-accent"
+            className="h-[18px] w-[18px]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -37,7 +41,7 @@ export function ThemeToggle() {
             animate={{ rotate: 0, scale: 1, opacity: 1 }}
             exit={{ rotate: -90, scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="h-5 w-5 text-amber-500"
+            className="h-[18px] w-[18px]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

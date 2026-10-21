@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { COPY } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
+import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { Magnetic } from '@/components/ui/Magnetic'
 
 const LINKS = [
   { id: 'about', label: COPY.nav.about },
@@ -13,6 +13,11 @@ const LINKS = [
   { id: 'contact', label: COPY.nav.contact },
 ]
 
+/**
+ * Full-width bar fixed to the top of the page. Over the hero it is transparent with
+ * light text (the hero is dark in both themes); once the page scrolls it picks up a
+ * blurred, themed background and a hairline underneath.
+ */
 export function Nav() {
   const { lang, toggle: toggleLang, t } = useLang()
   const [scrolled, setScrolled] = useState(false)
@@ -23,13 +28,12 @@ export function Nav() {
     const onScroll = () => {
       setScrolled(window.scrollY > 24)
       const y = window.scrollY + 120
+      let current = ''
       for (const l of LINKS) {
         const el = document.getElementById(l.id)
-        if (el && y >= el.offsetTop && y < el.offsetTop + el.offsetHeight) {
-          setActive(l.id)
-          break
-        }
+        if (el && y >= el.offsetTop && y < el.offsetTop + el.offsetHeight) current = l.id
       }
+      setActive(current)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
@@ -42,105 +46,111 @@ export function Nav() {
     if (el) window.scrollTo({ top: el.offsetTop - 64, behavior: 'smooth' })
   }
 
+  // Light text while the bar floats over the dark hero, themed text once it is solid.
+  const solid = scrolled || open
+  const linkBase = solid ? 'text-muted hover:text-[rgb(var(--fg))]' : 'text-white/70 hover:text-white'
+  const linkActive = solid ? 'text-[rgb(var(--fg))]' : 'text-white'
+
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed inset-x-0 top-0 z-[900] transition-all duration-300 ${
-        scrolled ? 'py-2' : 'py-3'
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6">
-        <div
-          className={`relative flex w-full items-center justify-between overflow-hidden rounded-full px-4 py-2 transition-all ${
-            scrolled ? 'liquid-glass liquid-glass-strong' : ''
-          }`}
-        >
-          {/* liquid glass stack, only once the bar has detached from the top */}
-          {scrolled && (
-            <>
-              <div aria-hidden className="lg-refract absolute inset-0 z-0 rounded-[inherit]" />
-              <div aria-hidden className="lg-tint absolute inset-0 z-10 rounded-[inherit]" />
-              <div
-                aria-hidden
-                className="lg-rim pointer-events-none absolute inset-0 z-20 rounded-[inherit]"
-              />
-            </>
-          )}
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="relative z-30 font-display text-sm font-bold tracking-tight"
-          >
-            <span className="text-gradient">Mohammad Amara</span>
-          </button>
-
-          <div className="relative z-30 hidden items-center gap-1 md:flex">
-            {LINKS.map((l) => (
-              <button
-                key={l.id}
-                onClick={() => go(l.id)}
-                className={`relative rounded-full px-3.5 py-1.5 text-sm transition-colors ${
-                  active === l.id ? 'text-[rgb(var(--fg))]' : 'text-muted hover:text-[rgb(var(--fg))]'
-                }`}
-              >
-                {active === l.id && (
-                  <motion.span
-                    layoutId="nav-pill"
-                    className="absolute inset-0 -z-10 rounded-full bg-accent/15"
-                    transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-                  />
-                )}
-                {t(l.label)}
-              </button>
-            ))}
-          </div>
-
-          <div className="relative z-30 flex items-center gap-2">
-            <button
-              onClick={toggleLang}
-              aria-label="Toggle language"
-              className="glass flex h-10 items-center rounded-full px-3 font-mono text-xs font-semibold transition-transform hover:scale-105"
-            >
-              {lang === 'en' ? 'EN' : 'FR'}
-            </button>
-            <Magnetic strength={0.25}>
-              <ThemeToggle />
-            </Magnetic>
-            <button
-              onClick={() => setOpen((o) => !o)}
-              aria-label="Toggle menu"
-              className="glass flex h-10 w-10 items-center justify-center rounded-full md:hidden"
-            >
-              <div className="space-y-1">
-                <span className={`block h-0.5 w-4 bg-current transition-transform ${open ? 'translate-y-1.5 rotate-45' : ''}`} />
-                <span className={`block h-0.5 w-4 bg-current transition-opacity ${open ? 'opacity-0' : ''}`} />
-                <span className={`block h-0.5 w-4 bg-current transition-transform ${open ? '-translate-y-1.5 -rotate-45' : ''}`} />
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mx-4 mt-2 md:hidden"
-        >
-          <div className="glass-strong flex flex-col gap-1 rounded-2xl p-3">
-            {LINKS.map((l) => (
-              <button
-                key={l.id}
-                onClick={() => go(l.id)}
-                className="rounded-xl px-4 py-2.5 text-left text-sm text-muted hover:bg-accent/10 hover:text-[rgb(var(--fg))]"
-              >
-                {t(l.label)}
-              </button>
-            ))}
-          </div>
-        </motion.div>
+    <header
+      className={cn(
+        'fixed inset-x-0 top-0 z-[900] border-b transition-[background-color,border-color,backdrop-filter] duration-300',
+        solid ? 'nav-solid' : 'border-transparent bg-transparent',
       )}
-    </motion.nav>
+    >
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6" aria-label="Main">
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className={cn(
+            'font-display text-[15px] font-semibold tracking-tight transition-colors',
+            solid ? 'text-[rgb(var(--fg))]' : 'text-white',
+          )}
+        >
+          Mohammad Amara
+        </button>
+
+        <div className="hidden items-center gap-1 md:flex">
+          {LINKS.map((l) => (
+            <button
+              key={l.id}
+              onClick={() => go(l.id)}
+              aria-current={active === l.id ? 'true' : undefined}
+              className={cn(
+                'relative px-3 py-2 text-sm transition-colors',
+                active === l.id ? linkActive : linkBase,
+              )}
+            >
+              {t(l.label)}
+              {active === l.id && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute inset-x-3 -bottom-px h-px bg-accent"
+                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                />
+              )}
+            </button>
+          ))}
+          <a href="cv/" className={cn('px-3 py-2 text-sm transition-colors', linkBase)}>
+            {t(COPY.nav.cv)}
+          </a>
+        </div>
+
+        <div className="flex items-center gap-1">
+          <button
+            onClick={toggleLang}
+            aria-label={lang === 'en' ? 'Passer en français' : 'Switch to English'}
+            className={cn(
+              'flex h-9 items-center rounded-md px-2.5 font-mono text-xs font-medium transition-colors',
+              solid ? 'text-muted hover:text-[rgb(var(--fg))]' : 'text-white/70 hover:text-white',
+            )}
+          >
+            {lang === 'en' ? 'FR' : 'EN'}
+          </button>
+          <ThemeToggle className={solid ? undefined : 'text-white/80 hover:text-white'} />
+          <button
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            className={cn(
+              'flex h-9 w-9 items-center justify-center rounded-md md:hidden',
+              solid ? 'text-[rgb(var(--fg))]' : 'text-white',
+            )}
+          >
+            <div className="space-y-1">
+              <span className={`block h-0.5 w-4 bg-current transition-transform ${open ? 'translate-y-1.5 rotate-45' : ''}`} />
+              <span className={`block h-0.5 w-4 bg-current transition-opacity ${open ? 'opacity-0' : ''}`} />
+              <span className={`block h-0.5 w-4 bg-current transition-transform ${open ? '-translate-y-1.5 -rotate-45' : ''}`} />
+            </div>
+          </button>
+        </div>
+      </nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden border-t border-line md:hidden"
+          >
+            <div className="mx-auto flex max-w-6xl flex-col px-4 py-2">
+              {LINKS.map((l) => (
+                <button
+                  key={l.id}
+                  onClick={() => go(l.id)}
+                  className="rounded-md px-2 py-3 text-left text-sm text-muted hover:text-[rgb(var(--fg))]"
+                >
+                  {t(l.label)}
+                </button>
+              ))}
+              <a href="cv/" className="rounded-md px-2 py-3 text-sm text-muted hover:text-[rgb(var(--fg))]">
+                {t(COPY.nav.cv)}
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   )
 }

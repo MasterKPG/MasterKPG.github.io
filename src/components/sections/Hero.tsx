@@ -13,7 +13,6 @@ const ShaderAnimation = lazy(() =>
 export function Hero() {
   const { t, lang } = useLang()
   const ref = useRef<HTMLElement>(null)
-  const spotRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], [0, 120])
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
@@ -24,21 +23,6 @@ export function Hero() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const id = setInterval(() => setWordIndex((i) => (i + 1) % MORPH_WORDS.length), 2200)
     return () => clearInterval(id)
-  }, [])
-
-  // Mouse-follow spotlight (accent, low emission)
-  useEffect(() => {
-    const el = ref.current
-    const spot = spotRef.current
-    if (!el || !spot) return
-    const move = (e: MouseEvent) => {
-      const r = el.getBoundingClientRect()
-      spot.style.background = `radial-gradient(520px circle at ${e.clientX - r.left}px ${
-        e.clientY - r.top
-      }px, rgba(34,211,238,0.10), transparent 60%)`
-    }
-    el.addEventListener('mousemove', move)
-    return () => el.removeEventListener('mousemove', move)
   }, [])
 
   const scrollTo = (id: string) => {
@@ -58,7 +42,7 @@ export function Hero() {
           <ShaderAnimation className="h-full w-full" />
         </Suspense>
       </div>
-      {/* scrims for text contrast (AAA) plus spotlight, light enough to keep the burst visible */}
+      {/* scrim for text contrast, light enough to keep the burst visible */}
       <div
         className="pointer-events-none absolute inset-0 z-[1]"
         style={{
@@ -66,7 +50,6 @@ export function Hero() {
             'radial-gradient(ellipse 62% 55% at center, rgba(8,9,12,0.5) 0%, rgba(8,9,12,0.2) 45%, transparent 82%)',
         }}
       />
-      <div ref={spotRef} className="pointer-events-none absolute inset-0 z-[1]" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-48 bg-gradient-to-t from-ink-950 to-transparent" />
 
       <motion.div style={{ y, opacity }} className="relative z-10 mx-auto max-w-4xl px-6 text-center">
@@ -74,14 +57,24 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-6xl font-extrabold leading-[1.02] tracking-[-0.03em] text-white sm:text-8xl"
+          className="font-display text-5xl font-bold leading-[1.04] tracking-[-0.035em] text-white sm:text-7xl md:text-8xl"
           style={{ textShadow: '0 2px 40px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.6)' }}
         >
           Mohammad Amara
         </motion.h1>
 
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.7 }}
+          className="mx-auto mt-5 max-w-2xl text-base text-white/70 sm:text-lg"
+          style={{ textShadow: '0 1px 12px rgba(0,0,0,0.8)' }}
+        >
+          {t(COPY.hero.tagline)}
+        </motion.p>
+
         {/* Rotating role word */}
-        <div className="mt-5 flex h-9 items-center justify-center overflow-hidden sm:h-11">
+        <div className="mt-4 flex h-9 items-center justify-center overflow-hidden sm:h-11">
           <span className="font-mono text-sm text-white/45 sm:text-base">&lt;</span>
           <AnimatePresence mode="wait">
             <motion.span

@@ -90,6 +90,39 @@
     border-color: rgb(var(--line) / 0.1);
   }
 
+  /* Flat surfaces. Cards sit one step above the page, with a hairline border and no
+     blur, so the content carries the page instead of the effects. */
+  .card {
+    background: rgb(var(--bg-elevated) / 0.55);
+    border: 1px solid rgb(var(--line) / 0.08);
+    border-radius: 1rem;
+  }
+
+  .light .card {
+    background: rgb(var(--bg-elevated));
+    border-color: rgb(var(--line) / 0.09);
+    box-shadow: 0 1px 2px rgb(14 20 26 / 0.04);
+  }
+
+  .card-solid {
+    background: rgb(var(--bg-elevated));
+    border: 1px solid rgb(var(--line) / 0.1);
+    box-shadow: 0 24px 70px rgb(0 0 0 / 0.45);
+  }
+
+  /* The nav once the page has scrolled: blurred page colour and a hairline below. */
+  .nav-solid {
+    background: rgb(var(--bg) / 0.72);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border-color: rgb(var(--line) / 0.08);
+  }
+
+  /* Light mode needs a denser fill: the bar can still sit over the bottom of the dark hero. */
+  .light .nav-solid {
+    background: rgb(var(--bg) / 0.88);
+  }
+
   /* Glass surface, tuned for OLED (subtle, low-emission) */
   .glass {
     background: rgb(var(--glass) / 0.5);
@@ -98,28 +131,20 @@
     border: 1px solid rgb(var(--line) / 0.1);
   }
 
-  .glass-strong {
-    background: rgb(var(--glass) / 0.82);
-    backdrop-filter: blur(28px) saturate(150%);
-    -webkit-backdrop-filter: blur(28px) saturate(150%);
-    border: 1px solid rgb(var(--line) / 0.12);
-    box-shadow: 0 24px 70px rgb(0 0 0 / 0.5);
-  }
-
   /* Buttons.
      Dark (the default theme): sanded glass, frosted enough to read on the graphite bg.
      Light: unfrosted. The surface goes clear and only the displaced backdrop and the rim
      are left, which is the look this started with.
      The hero opts out of both, see .liquid-frost-hero below. */
   .liquid-frost {
-    background: rgb(var(--frost) / 0.48);
+    background: rgb(var(--frost) / 0.3);
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
     border: 1px solid rgb(var(--line) / 0.18);
   }
 
   .liquid-frost:hover {
-    background: rgb(var(--frost) / 0.6);
+    background: rgb(var(--frost) / 0.45);
   }
 
   .light .liquid-frost {
@@ -167,51 +192,6 @@
       0 6px 18px rgb(14 20 26 / 0.1);
   }
 
-  /* Liquid glass surface (see liquid-glass.tsx). The tint and rim are themed here so the
-     same surface reads on the graphite dark background and on the light one. */
-  .liquid-glass {
-    box-shadow: 0 6px 6px rgb(0 0 0 / 0.2), 0 0 20px rgb(0 0 0 / 0.1);
-    border: 1px solid rgb(var(--line) / 0.12);
-  }
-
-  .lg-refract {
-    backdrop-filter: blur(6px) saturate(150%);
-    -webkit-backdrop-filter: blur(6px) saturate(150%);
-    filter: url(#liquid-glass-distortion);
-    isolation: isolate;
-  }
-
-  .lg-tint {
-    background: rgb(var(--frost) / 0.09);
-  }
-
-  .light .lg-tint {
-    background: rgb(var(--frost) / 0.3);
-  }
-
-  /* Denser tint for surfaces that can sit over the always-dark hero (the nav). At the
-     base alpha the pill turns mid grey there in light mode and its dark text stops
-     reading. */
-  .liquid-glass-strong .lg-tint {
-    background: rgb(var(--frost) / 0.34);
-  }
-
-  .light .liquid-glass-strong .lg-tint {
-    background: rgb(var(--frost) / 0.88);
-  }
-
-  .lg-rim {
-    box-shadow:
-      inset 2px 2px 1px 0 rgb(255 255 255 / 0.35),
-      inset -1px -1px 1px 1px rgb(255 255 255 / 0.22);
-  }
-
-  .light .lg-rim {
-    box-shadow:
-      inset 2px 2px 1px 0 rgb(255 255 255 / 0.85),
-      inset -1px -1px 1px 1px rgb(255 255 255 / 0.6);
-  }
-
   /* Fan gallery geometry. The gallery positions cards with transforms only, so their
      size lives here. Layout heights must stay in step with getHeightMultiplier() in
      fan-card-gallery.tsx, which assumes 22/26/28/34/38rem at these same breakpoints. */
@@ -232,7 +212,7 @@
     overflow: hidden;
     border-radius: 1.25rem;
     border: 1px solid rgb(var(--line) / 0.15);
-    box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+    box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
     cursor: pointer;
     will-change: transform;
   }
