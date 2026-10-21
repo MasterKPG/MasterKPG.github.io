@@ -177,24 +177,6 @@ export const PROJECTS: Project[] = [
     tags: ['VHDL', 'Quartus', 'MAC', 'FSM', 'DSP', 'Testbench'],
   },
   {
-    id: 'saturating-accumulator',
-    group: 'hardware',
-    cover: 'assets/covers/saturating-accumulator.webp',
-    grad: 'linear-gradient(135deg,#181a1e,#0c2620 60%,#14b8a6)',
-    title: { en: 'Saturating Accumulator on FPGA', fr: 'Accumulateur saturant sur FPGA' },
-    period: { en: 'May 2026', fr: 'Mai 2026' },
-    blurb: {
-      en: '3-bit inputs, a 4-bit sum that saturates at 15 with an overflow flag, verified in simulation and on a DE10-Lite board.',
-      fr: 'Entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, validée en simulation puis sur carte DE10-Lite.',
-    },
-    description: {
-      en: 'ENSSAT, Digital Systems track. A saturating accumulator in VHDL: 3-bit inputs, a 4-bit sum that saturates at 15 and raises an overflow flag, controlled by a 5-state machine. Verified with 10 test cases in ModelSim, then on a DE10-Lite board, where I fixed two integration defects that simulation could not show: the I/O standard on one pin and the reset polarity.',
-      fr: "ENSSAT, majeure Systèmes numériques. Un accumulateur saturant en VHDL : entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, pilotée par une machine à 5 états. Validé par 10 cas de test sous ModelSim, puis sur carte DE10-Lite, où j'ai corrigé deux défauts d'intégration invisibles en simulation : le standard d'E/S d'une broche et la polarité du reset.",
-    },
-    categories: ['hardware'],
-    tags: ['VHDL', 'Quartus', 'ModelSim', 'DE10-Lite', 'FSM'],
-  },
-  {
     id: 'smart-garden',
     group: 'hardware',
     cover: 'assets/covers/smart-garden.webp',
@@ -213,6 +195,24 @@ export const PROJECTS: Project[] = [
     categories: ['hardware', 'embedded'],
     tags: ['C', 'LPC1768', 'ARM Cortex-M3', 'ADC', { en: 'Interrupts', fr: 'Interruptions' }, 'UART', 'Bluetooth'],
     video: 'assets/videos/smart-garden.mp4',
+  },
+  {
+    id: 'saturating-accumulator',
+    group: 'hardware',
+    cover: 'assets/covers/saturating-accumulator.webp',
+    grad: 'linear-gradient(135deg,#181a1e,#0c2620 60%,#14b8a6)',
+    title: { en: 'Saturating Accumulator on FPGA', fr: 'Accumulateur saturant sur FPGA' },
+    period: { en: 'May 2026', fr: 'Mai 2026' },
+    blurb: {
+      en: '3-bit inputs, a 4-bit sum that saturates at 15 with an overflow flag, verified in simulation and on a DE10-Lite board.',
+      fr: 'Entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, validée en simulation puis sur carte DE10-Lite.',
+    },
+    description: {
+      en: 'ENSSAT, Digital Systems track. A saturating accumulator in VHDL: 3-bit inputs, a 4-bit sum that saturates at 15 and raises an overflow flag, controlled by a 5-state machine. Verified with 10 test cases in ModelSim, then on a DE10-Lite board, where I fixed two integration defects that simulation could not show: the I/O standard on one pin and the reset polarity.',
+      fr: "ENSSAT, majeure Systèmes numériques. Un accumulateur saturant en VHDL : entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, pilotée par une machine à 5 états. Validé par 10 cas de test sous ModelSim, puis sur carte DE10-Lite, où j'ai corrigé deux défauts d'intégration invisibles en simulation : le standard d'E/S d'une broche et la polarité du reset.",
+    },
+    categories: ['hardware'],
+    tags: ['VHDL', 'Quartus', 'ModelSim', 'DE10-Lite', 'FSM'],
   },
   {
     id: 'gate-controller',
