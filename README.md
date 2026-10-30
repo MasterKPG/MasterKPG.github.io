@@ -4,25 +4,24 @@ My personal site: projects, experience, GitHub activity and CV, in English and F
 
 **Live:** https://masterkpg.github.io · **CV:** https://masterkpg.github.io/cv/
 
-Built with React 18, TypeScript, Vite 5 and Tailwind CSS 3. Animation uses Framer Motion and
-GSAP, and the hero is a three.js shader.
+Built with React 18, TypeScript, Vite 5 and Tailwind CSS 3, with Framer Motion for the few
+animations. Type is IBM Plex Sans and IBM Plex Mono.
 
 ## What's on the site
 
-- **Hero**: a three.js line burst shader (loaded as its own chunk) with a rotating role word.
-- **About, Skills, Experience, Projects, Activity, Contact**, numbered 01 to 06.
-- **Projects** in three layouts: featured cards, a fanned card gallery for hardware and embedded
-  work, and folders for software and other projects. Each project opens a preview with its demo
-  video, cover, role, tags, links and documents. `#project-<id>` in the URL opens one directly.
-- **Experience and education** side by side. Cards animate on scroll and "See all" opens the
-  full list.
-- **GitHub activity**: a contribution heat map that folds into a 3D skyline, built from real
-  contribution data.
-- **CV page** at `/cv/`, typeset in Latin Modern to match the LaTeX PDFs, with EN and FR
-  downloads. Project names on the CV link back to their preview on the portfolio.
-- **EN / FR toggle** and **dark / light theme** (dark by default, the hero always stays dark).
-- Responsive. The hero, experience cards and activity skyline respect
-  `prefers-reduced-motion`.
+- **Hero**: one heading, the PIEED award, and photos of real boards from the projects.
+- **Projects**: Solibox as a lead block with a spec sheet, three cards for current work, and an
+  index of every other project that filters by field. Each project opens a preview with its
+  demo video, cover, role, tags, links and documents. `#project-<id>` in the URL opens one
+  directly.
+- **About** with a toolkit table, **Experience and education** as dated lists,
+  **GitHub activity** as a contribution heat map (it also folds into a 3D skyline), and
+  **Contact**.
+- **CV page** at `/cv/`, typeset in Latin Modern to match the LaTeX PDFs, black on white in both
+  themes, with EN and FR downloads. Project names on the CV link back to their preview on the
+  portfolio.
+- **EN / FR toggle** and **dark / light theme** (dark by default).
+- Responsive, and animations follow `prefers-reduced-motion`.
 
 ## Run it locally
 
@@ -47,7 +46,7 @@ src/
   lib/i18n.tsx           language toggle
   lib/theme.tsx          theme toggle
   components/sections/   one file per section
-  components/ui/         shared components (modal, gallery, folders, skyline, footer)
+  components/ui/         shared components (section, modal, skyline)
   cv/                    CV page; cv-data.ts mirrors latex/cv_*.tex
 latex/                   CV sources (cv_en.tex, cv_fr.tex)
 public/assets/           covers, videos, documents, CV PDFs
@@ -92,6 +91,5 @@ Every push to `main` runs `.github/workflows/deploy.yml`: it installs, builds an
 
 ## Credits
 
-A few components in `src/components/ui/` (folders, fan gallery, contribution skyline, halftone
-footer, glass button) started from open UI snippets and were adapted for this site. Each file's
-header comment lists what changed.
+The contribution skyline (`src/components/ui/contribution-skyline.tsx`) started from an open UI
+snippet and was adapted for this site. Its header comment lists what changed.

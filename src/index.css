@@ -3,61 +3,54 @@
 @tailwind utilities;
 
 /* ================================================
-   Design tokens: graphite dark + single cyan accent
+   Design tokens: "blueprint"
+   Ink neutrals with a hint of navy, like a technical drawing, and one accent:
+   blueprint blue. Blue says trust, and it is the colour of the drawings and the
+   Lucent and Plain banners. It marks what is live or interactive (the primary
+   button, links on hover, focus, "in progress", the award), nothing else.
+   Values are RGB triplets so Tailwind can add an alpha: rgb(var(--fg) / 0.5).
    ================================================ */
 :root {
-  --bg: 24 26 30;              /* ink-950, graphite */
-  --bg-elevated: 34 37 42;     /* ink-800 */
-  --fg: 243 247 250;
-  --fg-muted: 154 163 175;
-  --line: 243 247 250;         /* used at low alpha */
-  --glass: 42 46 52;           /* card / nav surfaces */
-  --frost: 86 93 103;          /* sanded button glass, readable on the black hero */
-  --accent: 34 211 238;        /* electric cyan */
-  --scrim: 24 26 30;
-
-  /* shadcn-style tokens for liquid-glass-button.tsx, mapped to our palette */
-  --primary: 34 211 238;
-  --primary-foreground: 24 26 30;
-  --secondary: 34 37 42;
-  --secondary-foreground: 243 247 250;
-  --destructive: 239 68 68;
-  --ring: 34 211 238;
-  --input: 243 247 250;
+  --bg: 11 15 23;              /* #0b0f17, navy-black */
+  --surface: 20 27 39;         /* #141b27, cards and the nav, one clear step up */
+  --surface-2: 30 39 54;       /* #1e2736, hover and pressed */
+  --fg: 230 234 242;           /* #e6eaf2 */
+  --muted: 148 160 180;        /* #94a0b4, 7.3:1 on --bg */
+  --rule: 31 40 54;            /* #1f2836, hairlines */
+  --rule-strong: 53 65 87;     /* #354157, outlines */
+  --accent: 122 162 255;       /* #7aa2ff, blueprint blue, 7.5:1 on --bg */
+  --on-accent: 11 15 23;
+  --scrim: 0 0 0;
 }
 
 .light {
-  --bg: 246 249 250;
-  --bg-elevated: 255 255 255;
-  --fg: 14 20 26;
-  --fg-muted: 86 100 112;
-  --line: 14 20 26;
-  --glass: 255 255 255;
-  --frost: 255 255 255;
-  --accent: 8 145 178;         /* deeper cyan for contrast on light */
-  --scrim: 246 249 250;
-
-  --primary: 8 145 178;
-  --primary-foreground: 255 255 255;
-  --secondary: 236 241 244;
-  --secondary-foreground: 14 20 26;
-  --destructive: 220 38 38;
-  --ring: 8 145 178;
-  --input: 14 20 26;
+  --bg: 245 246 248;           /* #f5f6f8, drawing paper */
+  --surface: 255 255 255;
+  --surface-2: 233 236 241;
+  --fg: 15 23 38;              /* #0f1726, ink */
+  --muted: 86 97 117;          /* #566175, 5.8:1 on --bg */
+  --rule: 221 225 232;
+  --rule-strong: 190 197 209;
+  --accent: 29 78 216;         /* #1d4ed8, deep blue, 6.4:1 on --bg, white on it 6.7:1 */
+  --on-accent: 255 255 255;
+  --scrim: 15 23 38;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply font-body antialiased;
     background-color: rgb(var(--bg));
     color: rgb(var(--fg));
-    transition: background-color 0.5s ease, color 0.5s ease;
+    font-size: 16px;
+    line-height: 1.6;
     overflow-x: hidden;
-    letter-spacing: -0.006em;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::selection {
@@ -66,201 +59,99 @@
 
   :focus-visible {
     outline: 2px solid rgb(var(--accent));
-    outline-offset: 2px;
-    border-radius: 4px;
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 }
 
-@layer utilities {
-  .text-accent {
+@layer components {
+  /* Large type: tight tracking and leading. Body text keeps the font's own spacing. */
+  .display {
+    @apply font-display font-medium;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  /* Dates, part numbers, counts: monospace with tabular figures. */
+  .meta {
+    @apply font-mono text-[13px] leading-5;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }
+
+  /* Buttons. Primary is solid accent, secondary an outline; both 44px tall. */
+  .btn {
+    @apply inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-md px-5 text-[15px] font-medium;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  /* The one place the accent fills a surface: the main action. */
+  .btn-primary {
+    background: rgb(var(--accent));
+    color: rgb(var(--on-accent));
+  }
+
+  .btn-primary:hover {
+    background: rgb(var(--accent) / 0.85);
+  }
+
+  .btn-secondary {
+    border: 1px solid rgb(var(--rule-strong));
+    color: rgb(var(--fg));
+  }
+
+  .btn-secondary:hover {
+    border-color: rgb(var(--fg));
+    background: rgb(var(--surface-2) / 0.6);
+  }
+
+  .btn-sm {
+    @apply h-9 px-3.5 text-sm;
+  }
+
+  /* A small label that is not a button: technologies, status. */
+  .chip {
+    @apply inline-flex items-center rounded border px-1.5 py-px font-mono text-xs leading-5;
+    border-color: rgb(var(--rule));
+    color: rgb(var(--muted));
+  }
+
+  .chip-accent {
+    border-color: rgb(var(--accent) / 0.5);
     color: rgb(var(--accent));
   }
 
-  .text-muted {
-    color: rgb(var(--fg-muted));
+  /* A raised surface: one step above the page, hairline border, no blur. */
+  .panel {
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--rule));
+    border-radius: 6px;
   }
 
-  /* Restrained "gradient": foreground to muted, used sparingly for display type */
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(180deg, rgb(var(--fg)) 30%, rgb(var(--fg-muted)) 130%);
+  /* Inline text link: underline in the rule colour, accent on hover. */
+  .link {
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--rule-strong));
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
   }
 
-  .border-line {
-    border-color: rgb(var(--line) / 0.1);
-  }
-
-  /* Flat surfaces. Cards sit one step above the page, with a hairline border and no
-     blur, so the content carries the page instead of the effects. */
-  .card {
-    background: rgb(var(--bg-elevated) / 0.55);
-    border: 1px solid rgb(var(--line) / 0.08);
-    border-radius: 1rem;
-  }
-
-  .light .card {
-    background: rgb(var(--bg-elevated));
-    border-color: rgb(var(--line) / 0.09);
-    box-shadow: 0 1px 2px rgb(14 20 26 / 0.04);
-  }
-
-  .card-solid {
-    background: rgb(var(--bg-elevated));
-    border: 1px solid rgb(var(--line) / 0.1);
-    box-shadow: 0 24px 70px rgb(0 0 0 / 0.45);
+  .link:hover {
+    color: rgb(var(--accent));
+    text-decoration-color: rgb(var(--accent));
   }
 
   /* The nav once the page has scrolled: blurred page colour and a hairline below. */
   .nav-solid {
-    background: rgb(var(--bg) / 0.72);
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border-color: rgb(var(--line) / 0.08);
-  }
-
-  /* Light mode needs a denser fill: the bar can still sit over the bottom of the dark hero. */
-  .light .nav-solid {
-    background: rgb(var(--bg) / 0.88);
-  }
-
-  /* Glass surface, tuned for OLED (subtle, low-emission) */
-  .glass {
-    background: rgb(var(--glass) / 0.5);
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    border: 1px solid rgb(var(--line) / 0.1);
-  }
-
-  /* Buttons.
-     Dark (the default theme): sanded glass, frosted enough to read on the graphite bg.
-     Light: unfrosted. The surface goes clear and only the displaced backdrop and the rim
-     are left, which is the look this started with.
-     The hero opts out of both, see .liquid-frost-hero below. */
-  .liquid-frost {
-    background: rgb(var(--frost) / 0.3);
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
-    border: 1px solid rgb(var(--line) / 0.18);
-  }
-
-  .liquid-frost:hover {
-    background: rgb(var(--frost) / 0.45);
-  }
-
-  .light .liquid-frost {
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border-color: rgb(var(--line) / 0.14);
-  }
-
-  .light .liquid-frost:hover {
-    background: rgb(var(--frost) / 0.35);
-  }
-
-  /* The hero is dark in both themes, so its buttons carry their own logic rather than
-     following light/dark: always lightly frosted against the shader, always a light rim
-     (the light text comes from the button's onDark variant). Repeating each selector
-     under `.light` keeps it winning over the themed rules above. */
-  .liquid-frost-hero,
-  .light .liquid-frost-hero {
-    background: rgb(255 255 255 / 0.12);
-    backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
-    border: 1px solid rgb(255 255 255 / 0.22);
-  }
-
-  .liquid-frost-hero:hover,
-  .light .liquid-frost-hero:hover {
-    background: rgb(255 255 255 / 0.2);
-  }
-
-  .liquid-rim,
-  .liquid-rim-hero,
-  .light .liquid-rim-hero {
-    box-shadow:
-      inset 2px 2px 1px -2px rgb(255 255 255 / 0.55),
-      inset -2px -2px 1px -2px rgb(255 255 255 / 0.35),
-      inset 0 0 8px 2px rgb(255 255 255 / 0.06),
-      0 10px 26px rgb(0 0 0 / 0.35);
-  }
-
-  .light .liquid-rim {
-    box-shadow:
-      inset 2px 2px 1px -2px rgb(255 255 255 / 0.9),
-      inset -2px -2px 1px -2px rgb(14 20 26 / 0.12),
-      0 6px 18px rgb(14 20 26 / 0.1);
-  }
-
-  /* Fan gallery geometry. The gallery positions cards with transforms only, so their
-     size lives here. Layout heights must stay in step with getHeightMultiplier() in
-     fan-card-gallery.tsx, which assumes 22/26/28/34/38rem at these same breakpoints. */
-  .fan-layout {
-    height: 38rem;
-    --fan-card-h: 26rem;
-    --fan-card-w: 19.5rem;
-  }
-
-  .fan-card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: var(--fan-card-w);
-    height: var(--fan-card-h);
-    margin-left: calc(var(--fan-card-w) / -2);
-    margin-top: calc(var(--fan-card-h) / -2);
-    overflow: hidden;
-    border-radius: 1.25rem;
-    border: 1px solid rgb(var(--line) / 0.15);
-    box-shadow: 0 18px 40px rgb(0 0 0 / 0.35);
-    cursor: pointer;
-    will-change: transform;
-  }
-
-  .fan-card:focus-visible {
-    outline: 2px solid rgb(var(--accent));
-    outline-offset: 4px;
-  }
-
-  @media (max-width: 1023px) {
-    .fan-layout {
-      height: 34rem;
-      --fan-card-h: 22rem;
-      --fan-card-w: 16.5rem;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .fan-layout {
-      height: 28rem;
-      --fan-card-h: 18rem;
-      --fan-card-w: 13.5rem;
-    }
-  }
-
-  @media (max-width: 639px) {
-    .fan-layout {
-      height: 26rem;
-      --fan-card-h: 16rem;
-      --fan-card-w: 12rem;
-    }
-  }
-
-  @media (max-width: 479px) {
-    .fan-layout {
-      height: 22rem;
-      --fan-card-h: 13rem;
-      --fan-card-w: 9.75rem;
-    }
-  }
-
-  .noise::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background: rgb(var(--bg) / 0.82);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border-color: rgb(var(--rule));
   }
 }
 

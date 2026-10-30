@@ -187,12 +187,12 @@ export const CV = {
       date: { en: 'In progress', fr: 'En cours' },
       bullets: [
         {
-          en: 'Web app and Discord/Telegram bot: market data through APIs, large language model analysis and a probabilistic decision model that outputs buy, sell or hold signals.',
-          fr: "Application web et bot Discord/Telegram : données de marché par API, analyse par grand modèle de langage et modèle de décision probabiliste qui produit des signaux d'achat, de vente ou de conservation.",
+          en: "Website, Discord bot and analysis engine: from a contract address, market data, a safety scan and an AI read give the odds behind a Buy, Don't buy or Wait call.",
+          fr: "Site web, bot Discord et moteur d'analyse : à partir de l'adresse d'un contrat, données de marché, analyse de sécurité et lecture par IA donnent les probabilités derrière Acheter, Ne pas acheter ou Attendre.",
         },
         {
-          en: 'Social signal module (X, Telegram) in design, local model hosting considered for latency.',
-          fr: 'Module de signaux sociaux (X, Telegram) en conception, hébergement local du modèle envisagé.',
+          en: 'Odds start from what 3,500 pump.fun graduates did at the same stage; wallet profit and loss on five chains; every call logged with its outcome.',
+          fr: "Probabilités tirées de ce qu'ont fait 3 500 tokens sortis de pump.fun au même stade ; gains et pertes de portefeuilles sur cinq blockchains.",
         },
       ],
     },

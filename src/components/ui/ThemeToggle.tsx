@@ -1,59 +1,40 @@
-import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@/lib/theme'
-import { cn } from '@/lib/utils'
+import { useLang } from '@/lib/i18n'
 
-/** Animated sun/moon theme toggle with spring physics. */
-export function ThemeToggle({ className }: { className?: string }) {
+/** Switches between the dark and light themes; the icon shows the theme you would get. */
+export function ThemeToggle() {
   const { theme, toggle } = useTheme()
+  const { lang } = useLang()
   const isDark = theme === 'dark'
+  const label = isDark
+    ? lang === 'fr' ? 'Passer au thème clair' : 'Switch to light theme'
+    : lang === 'fr' ? 'Passer au thème sombre' : 'Switch to dark theme'
 
   return (
     <button
       onClick={toggle}
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-      className={cn(
-        'relative flex h-9 w-9 items-center justify-center rounded-md transition-colors',
-        className ?? 'text-muted hover:text-[rgb(var(--fg))]',
-      )}
+      aria-label={label}
+      className="flex h-9 w-9 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-2 hover:text-fg"
     >
-      <AnimatePresence mode="wait" initial={false}>
+      <svg
+        className="h-[18px] w-[18px]"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
         {isDark ? (
-          <motion.svg
-            key="moon"
-            initial={{ rotate: -90, scale: 0, opacity: 0 }}
-            animate={{ rotate: 0, scale: 1, opacity: 1 }}
-            exit={{ rotate: 90, scale: 0, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="h-[18px] w-[18px]"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </motion.svg>
-        ) : (
-          <motion.svg
-            key="sun"
-            initial={{ rotate: 90, scale: 0, opacity: 0 }}
-            animate={{ rotate: 0, scale: 1, opacity: 1 }}
-            exit={{ rotate: -90, scale: 0, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="h-[18px] w-[18px]"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <>
             <circle cx="12" cy="12" r="4" />
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-          </motion.svg>
+          </>
+        ) : (
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         )}
-      </AnimatePresence>
+      </svg>
     </button>
   )
 }

@@ -1,81 +1,62 @@
-import { COPY, CONTACT, PROJECTS } from '@/lib/content'
-import { useLang } from '@/lib/i18n'
+import { COPY, CONTACT, SKILL_GROUPS } from '@/lib/content'
+import { termKey, useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
-import { SectionHeader } from '@/components/ui/SectionHeader'
-
-const stats = [
-  { value: `${PROJECTS.length}`, label: { en: 'Projects', fr: 'Projets' } },
-  { value: '3', label: { en: 'Languages', fr: 'Langues' } },
-  { value: '2028', label: { en: 'Graduation', fr: 'Diplôme' } },
-]
+import { Section } from '@/components/ui/Section'
 
 export function About() {
   const { t } = useLang()
+
+  const facts = [
+    { label: COPY.about.studying, value: t(COPY.about.studyingValue) },
+    { label: COPY.about.based, value: t(CONTACT.location) },
+    { label: COPY.about.languages, value: t(CONTACT.languages) },
+    { label: COPY.about.graduation, value: CONTACT.graduation },
+  ]
+
   return (
-    <section id="about" className="relative mx-auto max-w-6xl px-6 py-28">
-      <SectionHeader index="01" label={t(COPY.about.label)} />
-
-      <div className="mt-12 grid gap-10 md:grid-cols-[1.5fr_1fr] md:gap-14">
-        <div className="space-y-5">
-          <Reveal delay={0.05}>
-            <p className="text-lg leading-relaxed text-muted">{t(COPY.about.p1)}</p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="text-lg leading-relaxed text-muted">{t(COPY.about.p2)}</p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <dl className="mt-8 grid grid-cols-3 border-t border-line">
-              {stats.map((s) => (
-                <div key={s.value} className="pt-5">
-                  <dt className="sr-only">{t(s.label)}</dt>
-                  <dd className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-                    {s.value}
-                  </dd>
-                  <dd className="mt-1 text-sm text-muted">{t(s.label)}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
+    <Section id="about" title={t(COPY.about.title)}>
+      <Reveal>
+        <div className="max-w-2xl space-y-5 text-lg leading-relaxed sm:text-xl">
+          <p>{t(COPY.about.p1)}</p>
+          <p className="text-muted">{t(COPY.about.p2)}</p>
         </div>
+      </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="card p-6">
-            <h3 className="mb-4 border-b border-line pb-3 font-display font-semibold">Contact</h3>
-            <ul className="space-y-3 text-sm">
-              <ContactRow label="Email" href={`mailto:${CONTACT.email}`} value={CONTACT.email} />
-              <ContactRow
-                label={t({ en: 'Phone', fr: 'Téléphone' })}
-                href={`tel:${CONTACT.phone}`}
-                value={CONTACT.phoneDisplay}
-              />
-              <ContactRow label={t({ en: 'Location', fr: 'Lieu' })} value={t(CONTACT.location)} />
-              <ContactRow label="GitHub" href={CONTACT.github} value="github.com/MasterKPG" />
-              <ContactRow label="LinkedIn" href={CONTACT.linkedin} value="in/mohammad-amara" />
-              <ContactRow label={t({ en: 'Languages', fr: 'Langues' })} value={t(CONTACT.languages)} />
-            </ul>
-          </div>
+      <Reveal delay={0.05}>
+        <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-rule bg-rule sm:grid-cols-4">
+          {facts.map((f) => (
+            <div key={f.label.en} className="bg-bg p-4 sm:p-5">
+              <dt className="meta text-muted">{t(f.label)}</dt>
+              <dd className="mt-1 text-[15px] leading-snug">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </Reveal>
+
+      <div id="skills" className="mt-16 scroll-mt-24">
+        <Reveal>
+          <h3 className="text-xl font-medium tracking-tight">{t(COPY.about.toolkit)}</h3>
+        </Reveal>
+        <Reveal delay={0.05}>
+          <dl className="mt-5 border-t border-rule">
+            {SKILL_GROUPS.map((g) => (
+              <div key={g.title.en} className="grid gap-2 border-b border-rule py-5 sm:grid-cols-[10rem_1fr] sm:gap-8">
+                <dt className="meta pt-0.5 text-muted">{t(g.title)}</dt>
+                <dd>
+                  <ul className="flex flex-wrap gap-x-1 gap-y-1 text-[15px]">
+                    {g.items.map((item, i) => (
+                      <li key={termKey(item)}>
+                        {t(item)}
+                        {i < g.items.length - 1 && <span className="text-muted">,</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </div>
+            ))}
+          </dl>
         </Reveal>
       </div>
-    </section>
-  )
-}
-
-function ContactRow({ label, value, href }: { label: string; value: string; href?: string }) {
-  return (
-    <li className="flex items-start justify-between gap-4">
-      <span className="font-mono text-xs uppercase tracking-wide text-muted">{label}</span>
-      {href ? (
-        <a
-          href={href}
-          target={href.startsWith('http') ? '_blank' : undefined}
-          rel="noreferrer"
-          className="text-right text-[rgb(var(--fg))] transition-colors hover:text-accent"
-        >
-          {value}
-        </a>
-      ) : (
-        <span className="text-right text-[rgb(var(--fg))]">{value}</span>
-      )}
-    </li>
+    </Section>
   )
 }

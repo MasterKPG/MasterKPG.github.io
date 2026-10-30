@@ -1,96 +1,78 @@
+import { useEffect, useState } from 'react'
 import { COPY, CONTACT } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
-import { LiquidButton } from '@/components/ui/liquid-glass-button'
-import { Magnetic } from '@/components/ui/Magnetic'
-
-const CHANNELS = [
-  {
-    label: 'Email',
-    value: CONTACT.email,
-    href: `mailto:${CONTACT.email}`,
-    hint: { en: 'Fastest way to reach me', fr: 'Le moyen le plus rapide' },
-  },
-  {
-    label: { en: 'Phone', fr: 'Téléphone' },
-    value: CONTACT.phoneDisplay,
-    href: `tel:${CONTACT.phone}`,
-    hint: { en: 'Call or text', fr: 'Appel ou SMS' },
-  },
-  {
-    label: 'GitHub',
-    value: 'github.com/MasterKPG',
-    href: CONTACT.github,
-    hint: { en: 'Code & experiments', fr: 'Code & expérimentations' },
-  },
-  {
-    label: 'LinkedIn',
-    value: 'in/mohammad-amara',
-    href: CONTACT.linkedin,
-    hint: { en: "Let's connect", fr: 'Connectons-nous' },
-  },
-]
+import { ArrowUpRight, Check, Copy, FileText, GitHub, LinkedIn, Phone } from '@/components/ui/icons'
 
 export function Contact() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (!copied) return
+    const id = setTimeout(() => setCopied(false), 1800)
+    return () => clearTimeout(id)
+  }, [copied])
+
+  const copy = () => {
+    navigator.clipboard?.writeText(CONTACT.email).then(() => setCopied(true), () => {})
+  }
+
+  const channels = [
+    { label: t(COPY.contact.phone), value: CONTACT.phoneDisplay, href: `tel:${CONTACT.phone}`, Icon: Phone },
+    { label: 'GitHub', value: CONTACT.githubUser, href: CONTACT.github, Icon: GitHub },
+    { label: 'LinkedIn', value: 'mohammad-amara', href: CONTACT.linkedin, Icon: LinkedIn },
+    { label: t(COPY.contact.cv), value: lang === 'fr' ? 'Français' : 'English', href: CONTACT.cv[lang], download: true, Icon: FileText },
+  ]
 
   return (
-    <section id="contact" className="relative mx-auto max-w-6xl px-6 py-28">
-      <Reveal>
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-5xl">
-            <span className="mr-3 text-accent sm:mr-4">06</span>
-            {t(COPY.contact.label)}
+    <section id="contact" aria-labelledby="contact-title" className="border-t border-rule">
+      <div className="mx-auto max-w-page px-5 py-20 sm:px-8 md:py-32">
+        <Reveal>
+          <h2 id="contact-title" className="display text-[2rem] sm:text-[2.75rem]">
+            {t(COPY.contact.title)}
           </h2>
-          <p className="max-w-sm text-lg text-muted md:text-right">{t(COPY.contact.sub)}</p>
-        </div>
-      </Reveal>
+          <p className="mt-3 max-w-md text-muted">{t(COPY.contact.sub)}</p>
+        </Reveal>
 
-      {/* Editorial index: one row per channel */}
-      <Reveal delay={0.1}>
-        <div className="mt-14 border-t border-line">
-          {CHANNELS.map((c, i) => (
+        <Reveal delay={0.05}>
+          <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-4 md:mt-16">
             <a
-              key={c.href}
-              href={c.href}
-              target={c.href.startsWith('http') ? '_blank' : undefined}
-              rel="noreferrer"
-              className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-line py-7 transition-colors hover:border-accent/40 sm:grid-cols-[3rem_1fr_1fr_auto] sm:gap-8"
+              href={`mailto:${CONTACT.email}`}
+              className="display break-all text-[2.25rem] font-semibold tracking-[-0.035em] transition-colors hover:text-accent sm:text-[3.5rem] lg:text-[5rem]"
             >
-              <span className="font-mono text-sm text-muted/50">0{i + 1}</span>
-              <span className="font-display text-2xl font-bold transition-colors group-hover:text-accent sm:text-3xl">
-                {typeof c.label === 'string' ? c.label : t(c.label)}
-              </span>
-              <span className="hidden font-mono text-sm text-muted sm:block">{c.value}</span>
-              <span className="flex items-center gap-3">
-                <span className="hidden text-sm text-muted/60 md:block">{t(c.hint)}</span>
-                <span className="grid h-10 w-10 place-items-center rounded-full border border-white/10 transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-ink-950">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4 -rotate-45 transition-transform duration-300 group-hover:rotate-0"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  >
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </span>
-              </span>
+              {CONTACT.email}
             </a>
-          ))}
-        </div>
-      </Reveal>
+            <button type="button" onClick={copy} className="btn btn-secondary btn-sm">
+              {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+              <span aria-live="polite">{copied ? t(COPY.contact.copied) : t(COPY.contact.copy)}</span>
+            </button>
+          </div>
+        </Reveal>
 
-      <Reveal delay={0.15}>
-        <div className="mt-12 flex justify-center">
-          <Magnetic>
-            <LiquidButton asChild size="lg">
-              <a href={`mailto:${CONTACT.email}`}>{t(COPY.contact.email)}</a>
-            </LiquidButton>
-          </Magnetic>
-        </div>
-      </Reveal>
+        <Reveal delay={0.1}>
+          <ul className="mt-14 grid border-t border-rule sm:grid-cols-2 lg:grid-cols-4">
+            {channels.map((c) => (
+              <li key={c.href} className="border-b border-rule sm:[&:nth-child(odd)]:border-r lg:border-r lg:last:border-r-0">
+                <a
+                  href={c.href}
+                  target={c.href.startsWith('http') ? '_blank' : undefined}
+                  rel="noreferrer"
+                  download={c.download || undefined}
+                  className="group flex h-full items-start gap-4 p-5 transition-colors hover:bg-surface/60 sm:px-6"
+                >
+                  <c.Icon className="mt-0.5 h-5 w-5 shrink-0 text-muted transition-colors group-hover:text-fg" />
+                  <span className="min-w-0 flex-1">
+                    <span className="meta block text-muted">{c.label}</span>
+                    <span className="mt-1 block truncate transition-colors group-hover:text-accent">{c.value}</span>
+                  </span>
+                  <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
     </section>
   )
 }

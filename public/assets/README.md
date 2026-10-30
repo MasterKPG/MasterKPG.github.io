@@ -6,7 +6,7 @@ needed. Use the project **id** (from `src/lib/content.ts`) as the filename.
 Project ids: `solibox`, `neurolith`, `lucent`, `arduino-clone`, `ping-pong`, `fir-filter`,
 `saturating-accumulator`, `smart-garden`, `gate-controller`, `adder`, `tipe-sailboat`,
 `ml-clustering`, `weather-api`, `dll-injection`, `ascii-art`, `parking-sim`, `agrimarket`,
-`half-half`.
+`half-half`, `plain`, `xscraper`.
 
 ## Covers → `covers/<id>.webp`
 

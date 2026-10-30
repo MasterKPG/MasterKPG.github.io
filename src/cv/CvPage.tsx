@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { useLang } from '@/lib/i18n'
 import { Nav } from '@/components/sections/Nav'
 import { Footer } from '@/components/sections/Footer'
-import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { Reveal } from '@/components/ui/Reveal'
 import { CV, type CvEntry, type Rich } from './cv-data'
 
@@ -80,18 +79,14 @@ export function CvPage() {
 
   return (
     <>
-      <ScrollProgress />
       <Nav base="../" current="cv" />
+      <span id="top" />
 
-      <main className="mx-auto max-w-6xl px-6 pb-28 pt-32">
+      <main id="main" className="mx-auto max-w-page px-5 pb-24 pt-32 sm:px-8 md:pt-40">
         <Reveal>
-          <div className="tex-chrome flex flex-wrap items-end justify-between gap-6">
-            <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-5xl">{t(UI.title)}</h1>
-            <a
-              href={`../${CV.pdf[lang]}`}
-              download
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-line px-4 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
-            >
+          <div className="tex-chrome mx-auto flex max-w-[52rem] flex-wrap items-end justify-between gap-6">
+            <h1 className="display text-[2rem] sm:text-[2.75rem]">{t(UI.title)}</h1>
+            <a href={`../${CV.pdf[lang]}`} download className="btn btn-primary btn-sm">
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
               </svg>
@@ -101,7 +96,7 @@ export function CvPage() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <article lang={lang} className="tex-paper card mt-12 px-5 py-10 sm:px-14 sm:py-14">
+          <article lang={lang} className="tex-paper mx-auto mt-10 max-w-[52rem] px-5 py-10 sm:px-14 sm:py-14">
             <header className="text-center">
               <h2 className="tex-big text-[1.728em] font-bold leading-tight">{CV.name}</h2>
               <p className="tex-big mt-[0.35em] text-[1.2em]">{t(CV.headline)}</p>

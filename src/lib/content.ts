@@ -11,8 +11,12 @@ import type { Bi, Term } from './i18n'
 
 export type ProjectCategory = 'hardware' | 'embedded' | 'software' | 'ml'
 
-/** Where a project is shown: featured cards, the hardware fan, or one of the folders. */
-export type ProjectGroup = 'featured' | 'hardware' | 'software' | 'other'
+export const CATEGORY_LABELS: Record<ProjectCategory, Bi> = {
+  hardware: { en: 'Hardware', fr: 'Matériel' },
+  embedded: { en: 'Embedded', fr: 'Embarqué' },
+  software: { en: 'Software', fr: 'Logiciel' },
+  ml: { en: 'Machine learning', fr: 'Machine learning' },
+}
 
 export interface ProjectDoc {
   label: Bi
@@ -21,12 +25,13 @@ export interface ProjectDoc {
 
 export interface Project {
   id: string
-  group: ProjectGroup
   title: Bi
   blurb: Bi
   description: Bi
   categories: ProjectCategory[]
   tags: Term[]
+  /** Shown in the "Selected work" block; the others go to the project index. */
+  featured?: boolean
   /** Cover path under /public, only for projects that have an image. */
   cover?: string
   period?: Bi
@@ -36,21 +41,21 @@ export interface Project {
   recognition?: Bi
   /** Outside pages about the project (awards, press). */
   links?: ProjectDoc[]
+  /** Spec sheet rows for the lead project. */
+  specs?: { label: Bi; value: Bi }[]
   inProgress?: boolean
   /** Optional MP4 in /assets/videos, shown in the preview modal when present. */
   video?: string
   /** Optional documents (PDF/slides) in /assets/docs. */
   docs?: ProjectDoc[]
-  featured?: boolean
   repo?: string
   demo?: string
 }
 
 export const PROJECTS: Project[] = [
-  // Featured
+  // Selected work
   {
     id: 'solibox',
-    group: 'featured',
     featured: true,
     title: { en: 'Solibox', fr: 'Solibox' },
     period: { en: 'Mar 2025 to present', fr: "Mars 2025 à aujourd'hui" },
@@ -72,6 +77,21 @@ export const PROJECTS: Project[] = [
     },
     categories: ['embedded', 'software'],
     tags: ['Raspberry Pi', 'Linux', 'Flask', 'NGINX', 'Gunicorn', 'systemd', 'PostgreSQL', { en: 'Captive portal', fr: 'Portail captif' }],
+    specs: [
+      { label: { en: 'Hardware', fr: 'Matériel' }, value: { en: 'Raspberry Pi on its own WiFi network', fr: 'Raspberry Pi sur son propre réseau WiFi' } },
+      {
+        label: { en: 'On the box', fr: 'Sur le boîtier' },
+        value: { en: 'PDFs, quizzes, an offline Wikipedia, videos', fr: 'PDF, quiz, un Wikipédia hors ligne, vidéos' },
+      },
+      {
+        label: { en: 'Software', fr: 'Logiciel' },
+        value: { en: 'Flask, Gunicorn, NGINX, systemd, PostgreSQL', fr: 'Flask, Gunicorn, NGINX, systemd, PostgreSQL' },
+      },
+      {
+        label: { en: 'For', fr: 'Pour' },
+        value: { en: 'Togo Vert et Vivant Trégor, a non-profit in Brittany', fr: 'Togo Vert et Vivant Trégor, une association bretonne' },
+      },
+    ],
     links: [
       {
         label: { en: 'PIEED 2026 winners', fr: 'Lauréats PIEED 2026' },
@@ -85,46 +105,95 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'neurolith',
-    group: 'featured',
     featured: true,
     inProgress: true,
+    cover: 'assets/covers/neurolith.webp',
     title: { en: 'Neurolith', fr: 'Neurolith' },
     blurb: {
-      en: 'Crypto token analytics: a web app and a Discord/Telegram bot that turn market data and language model analysis into buy, sell or hold signals.',
-      fr: "Analyse de tokens crypto : une application web et un bot Discord/Telegram qui transforment données de marché et analyse par modèle de langage en signaux d'achat, de vente ou de conservation.",
+      en: "Paste a memecoin's contract address and get Buy, Don't buy or Wait, with the odds behind the call. On the web and on Discord.",
+      fr: "On colle l'adresse du contrat d'un memecoin et on obtient Acheter, Ne pas acheter ou Attendre, avec les probabilités derrière la décision. Sur le web et sur Discord.",
     },
     description: {
-      en: 'A crypto token analytics platform: a web app plus a Discord/Telegram bot. It ingests market data through APIs, runs large language model analysis, and feeds a probabilistic decision model that outputs buy, sell or hold signals. A social signal module (X, Telegram) is in design, and local model hosting is being considered to reduce latency. Domain, Cloudflare DNS and email are configured.',
-      fr: "Une plateforme d'analyse de tokens crypto : une application web et un bot Discord/Telegram. Elle récupère des données de marché par API, les fait analyser par un grand modèle de langage, puis alimente un modèle de décision probabiliste qui produit des signaux d'achat, de vente ou de conservation. Un module de signaux sociaux (X, Telegram) est en conception, et l'hébergement local du modèle est envisagé pour réduire la latence. Domaine, DNS Cloudflare et e-mail sont configurés.",
+      en: "A website, a Discord bot and an analysis engine for memecoin traders. From a contract address, the engine pulls market data (DexScreener, GeckoTerminal), runs a safety scan (RugCheck, GoPlus: mint and freeze powers, honeypots, taxes, holders), adds an AI read that falls back across several model APIs, and estimates the odds that the coin rises a set amount before it drops one, starting from what 3,500 pump.fun graduates at the same stage did next. The answer is Buy, Don't buy or Wait, or Hold, Buy more, Sell part or Sell all for a holder. It also tracks wallets' profit and loss on five chains. Every call is logged with its outcome, as training data for a decision model. The Discord bot is in early preview, Telegram comes next.",
+      fr: "Un site web, un bot Discord et un moteur d'analyse pour les traders de memecoins. À partir de l'adresse d'un contrat, le moteur récupère les données de marché (DexScreener, GeckoTerminal), lance une analyse de sécurité (RugCheck, GoPlus : droits de création et de gel, honeypots, taxes, détenteurs), ajoute une lecture par IA qui bascule entre plusieurs API de modèles, et estime la probabilité que le token monte d'un certain seuil avant de baisser d'un autre, en partant de ce qu'ont fait 3 500 tokens sortis de pump.fun au même stade. La réponse est Acheter, Ne pas acheter ou Attendre, ou Conserver, Renforcer, Vendre une partie ou Tout vendre pour un détenteur. Il suit aussi les gains et pertes de portefeuilles sur cinq blockchains. Chaque décision est enregistrée avec son résultat, comme données d'entraînement pour un modèle de décision. Le bot Discord est en avant-première, Telegram suivra.",
     },
     categories: ['software', 'ml'],
-    tags: [{ en: 'Web app', fr: 'Application web' }, { en: 'Discord bot', fr: 'Bot Discord' }, { en: 'Telegram bot', fr: 'Bot Telegram' }, { en: 'Market APIs', fr: 'API de marché' }, 'LLM', 'Cloudflare'],
+    tags: ['Python', 'TypeScript', { en: 'Web app', fr: 'Application web' }, { en: 'Discord bot', fr: 'Bot Discord' }, { en: 'Market APIs', fr: 'API de marché' }, 'LLM'],
     demo: 'https://neurolith.app',
   },
   {
     id: 'lucent',
-    group: 'featured',
     featured: true,
     inProgress: true,
+    cover: 'assets/covers/lucent.webp',
     title: { en: 'Lucent', fr: 'Lucent' },
     period: { en: 'Oct 2026 to present', fr: "Oct. 2026 à aujourd'hui" },
     blurb: {
-      en: 'A modern desktop environment for Linux: one complete, coherent interface with a glassmorphism design, built to look polished and stay fast.',
-      fr: "Un environnement de bureau moderne pour Linux : une interface complète et cohérente au design glassmorphism, pensée pour être soignée et rester rapide.",
+      en: 'A complete desktop for Debian 13 with liquid glass panels: menu bar, Dock, Control Center, Spotlight and one Settings app, built to stay fast.',
+      fr: 'Un bureau complet pour Debian 13 avec des panneaux en verre liquide : barre de menus, Dock, centre de contrôle, Spotlight et une seule app Réglages, pensé pour rester rapide.',
     },
     description: {
-      en: 'Lucent sets out to give Linux a new desktop interface: modern, consistent from the menu bar to the settings, and fast even on integrated graphics. It is a complete environment for Debian 13 rather than a theme: a menu bar with real app menus, a Dock, a Control Center, Spotlight search, notifications, a lock screen and a System Settings app, all following one glassmorphism design language in which panels refract the content behind them. It runs on the ShojiWM Wayland compositor with a Quickshell (QML) shell. ShojiWM is built from source (Rust) and configured in TypeScript, small helpers are written in C and the effects in GLSL. Used daily and still in progress; packaging is next.',
-      fr: "Lucent vise à donner à Linux une nouvelle interface de bureau : moderne, cohérente de la barre de menus jusqu'aux réglages, et rapide même sur une carte graphique intégrée. C'est un environnement complet pour Debian 13 plutôt qu'un thème : barre de menus avec de vrais menus d'application, Dock, centre de contrôle, recherche Spotlight, notifications, écran de verrouillage et application Réglages, le tout dans un même langage visuel glassmorphism où les panneaux réfractent le contenu situé derrière eux. Il tourne sur le compositeur Wayland ShojiWM avec un shell Quickshell (QML). ShojiWM est compilé depuis les sources (Rust) et configuré en TypeScript, les petits utilitaires sont écrits en C et les effets en GLSL. Utilisé au quotidien et toujours en cours ; le paquet Debian est la prochaine étape.",
+      en: 'Lucent sets out to give Linux a new desktop interface: modern, consistent from the menu bar to the settings, and fast even on integrated graphics. It is a complete environment for Debian 13 rather than a theme: a menu bar with real app menus, a Dock whose icons magnify under the pointer, a Control Center, Spotlight search, notifications, a lock screen, desktop widgets and a System Settings app, all in one glass design language in which panels refract the content behind them. It runs on the ShojiWM Wayland compositor with a Quickshell (QML) shell. ShojiWM is built from source (Rust) and configured in TypeScript, small helpers are written in C and the effects in GLSL. Used daily and still in progress; packaging is next.',
+      fr: "Lucent vise à donner à Linux une nouvelle interface de bureau : moderne, cohérente de la barre de menus jusqu'aux réglages, et rapide même sur une carte graphique intégrée. C'est un environnement complet pour Debian 13 plutôt qu'un thème : barre de menus avec de vrais menus d'application, Dock dont les icônes grossissent sous le pointeur, centre de contrôle, recherche Spotlight, notifications, écran de verrouillage, widgets de bureau et application Réglages, le tout dans un même langage visuel en verre où les panneaux réfractent le contenu situé derrière eux. Il tourne sur le compositeur Wayland ShojiWM avec un shell Quickshell (QML). ShojiWM est compilé depuis les sources (Rust) et configuré en TypeScript, les petits utilitaires sont écrits en C et les effets en GLSL. Utilisé au quotidien et toujours en cours ; le paquet Debian est la prochaine étape.",
     },
     categories: ['software'],
     tags: ['Wayland', 'ShojiWM', 'Quickshell', 'QML', 'TypeScript', 'Rust', 'GLSL', 'C', 'Debian 13'],
     repo: 'https://github.com/MasterKPG/lucent',
   },
+  {
+    id: 'plain',
+    featured: true,
+    inProgress: true,
+    cover: 'assets/covers/plain.webp',
+    title: { en: 'Plain', fr: 'Plain' },
+    period: { en: 'Oct 2026 to present', fr: "Oct. 2026 à aujourd'hui" },
+    blurb: {
+      en: 'A small, private web browser for Linux in Rust: no accounts or telemetry, ads and trackers blocked, nothing about your visits written to disk.',
+      fr: "Un petit navigateur web privé pour Linux en Rust : ni compte ni télémétrie, publicités et traqueurs bloqués, rien de vos visites écrit sur le disque.",
+    },
+    description: {
+      en: 'A small web browser for Linux, written in Rust on WebKitGTK 6.0 and GTK 4. It opens pages and searches, with no accounts, sync, suggestions or telemetry. Bundled filter lists block ads, trackers and known malware hosts, canvas and audio reads get noise so they cannot identify the browser, and by default nothing about the sites you visit is written to disk. Tabs sit in a sidebar that collapses to icons, themes can be imported, and WebExtension plugins are starting to work: content scripts, styles and request rules so far. Packaged as a .deb for Debian 13.',
+      fr: "Un petit navigateur web pour Linux, écrit en Rust sur WebKitGTK 6.0 et GTK 4. Il ouvre des pages et lance des recherches, sans compte, synchronisation, suggestions ni télémétrie. Des listes de filtres intégrées bloquent publicités, traqueurs et hôtes malveillants connus, les lectures canvas et audio sont bruitées pour qu'elles ne puissent pas identifier le navigateur, et par défaut rien des sites visités n'est écrit sur le disque. Les onglets sont dans une barre latérale qui se replie en icônes, les thèmes s'importent, et les extensions WebExtension commencent à fonctionner : scripts de contenu, styles et règles de requêtes pour l'instant. Distribué en paquet .deb pour Debian 13.",
+    },
+    categories: ['software'],
+    tags: ['Rust', 'GTK 4', 'WebKitGTK', 'WebExtensions', 'Debian 13'],
+  },
 
   // Hardware and embedded
   {
+    id: 'fir-filter',
+    inProgress: true,
+    title: { en: 'Sequential FIR Filter', fr: 'Filtre RIF séquentiel' },
+    period: { en: 'Oct 2026', fr: 'Oct. 2026' },
+    blurb: {
+      en: 'A 13-tap FIR filter in VHDL built around one multiply-accumulate unit reused 13 times.',
+      fr: "Un filtre RIF à 13 coefficients en VHDL, construit autour d'un seul multiplieur-accumulateur réutilisé 13 fois.",
+    },
+    description: {
+      en: 'ENSSAT second year project ("systolic" project) in VHDL with Quartus. A 13-tap finite impulse response filter built around a single multiply-accumulate (MAC) unit reused 13 times, instead of 13 multipliers. Datapath, memory and control unit architecture: address generator, circular sample buffer, coefficient ROM and a Moore finite state machine, with a testbench and a reference model. The focus is the trade-off between area and throughput.',
+      fr: "Projet de deuxième année à l'ENSSAT (projet « systolique ») en VHDL sous Quartus. Un filtre à réponse impulsionnelle finie à 13 coefficients construit autour d'un seul multiplieur-accumulateur (MAC) réutilisé 13 fois, au lieu de 13 multiplieurs. Architecture unité de traitement, mémoire et unité de contrôle : générateur d'adresses, buffer circulaire d'échantillons, ROM de coefficients et machine de Moore, avec un banc de test et un modèle de référence. L'enjeu est le compromis entre surface et débit.",
+    },
+    categories: ['hardware'],
+    tags: ['VHDL', 'Quartus', 'MAC', 'FSM', 'DSP', 'Testbench'],
+  },
+  {
+    id: 'saturating-accumulator',
+    cover: 'assets/covers/saturating-accumulator.webp',
+    title: { en: 'Saturating Accumulator on FPGA', fr: 'Accumulateur saturant sur FPGA' },
+    period: { en: 'May 2026', fr: 'Mai 2026' },
+    blurb: {
+      en: '3-bit inputs, a 4-bit sum that saturates at 15 with an overflow flag, verified in simulation and on a DE10-Lite board.',
+      fr: 'Entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, validée en simulation puis sur carte DE10-Lite.',
+    },
+    description: {
+      en: 'ENSSAT, Digital Systems track. A saturating accumulator in VHDL: 3-bit inputs, a 4-bit sum that saturates at 15 and raises an overflow flag, controlled by a 5-state machine. Verified with 10 test cases in ModelSim, then on a DE10-Lite board, where I fixed two integration defects that simulation could not show: the I/O standard on one pin and the reset polarity.',
+      fr: "ENSSAT, majeure Systèmes numériques. Un accumulateur saturant en VHDL : entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, pilotée par une machine à 5 états. Validé par 10 cas de test sous ModelSim, puis sur carte DE10-Lite, où j'ai corrigé deux défauts d'intégration invisibles en simulation : le standard d'E/S d'une broche et la polarité du reset.",
+    },
+    categories: ['hardware'],
+    tags: ['VHDL', 'Quartus', 'ModelSim', 'DE10-Lite', 'FSM'],
+  },
+  {
     id: 'arduino-clone',
-    group: 'hardware',
     title: { en: 'Arduino Uno Clone in EAGLE', fr: 'Clone Arduino Uno sous EAGLE' },
     period: { en: 'Apr 2026', fr: 'Avr. 2026' },
     role: { en: 'Individual project', fr: 'Projet individuel' },
@@ -141,7 +210,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'ping-pong',
-    group: 'hardware',
     cover: 'assets/covers/ping-pong.webp',
     title: { en: 'Arduino Pong', fr: 'Pong sur Arduino' },
     period: { en: 'Apr 2026', fr: 'Avr. 2026' },
@@ -159,25 +227,22 @@ export const PROJECTS: Project[] = [
     video: 'assets/videos/ping-pong.mp4',
   },
   {
-    id: 'fir-filter',
-    group: 'hardware',
-    inProgress: true,
-    title: { en: 'Sequential FIR Filter', fr: 'Filtre RIF séquentiel' },
-    period: { en: 'Oct 2026', fr: 'Oct. 2026' },
+    id: 'gate-controller',
+    title: { en: 'Gate Controller', fr: 'Commande de portail' },
+    period: { en: 'Jan 2026', fr: 'Janv. 2026' },
     blurb: {
-      en: 'A 13-tap FIR filter in VHDL built around one multiply-accumulate unit reused 13 times.',
-      fr: "Un filtre RIF à 13 coefficients en VHDL, construit autour d'un seul multiplieur-accumulateur réutilisé 13 fois.",
+      en: 'Firmware for a two-leaf motorised gate on an LPC1768: a 13-state machine with obstacle safety and automatic closing.',
+      fr: "Le firmware d'un portail motorisé à deux battants sur LPC1768 : une machine à 13 états avec sécurité obstacle et fermeture automatique.",
     },
     description: {
-      en: 'ENSSAT second year project ("systolic" project) in VHDL with Quartus. A 13-tap finite impulse response filter built around a single multiply-accumulate (MAC) unit reused 13 times, instead of 13 multipliers. Datapath, memory and control unit architecture: address generator, circular sample buffer, coefficient ROM and a Moore finite state machine, with a testbench and a reference model. The focus is the trade-off between area and throughput.',
-      fr: "Projet de deuxième année à l'ENSSAT (projet « systolique ») en VHDL sous Quartus. Un filtre à réponse impulsionnelle finie à 13 coefficients construit autour d'un seul multiplieur-accumulateur (MAC) réutilisé 13 fois, au lieu de 13 multiplieurs. Architecture unité de traitement, mémoire et unité de contrôle : générateur d'adresses, buffer circulaire d'échantillons, ROM de coefficients et machine de Moore, avec un banc de test et un modèle de référence. L'enjeu est le compromis entre surface et débit.",
+      en: 'ENSSAT embedded software project ("Projet portail") in C on an LPC1768 (ARM Cortex-M3). The controller drives the two motors of a two-leaf gate through a 13-state machine: opening, closing, each leaf stopping on its own limit switch, including when one leaf arrives before the other. An obstacle sensor stops both motors at once and switches the warning light to fast blinking, and the movement resumes once the path is clear. When open, the gate closes on a button press or by itself after 20 seconds. A timer interrupt drives the warning light and the timeouts.',
+      fr: "Projet de développement logiciel embarqué à l'ENSSAT (« Projet portail ») en C sur LPC1768 (ARM Cortex-M3). Le contrôleur pilote les deux moteurs d'un portail à deux battants avec une machine à 13 états : ouverture, fermeture, arrêt de chaque battant sur sa propre fin de course, y compris quand un battant arrive avant l'autre. Un capteur d'obstacle arrête les deux moteurs à la fois et passe le feu clignotant en clignotement rapide, puis le mouvement reprend une fois la voie libre. Une fois ouvert, le portail se referme sur appui d'un bouton ou tout seul au bout de 20 secondes. Une interruption timer gère le clignotant et les temporisations.",
     },
-    categories: ['hardware'],
-    tags: ['VHDL', 'Quartus', 'MAC', 'FSM', 'DSP', 'Testbench'],
+    categories: ['embedded'],
+    tags: ['C', 'LPC1768', 'ARM Cortex-M3', 'FSM', 'GPIO', 'Timers'],
   },
   {
     id: 'smart-garden',
-    group: 'hardware',
     cover: 'assets/covers/smart-garden.webp',
     title: { en: 'Smart Garden', fr: 'Plante connectée' },
     period: { en: '2025 to 2026', fr: '2025 à 2026' },
@@ -195,41 +260,7 @@ export const PROJECTS: Project[] = [
     video: 'assets/videos/smart-garden.mp4',
   },
   {
-    id: 'saturating-accumulator',
-    group: 'hardware',
-    cover: 'assets/covers/saturating-accumulator.webp',
-    title: { en: 'Saturating Accumulator on FPGA', fr: 'Accumulateur saturant sur FPGA' },
-    period: { en: 'May 2026', fr: 'Mai 2026' },
-    blurb: {
-      en: '3-bit inputs, a 4-bit sum that saturates at 15 with an overflow flag, verified in simulation and on a DE10-Lite board.',
-      fr: 'Entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, validée en simulation puis sur carte DE10-Lite.',
-    },
-    description: {
-      en: 'ENSSAT, Digital Systems track. A saturating accumulator in VHDL: 3-bit inputs, a 4-bit sum that saturates at 15 and raises an overflow flag, controlled by a 5-state machine. Verified with 10 test cases in ModelSim, then on a DE10-Lite board, where I fixed two integration defects that simulation could not show: the I/O standard on one pin and the reset polarity.',
-      fr: "ENSSAT, majeure Systèmes numériques. Un accumulateur saturant en VHDL : entrées sur 3 bits, somme sur 4 bits saturée à 15 avec un drapeau de dépassement, pilotée par une machine à 5 états. Validé par 10 cas de test sous ModelSim, puis sur carte DE10-Lite, où j'ai corrigé deux défauts d'intégration invisibles en simulation : le standard d'E/S d'une broche et la polarité du reset.",
-    },
-    categories: ['hardware'],
-    tags: ['VHDL', 'Quartus', 'ModelSim', 'DE10-Lite', 'FSM'],
-  },
-  {
-    id: 'gate-controller',
-    group: 'hardware',
-    title: { en: 'Gate Controller', fr: 'Commande de portail' },
-    period: { en: 'Jan 2026', fr: 'Janv. 2026' },
-    blurb: {
-      en: 'Firmware for a two-leaf motorised gate on an LPC1768: a 13-state machine with obstacle safety and automatic closing.',
-      fr: "Le firmware d'un portail motorisé à deux battants sur LPC1768 : une machine à 13 états avec sécurité obstacle et fermeture automatique.",
-    },
-    description: {
-      en: 'ENSSAT embedded software project ("Projet portail") in C on an LPC1768 (ARM Cortex-M3). The controller drives the two motors of a two-leaf gate through a 13-state machine: opening, closing, each leaf stopping on its own limit switch, including when one leaf arrives before the other. An obstacle sensor stops both motors at once and switches the warning light to fast blinking, and the movement resumes once the path is clear. When open, the gate closes on a button press or by itself after 20 seconds. A timer interrupt drives the warning light and the timeouts.',
-      fr: "Projet de développement logiciel embarqué à l'ENSSAT (« Projet portail ») en C sur LPC1768 (ARM Cortex-M3). Le contrôleur pilote les deux moteurs d'un portail à deux battants avec une machine à 13 états : ouverture, fermeture, arrêt de chaque battant sur sa propre fin de course, y compris quand un battant arrive avant l'autre. Un capteur d'obstacle arrête les deux moteurs à la fois et passe le feu clignotant en clignotement rapide, puis le mouvement reprend une fois la voie libre. Une fois ouvert, le portail se referme sur appui d'un bouton ou tout seul au bout de 20 secondes. Une interruption timer gère le clignotant et les temporisations.",
-    },
-    categories: ['embedded'],
-    tags: ['C', 'LPC1768', 'ARM Cortex-M3', 'FSM', 'GPIO', 'Timers'],
-  },
-  {
     id: 'adder',
-    group: 'hardware',
     title: { en: 'VHDL Binary Adder', fr: 'Additionneur binaire VHDL' },
     blurb: {
       en: 'Combinational adder described in VHDL with carry propagation and a testbench.',
@@ -239,91 +270,28 @@ export const PROJECTS: Project[] = [
       en: 'A binary adder described in VHDL: combinational logic, ripple carry propagation and a self checking testbench for validation. Simulated and synthesised as part of the digital logic coursework.',
       fr: "Un additionneur binaire décrit en VHDL : logique combinatoire, propagation de la retenue et banc de test à vérification automatique. Simulé et synthétisé dans le cadre du cours de logique numérique.",
     },
-    categories: ['hardware', 'embedded'],
+    categories: ['hardware'],
     tags: ['VHDL', { en: 'Digital Logic', fr: 'Logique numérique' }, 'Testbench'],
   },
 
   // Software
   {
-    id: 'tipe-sailboat',
-    group: 'software',
-    title: { en: 'TIPE: Sailboat Dynamics', fr: 'TIPE : dynamique des voiliers' },
+    id: 'xscraper',
+    title: { en: 'xscraper', fr: 'xscraper' },
+    period: { en: 'Oct 2026', fr: 'Oct. 2026' },
     blurb: {
-      en: 'Physical modelling of sailboat performance with Dijkstra on a weighted graph.',
-      fr: 'Modélisation physique des performances et Dijkstra sur graphe pondéré.',
+      en: 'A self-hosted engine that collects and analyses posts from X through your own logged-in browser session.',
+      fr: "Un moteur auto-hébergé qui collecte et analyse des posts de X à partir de sa propre session connectée dans le navigateur.",
     },
     description: {
-      en: "Physical modelling of a sailboat's performance across points of sail, represented as a weighted graph, with Dijkstra's algorithm to minimise crossing time.",
-      fr: "Modélisation physique des performances d'un voilier selon les allures, représentée en graphe pondéré, avec l'algorithme de Dijkstra pour minimiser le temps de parcours.",
-    },
-    categories: ['software', 'ml'],
-    tags: [{ en: 'Physics', fr: 'Physique' }, { en: 'Graphs', fr: 'Graphes' }, 'Dijkstra', 'Python'],
-  },
-  {
-    id: 'ml-clustering',
-    group: 'software',
-    title: { en: 'Machine Learning: KNN & K-Means', fr: 'Machine Learning : KNN & K-Means' },
-    blurb: {
-      en: 'KNN and K-Means implemented from scratch with NumPy/SciPy and Matplotlib.',
-      fr: 'KNN et K-Means implémentés from scratch (NumPy/SciPy, Matplotlib).',
-    },
-    description: {
-      en: 'Implementations of KNN and K-Means written from scratch with matrix computation (NumPy/SciPy) and Matplotlib visualisations to analyse the resulting clusters.',
-      fr: "Implémentations from scratch de KNN et K-Means avec calcul matriciel (NumPy/SciPy) et visualisations Matplotlib pour analyser les regroupements.",
-    },
-    categories: ['ml', 'software'],
-    tags: ['Python', 'NumPy', 'SciPy', 'Matplotlib'],
-  },
-  {
-    id: 'weather-api',
-    group: 'software',
-    title: { en: 'Weather App: REST API', fr: 'Application météo : API REST' },
-    blurb: {
-      en: 'Open Meteo integration with JSON parsing and network error handling.',
-      fr: 'Intégration Open Meteo, parsing JSON et gestion des erreurs réseau.',
-    },
-    description: {
-      en: 'Integration of the Open Meteo API with JSON parsing, robust network error handling and dynamic visualisation of weather data.',
-      fr: "Intégration de l'API Open Meteo, parsing JSON, gestion robuste des erreurs réseau et visualisation dynamique des données météo.",
+      en: "A self-hosted engine for collecting and analysing posts from X, run from your own machine on your own logged-in session: no proxies, no account pools, no stored passwords. It drives a visible Chromium window with Playwright, reads the GraphQL responses the X web app receives with a parser that follows their shape rather than fixed paths, and stores the results in SQLite or PostgreSQL. On top of that it counts distinct authors per keyword, scores accounts that look automated and groups copy-pasted campaigns. A session guard keeps the request rate well below X's limits. It is available as a Python library, an HTTP API, a CLI and webhooks, and supplies the social read in Neurolith. An educational project.",
+      fr: "Un moteur auto-hébergé pour collecter et analyser des posts de X, lancé depuis sa propre machine sur sa propre session connectée : ni proxy, ni réserve de comptes, ni mot de passe stocké. Il pilote une fenêtre Chromium visible avec Playwright, lit les réponses GraphQL que reçoit l'application web de X avec un parseur qui suit leur forme plutôt que des chemins fixes, et stocke les résultats dans SQLite ou PostgreSQL. Par-dessus, il compte les auteurs distincts par mot-clé, note les comptes qui semblent automatisés et regroupe les campagnes copiées-collées. Un garde-fou de session maintient le rythme des requêtes bien en dessous des limites de X. Il s'utilise comme bibliothèque Python, API HTTP, CLI et webhooks, et fournit la lecture sociale de Neurolith. Un projet pédagogique.",
     },
     categories: ['software'],
-    tags: ['Python', 'REST API', 'JSON'],
+    tags: ['Python', 'Playwright', 'SQLite', 'PostgreSQL', { en: 'HTTP API', fr: 'API HTTP' }],
   },
-  {
-    id: 'dll-injection',
-    group: 'software',
-    title: { en: 'C++ DLL Injection', fr: 'Injection DLL en C++' },
-    blurb: {
-      en: 'Windows DLL injector using the Win32 API for process & memory management.',
-      fr: 'Injecteur de DLL Windows via Win32 (processus & mémoire).',
-    },
-    description: {
-      en: 'A Windows DLL injector using the Win32 API for process handling, memory management and pointer work, an exercise in low level systems programming.',
-      fr: "Un injecteur de DLL Windows exploitant l'API Win32 pour la gestion des processus, de la mémoire et des pointeurs, un exercice de programmation système bas niveau.",
-    },
-    categories: ['software'],
-    tags: ['C++', 'Windows API', { en: 'Memory', fr: 'Mémoire' }],
-  },
-  {
-    id: 'ascii-art',
-    group: 'software',
-    title: { en: 'ASCII Art Generator', fr: 'Générateur ASCII Art' },
-    blurb: {
-      en: 'Turns images into ASCII via PIL with matrix optimisation for readability.',
-      fr: "Transforme des images en ASCII via PIL, optimisation matricielle.",
-    },
-    description: {
-      en: 'Transforms images into ASCII representations via PIL, with matrix optimisation for a legible render.',
-      fr: "Transformation d'images en représentations ASCII via PIL, avec optimisation matricielle pour un rendu lisible.",
-    },
-    categories: ['software'],
-    tags: ['Python', 'PIL', { en: 'Imaging', fr: "Traitement d'image" }],
-  },
-
-  // Other projects
   {
     id: 'parking-sim',
-    group: 'other',
     title: { en: 'Multi-process Parking Simulator', fr: 'Simulateur de parking multi-processus' },
     blurb: {
       en: 'A car park simulator in C using Linux IPC: FIFOs, shared memory and semaphores.',
@@ -339,7 +307,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'agrimarket',
-    group: 'other',
     title: { en: 'AgriMarket', fr: 'AgriMarket' },
     blurb: {
       en: 'An agricultural marketplace for Morocco, on the web and on mobile.',
@@ -354,7 +321,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'half-half',
-    group: 'other',
     title: { en: 'Half / Half', fr: 'Half / Half' },
     blurb: {
       en: 'A precision shape-cutting duel game on Roblox.',
@@ -367,7 +333,80 @@ export const PROJECTS: Project[] = [
     categories: ['software'],
     tags: ['Roblox', 'Game design', 'Async'],
   },
+  {
+    id: 'tipe-sailboat',
+    title: { en: 'TIPE: Sailboat Dynamics', fr: 'TIPE : dynamique des voiliers' },
+    blurb: {
+      en: 'Physical modelling of sailboat performance with Dijkstra on a weighted graph.',
+      fr: 'Modélisation physique des performances et Dijkstra sur graphe pondéré.',
+    },
+    description: {
+      en: "Physical modelling of a sailboat's performance across points of sail, represented as a weighted graph, with Dijkstra's algorithm to minimise crossing time.",
+      fr: "Modélisation physique des performances d'un voilier selon les allures, représentée en graphe pondéré, avec l'algorithme de Dijkstra pour minimiser le temps de parcours.",
+    },
+    categories: ['software', 'ml'],
+    tags: [{ en: 'Physics', fr: 'Physique' }, { en: 'Graphs', fr: 'Graphes' }, 'Dijkstra', 'Python'],
+  },
+  {
+    id: 'ml-clustering',
+    title: { en: 'Machine Learning: KNN & K-Means', fr: 'Machine Learning : KNN & K-Means' },
+    blurb: {
+      en: 'KNN and K-Means implemented from scratch with NumPy/SciPy and Matplotlib.',
+      fr: 'KNN et K-Means implémentés from scratch (NumPy/SciPy, Matplotlib).',
+    },
+    description: {
+      en: 'Implementations of KNN and K-Means written from scratch with matrix computation (NumPy/SciPy) and Matplotlib visualisations to analyse the resulting clusters.',
+      fr: "Implémentations from scratch de KNN et K-Means avec calcul matriciel (NumPy/SciPy) et visualisations Matplotlib pour analyser les regroupements.",
+    },
+    categories: ['ml', 'software'],
+    tags: ['Python', 'NumPy', 'SciPy', 'Matplotlib'],
+  },
+  {
+    id: 'weather-api',
+    title: { en: 'Weather App: REST API', fr: 'Application météo : API REST' },
+    blurb: {
+      en: 'Open Meteo integration with JSON parsing and network error handling.',
+      fr: 'Intégration Open Meteo, parsing JSON et gestion des erreurs réseau.',
+    },
+    description: {
+      en: 'Integration of the Open Meteo API with JSON parsing, robust network error handling and dynamic visualisation of weather data.',
+      fr: "Intégration de l'API Open Meteo, parsing JSON, gestion robuste des erreurs réseau et visualisation dynamique des données météo.",
+    },
+    categories: ['software'],
+    tags: ['Python', 'REST API', 'JSON'],
+  },
+  {
+    id: 'dll-injection',
+    title: { en: 'C++ DLL Injection', fr: 'Injection DLL en C++' },
+    blurb: {
+      en: 'Windows DLL injector using the Win32 API for process & memory management.',
+      fr: 'Injecteur de DLL Windows via Win32 (processus & mémoire).',
+    },
+    description: {
+      en: 'A Windows DLL injector using the Win32 API for process handling, memory management and pointer work, an exercise in low level systems programming.',
+      fr: "Un injecteur de DLL Windows exploitant l'API Win32 pour la gestion des processus, de la mémoire et des pointeurs, un exercice de programmation système bas niveau.",
+    },
+    categories: ['software'],
+    tags: ['C++', 'Windows API', { en: 'Memory', fr: 'Mémoire' }],
+  },
+  {
+    id: 'ascii-art',
+    title: { en: 'ASCII Art Generator', fr: 'Générateur ASCII Art' },
+    blurb: {
+      en: 'Turns images into ASCII via PIL with matrix optimisation for readability.',
+      fr: "Transforme des images en ASCII via PIL, optimisation matricielle.",
+    },
+    description: {
+      en: 'Transforms images into ASCII representations via PIL, with matrix optimisation for a legible render.',
+      fr: "Transformation d'images en représentations ASCII via PIL, avec optimisation matricielle pour un rendu lisible.",
+    },
+    categories: ['software'],
+    tags: ['Python', 'PIL', { en: 'Imaging', fr: "Traitement d'image" }],
+  },
 ]
+
+/** The board photos shown in the hero, in order. Each opens its project. */
+export const HERO_SHOTS = ['saturating-accumulator', 'smart-garden', 'ping-pong']
 
 /** A skill item is either a name that reads the same in both languages, or a translated one. */
 export type SkillItem = Term
@@ -427,18 +466,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
     title: { en: 'Web and mobile', fr: 'Web et mobile' },
     items: ['Next.js', 'React', 'React Native / Expo', 'Supabase'],
   },
-]
-
-/** Words cycled through in the hero tag: the technologies I work with. */
-export const MORPH_WORDS: Bi[] = [
-  { en: 'FPGA', fr: 'FPGA' },
-  { en: 'VHDL', fr: 'VHDL' },
-  { en: 'Embedded C', fr: 'C embarqué' },
-  { en: 'ARM Cortex-M', fr: 'ARM Cortex-M' },
-  { en: 'Linux', fr: 'Linux' },
-  { en: 'Raspberry Pi', fr: 'Raspberry Pi' },
-  { en: 'Full-stack', fr: 'Full-stack' },
-  { en: 'PCB Design', fr: 'Conception PCB' },
 ]
 
 export interface TimelineEntry {
@@ -568,23 +595,52 @@ export const EXPERIENCE: TimelineEntry[] = [
 
 export const COPY = {
   nav: {
+    work: { en: 'Work', fr: 'Projets' },
     about: { en: 'About', fr: 'À propos' },
-    skills: { en: 'Skills', fr: 'Compétences' },
     experience: { en: 'Experience', fr: 'Parcours' },
-    projects: { en: 'Projects', fr: 'Projets' },
     contact: { en: 'Contact', fr: 'Contact' },
     cv: { en: 'CV', fr: 'CV' },
+    menu: { en: 'Menu', fr: 'Menu' },
+    skip: { en: 'Skip to content', fr: 'Aller au contenu' },
   },
   hero: {
-    tagline: {
-      en: 'Engineering student in computer science and embedded systems at ENSSAT',
-      fr: "Étudiant ingénieur en informatique et systèmes embarqués à l'ENSSAT",
+    award: { en: 'Solibox won the 2026 PIEED award', fr: 'Solibox, lauréat du prix PIEED 2026' },
+    title: {
+      en: 'I design boards, FPGA logic and the software that runs on them.',
+      fr: 'Je conçois des cartes, de la logique FPGA et le logiciel qui tourne dessus.',
     },
-    viewWork: { en: 'View Projects', fr: 'Voir les projets' },
-    getInTouch: { en: 'Get in Touch', fr: 'Me contacter' },
+    sub: {
+      en: 'Mohammad Amara, engineering student in computer science and embedded systems at ENSSAT, Lannion.',
+      fr: "Mohammad Amara, étudiant ingénieur en informatique et systèmes embarqués à l'ENSSAT, Lannion.",
+    },
+    viewWork: { en: 'View projects', fr: 'Voir les projets' },
+  },
+  work: {
+    title: { en: 'Selected work', fr: 'Projets choisis' },
+    sub: {
+      en: 'What I am building now, and the project that won an award.',
+      fr: 'Ce que je construis en ce moment, et le projet primé.',
+    },
+    index: { en: 'All projects', fr: 'Tous les projets' },
+    indexSub: {
+      en: 'Coursework and side projects, from VHDL to web apps.',
+      fr: "Projets de cours et projets personnels, du VHDL aux applications web.",
+    },
+    all: { en: 'All', fr: 'Tout' },
+    filterBy: { en: 'Filter projects', fr: 'Filtrer les projets' },
+    count: { en: 'projects', fr: 'projets' },
+    builtWith: { en: 'Built with', fr: 'Technologies' },
+    inProgress: { en: 'In progress', fr: 'En cours' },
+    recognition: { en: 'Recognition', fr: 'Distinction' },
+    code: { en: 'Source code', fr: 'Code source' },
+    site: { en: 'Visit site', fr: 'Voir le site' },
+    details: { en: 'Read more', fr: 'En savoir plus' },
+    watch: { en: 'Watch demo', fr: 'Voir la démo' },
+    video: { en: 'Video', fr: 'Vidéo' },
+    close: { en: 'Close', fr: 'Fermer' },
   },
   about: {
-    label: { en: 'About', fr: 'À propos' },
+    title: { en: 'About', fr: 'À propos' },
     p1: {
       en: "I'm an engineering student in computer science and embedded systems at ENSSAT (Université de Rennes) in Lannion, France. My hands-on work covers FPGA design in VHDL, C on ARM Cortex-M microcontrollers, Linux servers, and full-stack web and mobile development.",
       fr: "Étudiant ingénieur en informatique et systèmes embarqués à l'ENSSAT (Université de Rennes), à Lannion. Je travaille concrètement sur la conception FPGA en VHDL, le C sur microcontrôleurs ARM Cortex-M, les serveurs Linux et le développement web et mobile full-stack.",
@@ -593,57 +649,38 @@ export const COPY = {
       en: 'Two years of CPGE in mathematics and physics gave me a solid base in applied mathematics and algorithms. I like building things end to end, from a board designed in EAGLE to a Flask server on a Raspberry Pi.',
       fr: "Deux années de CPGE en mathématiques et physique m'ont donné une base solide en mathématiques appliquées et en algorithmique. J'aime réaliser des projets de bout en bout, d'une carte conçue sous EAGLE à un serveur Flask sur Raspberry Pi.",
     },
-  },
-  skills: {
-    label: { en: 'Stack', fr: 'Stack' },
+    studying: { en: 'Studying', fr: 'Formation' },
+    studyingValue: { en: 'ENSSAT, Université de Rennes', fr: 'ENSSAT, Université de Rennes' },
+    based: { en: 'Based in', fr: 'Basé à' },
+    languages: { en: 'Languages', fr: 'Langues' },
+    graduation: { en: 'Graduation', fr: 'Diplôme' },
+    toolkit: { en: 'Toolkit', fr: 'Outils' },
   },
   experience: {
-    label: { en: 'Journey', fr: 'Parcours' },
+    title: { en: 'Experience', fr: 'Parcours' },
+    work: { en: 'Work', fr: 'Expérience' },
     education: { en: 'Education', fr: 'Formation' },
-    career: { en: 'Experience', fr: 'Expérience' },
-    seeAll: { en: 'See all experience', fr: "Voir toute l'expérience" },
-  },
-  projects: {
-    label: { en: 'Work', fr: 'Réalisations' },
-    featured: { en: 'Featured', fr: 'À la une' },
-    hardware: { en: 'Hardware and embedded', fr: 'Matériel et embarqué' },
-    more: { en: 'More projects', fr: 'Autres projets' },
-    moreHint: {
-      en: 'Open a folder, then pick a project.',
-      fr: 'Ouvrez un dossier, puis choisissez un projet.',
-    },
-    software: { en: 'Software', fr: 'Logiciel' },
-    other: { en: 'Other projects', fr: 'Projets divers' },
-    inProgress: { en: 'In progress', fr: 'En cours' },
-    recognition: { en: 'Recognition', fr: 'Distinction' },
-    code: { en: 'Source code', fr: 'Code source' },
-    site: { en: 'Visit site', fr: 'Voir le site' },
-    details: { en: 'Details', fr: 'Détails' },
-    preview: { en: 'Preview', fr: 'Aperçu' },
-    watch: { en: 'Watch demo', fr: 'Voir la démo' },
-    soon: { en: 'Media coming soon', fr: 'Média à venir' },
-    close: { en: 'Close', fr: 'Fermer' },
   },
   activity: {
-    label: { en: 'Activity', fr: 'Activité' },
+    title: { en: 'Activity', fr: 'Activité' },
     sub: {
       en: 'My GitHub contributions over the last year.',
       fr: 'Mes contributions GitHub sur la dernière année.',
     },
   },
   contact: {
-    label: { en: 'Say Hello', fr: 'Dire bonjour' },
+    title: { en: 'Contact', fr: 'Contact' },
     sub: {
       en: 'For an internship, a collaboration or just to chat, I would love to hear from you.',
       fr: "Pour un stage, une collaboration ou simplement échanger, je serai ravi de vous répondre.",
     },
-    email: { en: 'Send an email', fr: 'Envoyer un email' },
+    copy: { en: 'Copy', fr: 'Copier' },
+    copied: { en: 'Copied', fr: 'Copié' },
+    phone: { en: 'Phone', fr: 'Téléphone' },
+    cv: { en: 'CV (PDF)', fr: 'CV (PDF)' },
   },
   footer: {
     role: { en: 'Computer science and embedded systems', fr: 'Informatique et systèmes embarqués' },
-    navigate: { en: 'Navigate', fr: 'Navigation' },
-    elsewhere: { en: 'Elsewhere', fr: 'Ailleurs' },
-    documents: { en: 'Documents', fr: 'Documents' },
     toTop: { en: 'Back to top', fr: 'Haut de page' },
   },
 } as const
@@ -659,5 +696,10 @@ export const CONTACT = {
   languages: {
     en: 'French, English, Arabic',
     fr: 'Français, anglais, arabe',
+  } as Bi,
+  graduation: '2028',
+  cv: {
+    en: 'assets/cv/Mohammad_Amara_CV_EN.pdf',
+    fr: 'assets/cv/Mohammad_Amara_CV_FR.pdf',
   } as Bi,
 }

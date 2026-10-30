@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Project, ProjectDoc } from '@/lib/content'
-import { COPY } from '@/lib/content'
+import { CATEGORY_LABELS, COPY } from '@/lib/content'
 import { termKey, useLang } from '@/lib/i18n'
 import { CoverImage } from './SmartMedia'
+import { ArrowUpRight, Close } from './icons'
 
 /** True when a HEAD request finds the file and it has the expected content type. */
 async function exists(href: string, type: string) {
@@ -18,34 +19,49 @@ async function exists(href: string, type: string) {
 
 function LinkButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className="inline-flex h-9 items-center gap-2 rounded-md border border-line px-3.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
-    >
+    <a href={href} target="_blank" rel="noreferrer" className="btn btn-secondary btn-sm">
       {children}
-      <span aria-hidden>↗</span>
+      <ArrowUpRight className="h-3.5 w-3.5" />
     </a>
   )
 }
 
 /**
- * Project preview modal: cover/video, full description, tags, and links to the code,
- * the live site, the demo video and documents. Video and document links only render
- * when the file exists (probed via HEAD), so a missing file never becomes a dead link.
+ * Project preview: video or cover, the full description, a short fact list, tags, and
+ * links to the code, the live site, the demo video and documents. Video and document
+ * links only render when the file exists (probed via HEAD), so a missing file never
+ * becomes a dead link.
  */
 export function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   const { t } = useLang()
   const [hasVideo, setHasVideo] = useState(false)
   const [docs, setDocs] = useState<ProjectDoc[]>([])
+  const dialogRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (!project) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    const opener = document.activeElement as HTMLElement | null
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      // Keep Tab inside the dialog.
+      if (e.key === 'Tab' && dialogRef.current) {
+        const items = dialogRef.current.querySelectorAll<HTMLElement>('a[href], button, video[controls]')
+        const first = items[0]
+        const last = items[items.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
     document.addEventListener('keydown', onKey)
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth
     document.body.style.overflow = 'hidden'
+    document.body.style.paddingRight = `${scrollbar}px`
     closeRef.current?.focus()
 
     let alive = true
@@ -55,8 +71,9 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
       exists(project.video, 'video').then((ok) => alive && setHasVideo(ok))
     }
     if (project.docs?.length) {
-      Promise.all(project.docs.map((d) => exists(d.href, 'pdf'))).then(
-        (found) => alive && setDocs(project.docs!.filter((_, i) => found[i])),
+      const list = project.docs
+      Promise.all(list.map((d) => exists(d.href, 'pdf'))).then(
+        (found) => alive && setDocs(list.filter((_, i) => found[i])),
       )
     }
 
@@ -64,105 +81,103 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
       alive = false
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+      opener?.focus?.()
     }
   }, [project, onClose])
+
+  // Period, role and field read as one line under the title rather than a sparse table.
+  const facts = project
+    ? [
+        project.period && t(project.period),
+        project.role && t(project.role),
+        project.categories.map((c) => t(CATEGORY_LABELS[c])).join(', '),
+      ].filter(Boolean)
+    : []
 
   return (
     <AnimatePresence>
       {project && (
         <motion.div
-          className="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
         >
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} aria-hidden />
+          <div className="absolute inset-0 bg-[rgb(var(--scrim)/0.55)] backdrop-blur-[3px]" onClick={onClose} aria-hidden />
           <motion.div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
-            aria-label={t(project.title)}
-            className="card-solid relative z-10 max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl"
-            initial={{ opacity: 0, y: 40, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 26 }}
+            aria-labelledby="project-title"
+            className="panel relative z-10 max-h-[92svh] w-full max-w-3xl overflow-y-auto rounded-b-none shadow-[0_24px_80px_rgb(0_0_0/0.35)] sm:max-h-[88vh] sm:rounded-b-md"
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
           >
-            <button
-              ref={closeRef}
-              onClick={onClose}
-              aria-label={t(COPY.projects.close)}
-              className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/65"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            </button>
+            <div className="sticky top-0 z-20 flex h-0 justify-end">
+              <button
+                ref={closeRef}
+                onClick={onClose}
+                aria-label={t(COPY.work.close)}
+                className="mr-3 mt-3 flex h-9 w-9 items-center justify-center rounded-md bg-bg/80 text-fg backdrop-blur-sm transition-colors hover:bg-surface-2"
+              >
+                <Close className="h-4 w-4" />
+              </button>
+            </div>
 
             {hasVideo ? (
-              <div className="relative aspect-[16/8] w-full bg-black">
-                <video
-                  src={project.video}
-                  className="h-full w-full object-contain"
-                  controls
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                />
+              <div className="aspect-video w-full bg-black">
+                <video src={project.video} className="h-full w-full object-contain" controls autoPlay muted loop playsInline />
               </div>
             ) : (
-              project.cover && (
-                <CoverImage src={project.cover} alt={t(project.title)} className="aspect-[16/8] w-full" />
-              )
+              project.cover && <CoverImage src={project.cover} alt={t(project.title)} className="aspect-video w-full" />
             )}
 
-            <div className="p-6 sm:p-8">
-              <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-wide">
-                {project.inProgress && (
-                  <span className="rounded border border-accent/40 px-1.5 py-0.5 text-accent">
-                    {t(COPY.projects.inProgress)}
-                  </span>
-                )}
-                {project.period && <span className="text-muted">{t(project.period)}</span>}
-              </div>
-              <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+            <div className="p-6 sm:p-10">
+              {project.inProgress && <span className="chip chip-accent mb-4">{t(COPY.work.inProgress)}</span>}
+              <h3 id="project-title" className="display text-[1.75rem] sm:text-[2.25rem]">
                 {t(project.title)}
               </h3>
-              {project.role && <p className="mt-1 text-sm text-muted">{t(project.role)}</p>}
-              <p className="mt-4 leading-relaxed text-muted">{t(project.description)}</p>
+
+              <p className="meta mt-2 text-muted">{facts.join(' · ')}</p>
+
+              <p className="mt-6 border-t border-rule pt-6 leading-relaxed">{t(project.description)}</p>
 
               {project.recognition && (
-                <div className="mt-5 border-l-2 border-accent pl-4">
-                  <p className="font-mono text-[11px] uppercase tracking-wide text-accent">
-                    {t(COPY.projects.recognition)}
-                  </p>
-                  <p className="mt-1 text-sm text-[rgb(var(--fg)/0.85)]">{t(project.recognition)}</p>
+                <div className="mt-6 border-l-2 border-accent pl-4">
+                  <p className="meta text-accent">{t(COPY.work.recognition)}</p>
+                  <p className="mt-1 text-[15px] text-muted">{t(project.recognition)}</p>
                 </div>
               )}
 
-              <div className="mt-5 flex flex-wrap gap-1.5">
+              <ul className="mt-6 flex flex-wrap gap-1.5" aria-label={t(COPY.work.builtWith)}>
                 {project.tags.map((tag) => (
-                  <span key={termKey(tag)} className="rounded-md border border-line px-2 py-0.5 font-mono text-xs text-muted">
+                  <li key={termKey(tag)} className="chip">
                     {t(tag)}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                {project.demo && <LinkButton href={project.demo}>{t(COPY.projects.site)}</LinkButton>}
-                {project.repo && <LinkButton href={project.repo}>{t(COPY.projects.code)}</LinkButton>}
-                {project.links?.map((l) => (
-                  <LinkButton key={l.href} href={l.href}>
-                    {t(l.label)}
-                  </LinkButton>
-                ))}
-                {hasVideo && <LinkButton href={project.video!}>{t(COPY.projects.watch)}</LinkButton>}
-                {docs.map((d) => (
-                  <LinkButton key={d.href} href={d.href}>
-                    {t(d.label)}
-                  </LinkButton>
-                ))}
-              </div>
+              {(project.demo || project.repo || project.links || hasVideo || docs.length > 0) && (
+                <div className="mt-8 flex flex-wrap items-center gap-2">
+                  {project.demo && <LinkButton href={project.demo}>{t(COPY.work.site)}</LinkButton>}
+                  {project.repo && <LinkButton href={project.repo}>{t(COPY.work.code)}</LinkButton>}
+                  {project.links?.map((l) => (
+                    <LinkButton key={l.href} href={l.href}>
+                      {t(l.label)}
+                    </LinkButton>
+                  ))}
+                  {hasVideo && project.video && <LinkButton href={project.video}>{t(COPY.work.watch)}</LinkButton>}
+                  {docs.map((d) => (
+                    <LinkButton key={d.href} href={d.href}>
+                      {t(d.label)}
+                    </LinkButton>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         </motion.div>

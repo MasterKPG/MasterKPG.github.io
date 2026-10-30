@@ -1,124 +1,107 @@
-import { useEffect, useRef, useState, lazy, Suspense } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
-import { COPY, MORPH_WORDS } from '@/lib/content'
+import { motion } from 'framer-motion'
+import { COPY, HERO_SHOTS, PROJECTS } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
-import { LiquidButton } from '@/components/ui/liquid-glass-button'
-import { Magnetic } from '@/components/ui/Magnetic'
+import { openProject } from '@/lib/project-link'
+import { ArrowRight } from '@/components/ui/icons'
 
-// Code split three.js into its own chunk so the initial JS stays light
-const ShaderAnimation = lazy(() =>
-  import('@/components/ui/ShaderAnimation').then((m) => ({ default: m.ShaderAnimation })),
-)
+const SHOTS = HERO_SHOTS.flatMap((id) => PROJECTS.filter((p) => p.id === id && p.cover))
+
+/** Width over height of each board photo, so the strip keeps one shared height. */
+const RATIO: Record<string, number> = {
+  'saturating-accumulator': 1,
+  'smart-garden': 16 / 9,
+  'ping-pong': 16 / 9,
+}
+
+const ease = [0.22, 1, 0.36, 1] as const
 
 export function Hero() {
-  const { t, lang } = useLang()
-  const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120])
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
-
-  // Rotating role word: restrained kinetic typography (fade + slide)
-  const [wordIndex, setWordIndex] = useState(0)
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const id = setInterval(() => setWordIndex((i) => (i + 1) % MORPH_WORDS.length), 2200)
-    return () => clearInterval(id)
-  }, [])
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id)
-    if (el) window.scrollTo({ top: el.offsetTop - 64, behavior: 'smooth' })
-  }
+  const { t } = useLang()
 
   return (
-    <section
-      ref={ref}
-      id="hero"
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink-950"
-    >
-      {/* three.js line burst shader (lazy loaded chunk); z-0 sits above the section bg */}
-      <div className="absolute inset-0 z-0">
-        <Suspense fallback={null}>
-          <ShaderAnimation className="h-full w-full" />
-        </Suspense>
-      </div>
-      {/* scrim for text contrast, light enough to keep the burst visible */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[1]"
-        style={{
-          background:
-            'radial-gradient(ellipse 62% 55% at center, rgba(8,9,12,0.5) 0%, rgba(8,9,12,0.2) 45%, transparent 82%)',
-        }}
-      />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-48 bg-gradient-to-t from-ink-950 to-transparent" />
-
-      <motion.div style={{ y, opacity }} className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+    <section id="top" className="pb-20 pt-32 md:pb-28 md:pt-44">
+      <div className="mx-auto max-w-page px-5 sm:px-8">
+        <motion.button
+          type="button"
+          onClick={() => openProject('solibox')}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-5xl font-bold leading-[1.04] tracking-[-0.035em] text-white sm:text-7xl md:text-8xl"
-          style={{ textShadow: '0 2px 40px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.6)' }}
+          transition={{ duration: 0.5, ease }}
+          className="group inline-flex items-center gap-2.5 rounded-md border border-rule py-1.5 pl-2.5 pr-3 text-sm text-muted transition-colors hover:border-rule-strong hover:text-fg"
         >
-          Mohammad Amara
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+          {t(COPY.hero.award)}
+          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+        </motion.button>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.08, ease }}
+          className="display mt-6 max-w-[19ch] text-[2.5rem] sm:text-[3.5rem] lg:text-[4.75rem]"
+        >
+          {t(COPY.hero.title)}
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.7 }}
-          className="mx-auto mt-5 max-w-2xl text-base text-white/70 sm:text-lg"
-          style={{ textShadow: '0 1px 12px rgba(0,0,0,0.8)' }}
+          transition={{ duration: 0.7, delay: 0.16, ease }}
+          className="mt-4 max-w-xl text-lg text-muted"
         >
-          {t(COPY.hero.tagline)}
+          {t(COPY.hero.sub)}
         </motion.p>
 
-        {/* Rotating role word */}
-        <div className="mt-4 flex h-9 items-center justify-center overflow-hidden sm:h-11">
-          <span className="font-mono text-sm text-white/45 sm:text-base">&lt;</span>
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={`${lang}-${wordIndex}`}
-              initial={{ y: '110%', opacity: 0 }}
-              animate={{ y: '0%', opacity: 1 }}
-              exit={{ y: '-110%', opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="mx-2 font-mono text-lg font-semibold tracking-tight text-accent sm:text-2xl"
-            >
-              {t(MORPH_WORDS[wordIndex])}
-            </motion.span>
-          </AnimatePresence>
-          <span className="font-mono text-sm text-white/45 sm:text-base">/&gt;</span>
-        </div>
-
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.7 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-4"
+          transition={{ duration: 0.7, delay: 0.24, ease }}
+          className="mt-10 flex flex-wrap gap-3"
         >
-          <Magnetic>
-            <LiquidButton variant="onDark" size="lg" onClick={() => scrollTo('projects')}>
-              {t(COPY.hero.viewWork)}
-            </LiquidButton>
-          </Magnetic>
-          <Magnetic>
-            <LiquidButton variant="onDark" size="lg" onClick={() => scrollTo('contact')}>
-              {t(COPY.hero.getInTouch)}
-            </LiquidButton>
-          </Magnetic>
+          <a href="#projects" className="btn btn-primary">
+            {t(COPY.hero.viewWork)}
+          </a>
+          <a href="#contact" className="btn btn-secondary">
+            {t(COPY.nav.contact)}
+          </a>
         </motion.div>
-      </motion.div>
+      </div>
 
-      <motion.div style={{ opacity }} className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2" aria-hidden>
-        <div className="flex h-9 w-5 items-start justify-center rounded-full border border-white/20 p-1">
-          <motion.span
-            animate={{ y: [0, 12, 0], opacity: [1, 0, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity }}
-            className="h-2 w-0.5 rounded-full bg-accent"
-          />
-        </div>
-      </motion.div>
+      {/* Real boards from the projects, one shared height; each opens its project. */}
+      <motion.ul
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.32, ease }}
+        className="mx-auto mt-16 flex max-w-page snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-2 sm:gap-4 sm:overflow-visible sm:px-8 md:mt-24"
+      >
+        {SHOTS.map((p) => (
+          <li
+            key={p.id}
+            className="w-[82%] shrink-0 snap-start sm:w-auto sm:min-w-0 sm:shrink sm:basis-0"
+            style={{ flexGrow: RATIO[p.id] ?? 1, ['--r' as string]: RATIO[p.id] ?? 1 }}
+          >
+            <button type="button" onClick={() => openProject(p.id)} className="group block w-full text-left">
+              <span className="block aspect-[4/3] overflow-hidden rounded-md bg-surface sm:aspect-[var(--r)]">
+                <img
+                  src={p.cover}
+                  alt=""
+                  loading="eager"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                />
+              </span>
+              <span className="mt-3 flex items-baseline justify-between gap-4">
+                <span className="truncate text-sm font-medium transition-colors group-hover:text-accent">
+                  {t(p.title)}
+                </span>
+                <span className="meta hidden shrink-0 text-muted xl:inline">
+                  {p.tags.slice(0, 2).map((x) => t(x)).join(' · ')}
+                </span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </motion.ul>
     </section>
   )
 }

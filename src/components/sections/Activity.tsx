@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import { COPY, CONTACT } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
-import { SectionHeader } from '@/components/ui/SectionHeader'
+import { Section } from '@/components/ui/Section'
 import ContributionSkyline, {
   type ContributionDay,
   type SkylineStrings,
@@ -35,18 +35,18 @@ const SKYLINE_FR: Partial<SkylineStrings> = {
   shownAs: (view) => ', affichées en ' + view.toLowerCase() + '. Les flèches permettent de lire chaque jour.',
 }
 
-// Activity levels in the site's cyan, lightest to heaviest, per theme.
+// Activity levels in the site's blueprint blue, lightest to heaviest, per theme.
 const PALETTE = {
-  light: ['#a5f3fc', '#22d3ee', '#0891b2', '#155e75'],
-  dark: ['#0e3a44', '#0e7490', '#06b6d4', '#67e8f9'],
+  light: ['#d6e2ff', '#93b0f5', '#3f6fdc', '#1a3fa8'],
+  dark: ['#17264a', '#24479a', '#4a7cf0', '#a3c0ff'],
 }
 
 // The chart reads its surface colours from these variables; map them to the site tokens.
 const TOKENS = {
-  '--color-background': 'rgb(var(--bg-elevated))',
+  '--color-background': 'rgb(var(--bg))',
   '--color-foreground': 'rgb(var(--fg))',
-  '--color-border': 'rgb(var(--line) / 0.1)',
-  '--color-muted-foreground': 'rgb(var(--fg-muted))',
+  '--color-border': 'rgb(var(--rule))',
+  '--color-muted-foreground': 'rgb(var(--muted))',
 } as CSSProperties
 
 /**
@@ -73,31 +73,25 @@ export function Activity() {
   if (!days) return null
 
   return (
-    <section id="activity" className="relative mx-auto max-w-6xl px-6 py-28">
-      <SectionHeader
-        index="05"
-        label={t(COPY.activity.label)}
-        sub={t(COPY.activity.sub)}
-      />
-      <Reveal delay={0.1} className="mt-12">
-        <div style={TOKENS}>
+    <Section id="activity" title={t(COPY.activity.title)} sub={t(COPY.activity.sub)} layout="stacked">
+      <Reveal>
+        {/* The chart draws its own frame around an inner frame; the outer one takes the page
+            colour and loses its border, so it is not a card inside a card. The chart reads
+            that colour to tint its empty days. */}
+        <div style={TOKENS} className="[&>section]:!border-0 [&>section]:!p-0">
           <ContributionSkyline
             data={days}
             palette={PALETTE}
+            defaultView="2d"
             locale={lang === 'fr' ? 'fr-FR' : 'en-US'}
             weekStart={lang === 'fr' ? 1 : 0}
             strings={lang === 'fr' ? SKYLINE_FR : undefined}
           />
         </div>
-        <a
-          href={CONTACT.github}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-4 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-accent"
-        >
+        <a href={CONTACT.github} target="_blank" rel="noreferrer" className="link mt-4 inline-block text-sm text-muted">
           github.com/{CONTACT.githubUser} <span aria-hidden>↗</span>
         </a>
       </Reveal>
-    </section>
+    </Section>
   )
 }

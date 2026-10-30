@@ -2,12 +2,13 @@ import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 
 /**
- * Scroll-triggered reveal with optional stagger delay.
+ * Fades its content in and up once, when it first scrolls into view. The distance is
+ * short on purpose: the page should settle, not fly in.
  */
 export function Reveal({
   children,
   delay = 0,
-  y = 36,
+  y = 14,
   className,
 }: {
   children: ReactNode
@@ -19,8 +20,8 @@ export function Reveal({
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}
