@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found · Mohammad Amara</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Same tokens as the site (src/index.css), dark unless the system asks for light. */
+      :root {
+        --bg: #0b0f17;
+        --fg: #e6eaf2;
+        --muted: #94a0b4;
+        --rule: #1f2836;
+        --accent: #7aa2ff;
+        --on-accent: #0b0f17;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f5f6f8;
+          --fg: #0f1726;
+          --muted: #566175;
+          --rule: #dde1e8;
+          --accent: #1d4ed8;
+          --on-accent: #fff;
+        }
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body {
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background-color: var(--bg);
+        background-image:
+          linear-gradient(var(--rule) 1px, transparent 1px),
+          linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+        background-size: 32px 32px;
+        color: var(--fg);
+        font: 16px/1.6 'IBM Plex Sans', system-ui, sans-serif;
+      }
+      main { width: 100%; max-width: 560px; background: var(--bg); padding: 40px; border: 1px solid var(--rule); border-radius: 6px; }
+      .code { font: 500 13px 'IBM Plex Mono', monospace; color: var(--muted); }
+      h1 { margin: 12px 0 0; font-weight: 500; font-size: 40px; line-height: 1.1; letter-spacing: -0.025em; }
+      p { margin: 12px 0 0; color: var(--muted); }
+      svg { display: block; width: 100%; height: auto; margin-top: 32px; }
+      .trace { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .pad { fill: var(--bg); stroke: var(--accent); stroke-width: 2; }
+      .gap { stroke: var(--muted); stroke-width: 2; stroke-linecap: round; }
+      a {
+        display: inline-flex; align-items: center; height: 44px; margin-top: 32px; padding: 0 20px;
+        border-radius: 6px; background: var(--accent); color: var(--on-accent);
+        font-weight: 500; font-size: 15px; text-decoration: none;
+      }
+      a:hover { opacity: 0.88; }
+      a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="code">404</p>
+      <h1>Nothing is wired to this address.</h1>
+      <p lang="fr">Rien n'est branché à cette adresse.</p>
+      <!-- An open circuit: the trace stops short of the pad it should reach. -->
+      <svg viewBox="0 0 480 60" aria-hidden="true">
+        <path class="trace" d="M8 30 H150 L180 12 H262" />
+        <path class="trace" d="M318 12 H360 L390 30 H462" />
+        <circle class="pad" cx="8" cy="30" r="5" />
+        <circle class="pad" cx="462" cy="30" r="5" />
+        <path class="gap" d="M282 4 l16 16 M298 4 l-16 16" />
+      </svg>
+      <a href="/">Back to the portfolio · Retour au portfolio</a>
+    </main>
+  </body>
+</html>

@@ -408,6 +408,40 @@ export const PROJECTS: Project[] = [
 /** The board photos shown in the hero, in order. Each opens its project. */
 export const HERO_SHOTS = ['saturating-accumulator', 'smart-garden', 'ping-pong']
 
+/** The four areas of the project index, shown as a bento that filters the list. */
+export const AREAS: { id: ProjectCategory; blurb: Bi; image?: string }[] = [
+  {
+    id: 'hardware',
+    image: 'assets/covers/saturating-accumulator.webp',
+    blurb: {
+      en: 'FPGA logic in VHDL, checked on the board, and a PCB drawn in EAGLE.',
+      fr: 'De la logique FPGA en VHDL, vérifiée sur carte, et un PCB dessiné sous EAGLE.',
+    },
+  },
+  {
+    id: 'embedded',
+    image: 'assets/covers/smart-garden.webp',
+    blurb: {
+      en: 'C on ARM Cortex-M and Arduino: sensors, motors, a game.',
+      fr: 'Du C sur ARM Cortex-M et Arduino : capteurs, moteurs, un jeu.',
+    },
+  },
+  {
+    id: 'software',
+    blurb: {
+      en: 'Linux systems, tools and web apps.',
+      fr: 'Systèmes Linux, outils et applications web.',
+    },
+  },
+  {
+    id: 'ml',
+    blurb: {
+      en: 'Clustering from scratch and shortest paths on a graph.',
+      fr: 'Du clustering from scratch et des plus courts chemins sur un graphe.',
+    },
+  },
+]
+
 /** A skill item is either a name that reads the same in both languages, or a translated one. */
 export type SkillItem = Term
 
@@ -529,8 +563,8 @@ export const EXPERIENCE: TimelineEntry[] = [
       fr: 'Développeur principal et coordinateur technique (bénévole)',
     },
     place: {
-      en: 'Solibox · Togo Vert et Vivant Trégor, Brittany, France',
-      fr: 'Solibox · Togo Vert et Vivant Trégor, Bretagne',
+      en: 'Togo Vert et Vivant Trégor (Solibox) · Brittany, France',
+      fr: 'Togo Vert et Vivant Trégor (Solibox) · Bretagne',
     },
     desc: {
       en: 'Designed and built Solibox, an offline education server on Raspberry Pi, and coordinate its technical side with the non-profit. Won the 2026 PIEED award.',
@@ -623,9 +657,13 @@ export const COPY = {
     },
     index: { en: 'All projects', fr: 'Tous les projets' },
     indexSub: {
-      en: 'Coursework and side projects, from VHDL to web apps.',
-      fr: "Projets de cours et projets personnels, du VHDL aux applications web.",
+      en: 'Coursework and side projects. Pick an area to narrow the list.',
+      fr: 'Projets de cours et projets personnels. Choisissez un domaine pour filtrer la liste.',
     },
+    showing: { en: 'Showing', fr: 'Affichés' },
+    clear: { en: 'Show all', fr: 'Tout afficher' },
+    tabs: { en: 'Selected projects', fr: 'Projets choisis' },
+    award: { en: 'Award', fr: 'Prix' },
     all: { en: 'All', fr: 'Tout' },
     filterBy: { en: 'Filter projects', fr: 'Filtrer les projets' },
     count: { en: 'projects', fr: 'projets' },
@@ -638,6 +676,11 @@ export const COPY = {
     watch: { en: 'Watch demo', fr: 'Voir la démo' },
     video: { en: 'Video', fr: 'Vidéo' },
     close: { en: 'Close', fr: 'Fermer' },
+  },
+  tools: {
+    label: { en: 'Tools I build with', fr: 'Mes outils' },
+    pause: { en: 'Pause the logos', fr: 'Mettre les logos en pause' },
+    play: { en: 'Play the logos', fr: 'Relancer les logos' },
   },
   about: {
     title: { en: 'About', fr: 'À propos' },
@@ -670,6 +713,7 @@ export const COPY = {
   },
   contact: {
     title: { en: 'Contact', fr: 'Contact' },
+    heading: { en: 'Write to me.', fr: 'Écrivez-moi.' },
     sub: {
       en: 'For an internship, a collaboration or just to chat, I would love to hear from you.',
       fr: "Pour un stage, une collaboration ou simplement échanger, je serai ravi de vous répondre.",

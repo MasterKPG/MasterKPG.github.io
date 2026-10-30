@@ -9,18 +9,19 @@ animations. Type is IBM Plex Sans and IBM Plex Mono.
 
 ## What's on the site
 
-- **Hero**: one heading, the PIEED award, and photos of real boards from the projects.
-- **Projects**: Solibox as a lead block with a spec sheet, three cards for current work, and an
-  index of every other project that filters by field. Each project opens a preview with its
-  demo video, cover, role, tags, links and documents. `#project-<id>` in the URL opens one
-  directly.
+- **Hero**: one heading, the PIEED award, and a collage of real boards from the projects,
+  followed by a ribbon of tool logos.
+- **Selected work**: four projects as tabs beside one large visual (Solibox is drawn as a system
+  diagram). Below it, every other project in one list, filtered by four area tiles. Each
+  project opens a preview with its demo video, cover, role, tags, links and documents.
+  `#project-<id>` in the URL opens one directly.
 - **About** with a toolkit table, **Experience and education** as dated lists,
   **GitHub activity** as a contribution heat map (it also folds into a 3D skyline), and
   **Contact**.
 - **CV page** at `/cv/`, typeset in Latin Modern to match the LaTeX PDFs, black on white in both
   themes, with EN and FR downloads. Project names on the CV link back to their preview on the
   portfolio.
-- **EN / FR toggle** and **dark / light theme** (dark by default).
+- **EN / FR toggle** and **dark / light theme** (dark by default), and a 404 page.
 - Responsive, and animations follow `prefers-reduced-motion`.
 
 ## Run it locally
