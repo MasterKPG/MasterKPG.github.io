@@ -73,7 +73,7 @@ export function Activity() {
   if (!days) return null
 
   return (
-    <Section id="activity" title={t(COPY.activity.title)} sub={t(COPY.activity.sub)} layout="stacked">
+    <Section id="activity" title={t(COPY.activity.title)} layout="stacked">
       <Reveal>
         {/* The chart draws its own frame around an inner frame; the outer one takes the page
             colour and loses its border, so it is not a card inside a card. The chart reads

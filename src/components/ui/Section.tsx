@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import { Reveal } from './Reveal'
-import { Rule } from './motion'
+import { Rule, Words } from './motion'
 
 /** Registration marks where a section's top rule meets the page frame, as on a drawing. */
 function Marks() {
@@ -26,7 +26,7 @@ function Cross() {
 }
 
 /**
- * A page section under a hairline that draws itself in. `split` puts the heading in a
+ * A page section under a hairline that draws itself in; its heading arrives word by word. `split` puts the heading in a
  * left column that stays in view on wide screens, with the content on the right;
  * `stacked` puts the heading above content that needs the full width.
  */
@@ -56,7 +56,7 @@ export function Section({
           <Reveal>
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-12">
               <h2 id={headingId} className="display text-[2rem] sm:text-[2.75rem]">
-                {title}
+                <Words text={title} />
               </h2>
               {sub && <p className="max-w-md text-muted md:text-right">{sub}</p>}
             </div>
@@ -68,7 +68,7 @@ export function Section({
           <div className="md:col-span-4">
             <Reveal className="md:sticky md:top-28">
               <h2 id={headingId} className="display text-[2rem] sm:text-[2.75rem]">
-                {title}
+                <Words text={title} />
               </h2>
               {sub && <p className="mt-3 max-w-xs text-muted">{sub}</p>}
             </Reveal>

@@ -408,40 +408,6 @@ export const PROJECTS: Project[] = [
 /** The board photos shown in the hero, in order. Each opens its project. */
 export const HERO_SHOTS = ['saturating-accumulator', 'smart-garden', 'ping-pong']
 
-/** The four areas of the project index, shown as a bento that filters the list. */
-export const AREAS: { id: ProjectCategory; blurb: Bi; image?: string }[] = [
-  {
-    id: 'hardware',
-    image: 'assets/covers/saturating-accumulator.webp',
-    blurb: {
-      en: 'FPGA logic in VHDL, checked on the board, and a PCB drawn in EAGLE.',
-      fr: 'De la logique FPGA en VHDL, vérifiée sur carte, et un PCB dessiné sous EAGLE.',
-    },
-  },
-  {
-    id: 'embedded',
-    image: 'assets/covers/smart-garden.webp',
-    blurb: {
-      en: 'C on ARM Cortex-M and Arduino: sensors, motors, a game.',
-      fr: 'Du C sur ARM Cortex-M et Arduino : capteurs, moteurs, un jeu.',
-    },
-  },
-  {
-    id: 'software',
-    blurb: {
-      en: 'Linux systems, tools and web apps.',
-      fr: 'Systèmes Linux, outils et applications web.',
-    },
-  },
-  {
-    id: 'ml',
-    blurb: {
-      en: 'Clustering from scratch and shortest paths on a graph.',
-      fr: 'Du clustering from scratch et des plus courts chemins sur un graphe.',
-    },
-  },
-]
-
 /** A skill item is either a name that reads the same in both languages, or a translated one. */
 export type SkillItem = Term
 
@@ -639,40 +605,24 @@ export const COPY = {
   },
   hero: {
     award: { en: 'Solibox won the 2026 PIEED award', fr: 'Solibox, lauréat du prix PIEED 2026' },
+    hello: { en: "Hi, I'm Mohammad.", fr: 'Bonjour, je suis Mohammad.' },
+    drag: { en: 'Drag the boards around', fr: 'Déplacez les cartes' },
     title: {
       en: 'I design boards, FPGA logic and the software that runs on them.',
       fr: 'Je conçois des cartes, de la logique FPGA et le logiciel qui tourne dessus.',
     },
-    sub: {
-      en: 'Mohammad Amara, engineering student in computer science and embedded systems at ENSSAT, Lannion.',
-      fr: "Mohammad Amara, étudiant ingénieur en informatique et systèmes embarqués à l'ENSSAT, Lannion.",
-    },
     viewWork: { en: 'View projects', fr: 'Voir les projets' },
   },
   work: {
-    title: { en: 'Selected work', fr: 'Projets choisis' },
-    sub: {
-      en: 'What I am building now, and the project that won an award.',
-      fr: 'Ce que je construis en ce moment, et le projet primé.',
-    },
-    index: { en: 'All projects', fr: 'Tous les projets' },
-    indexSub: {
-      en: 'Coursework and side projects. Pick an area to narrow the list.',
-      fr: 'Projets de cours et projets personnels. Choisissez un domaine pour filtrer la liste.',
-    },
-    showing: { en: 'Showing', fr: 'Affichés' },
-    clear: { en: 'Show all', fr: 'Tout afficher' },
-    tabs: { en: 'Selected projects', fr: 'Projets choisis' },
+    title: { en: 'Projects', fr: 'Projets' },
     award: { en: 'Award', fr: 'Prix' },
     all: { en: 'All', fr: 'Tout' },
     filterBy: { en: 'Filter projects', fr: 'Filtrer les projets' },
-    count: { en: 'projects', fr: 'projets' },
     builtWith: { en: 'Built with', fr: 'Technologies' },
     inProgress: { en: 'In progress', fr: 'En cours' },
     recognition: { en: 'Recognition', fr: 'Distinction' },
     code: { en: 'Source code', fr: 'Code source' },
     site: { en: 'Visit site', fr: 'Voir le site' },
-    details: { en: 'Read more', fr: 'En savoir plus' },
     watch: { en: 'Watch demo', fr: 'Voir la démo' },
     video: { en: 'Video', fr: 'Vidéo' },
     close: { en: 'Close', fr: 'Fermer' },
@@ -684,14 +634,6 @@ export const COPY = {
   },
   about: {
     title: { en: 'About', fr: 'À propos' },
-    p1: {
-      en: "I'm an engineering student in computer science and embedded systems at ENSSAT (Université de Rennes) in Lannion, France. My hands-on work covers FPGA design in VHDL, C on ARM Cortex-M microcontrollers, Linux servers, and full-stack web and mobile development.",
-      fr: "Étudiant ingénieur en informatique et systèmes embarqués à l'ENSSAT (Université de Rennes), à Lannion. Je travaille concrètement sur la conception FPGA en VHDL, le C sur microcontrôleurs ARM Cortex-M, les serveurs Linux et le développement web et mobile full-stack.",
-    },
-    p2: {
-      en: 'Two years of CPGE in mathematics and physics gave me a solid base in applied mathematics and algorithms. I like building things end to end, from a board designed in EAGLE to a Flask server on a Raspberry Pi.',
-      fr: "Deux années de CPGE en mathématiques et physique m'ont donné une base solide en mathématiques appliquées et en algorithmique. J'aime réaliser des projets de bout en bout, d'une carte conçue sous EAGLE à un serveur Flask sur Raspberry Pi.",
-    },
     studying: { en: 'Studying', fr: 'Formation' },
     studyingValue: { en: 'ENSSAT, Université de Rennes', fr: 'ENSSAT, Université de Rennes' },
     based: { en: 'Based in', fr: 'Basé à' },
@@ -703,21 +645,14 @@ export const COPY = {
     title: { en: 'Experience', fr: 'Parcours' },
     work: { en: 'Work', fr: 'Expérience' },
     education: { en: 'Education', fr: 'Formation' },
+    more: { en: 'Show details', fr: 'Afficher les détails' },
   },
   activity: {
     title: { en: 'Activity', fr: 'Activité' },
-    sub: {
-      en: 'My GitHub contributions over the last year.',
-      fr: 'Mes contributions GitHub sur la dernière année.',
-    },
   },
   contact: {
     title: { en: 'Contact', fr: 'Contact' },
     heading: { en: 'Write to me.', fr: 'Écrivez-moi.' },
-    sub: {
-      en: 'For an internship, a collaboration or just to chat, I would love to hear from you.',
-      fr: "Pour un stage, une collaboration ou simplement échanger, je serai ravi de vous répondre.",
-    },
     copy: { en: 'Copy', fr: 'Copier' },
     copied: { en: 'Copied', fr: 'Copié' },
     phone: { en: 'Phone', fr: 'Téléphone' },

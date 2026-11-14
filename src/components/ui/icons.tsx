@@ -117,3 +117,23 @@ export const GraduationCap = (p: IconProps) => (
     <path d="M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
   </Stroke>
 )
+
+export const Plus = (p: IconProps) => (
+  <Stroke {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Stroke>
+)
+
+export const Languages = (p: IconProps) => (
+  <Stroke {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+  </Stroke>
+)
+
+export const Calendar = (p: IconProps) => (
+  <Stroke {...p}>
+    <rect x="3" y="5" width="18" height="16" rx="2" />
+    <path d="M3 10h18M8 3v4M16 3v4" />
+  </Stroke>
+)

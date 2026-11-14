@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { COPY, CONTACT } from '@/lib/content'
 import { useLang } from '@/lib/i18n'
 import { Reveal } from '@/components/ui/Reveal'
-import { Develop, Rule } from '@/components/ui/motion'
+import { Develop, Magnetic, Rule, SPRING, Words } from '@/components/ui/motion'
 import { ArrowUpRight, Check, Copy, FileText, GitHub, LinkedIn, Phone } from '@/components/ui/icons'
 
 export function Contact() {
@@ -50,9 +51,8 @@ export function Contact() {
                 aria-hidden
                 className="font-display text-[3rem] font-semibold leading-[0.95] tracking-[-0.04em] sm:text-[5rem] lg:text-[7rem]"
               >
-                {t(COPY.contact.heading)}
+                <Words text={t(COPY.contact.heading)} />
               </p>
-              <p className="mt-5 max-w-md text-lg text-white/75">{t(COPY.contact.sub)}</p>
             </Reveal>
             <Reveal delay={0.08}>
               <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-4">
@@ -62,14 +62,25 @@ export function Contact() {
                 >
                   {CONTACT.email}
                 </a>
-                <button
-                  type="button"
-                  onClick={copy}
-                  className="btn btn-sm border border-white/25 text-white hover:border-white/60 hover:bg-white/10"
-                >
-                  {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  <span aria-live="polite">{copied ? t(COPY.contact.copied) : t(COPY.contact.copy)}</span>
-                </button>
+                <Magnetic>
+                  <button
+                    type="button"
+                    onClick={copy}
+                    className="btn btn-sm border border-white/25 text-white hover:border-white/60 hover:bg-white/10"
+                  >
+                    {/* The icon swaps with a small pop, so the click is never in doubt. */}
+                    <motion.span
+                      key={copied ? 'done' : 'copy'}
+                      initial={{ scale: 0.4, rotate: -30, opacity: 0 }}
+                      animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                      transition={SPRING}
+                      className="inline-flex"
+                    >
+                      {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    </motion.span>
+                    <span aria-live="polite">{copied ? t(COPY.contact.copied) : t(COPY.contact.copy)}</span>
+                  </button>
+                </Magnetic>
               </div>
             </Reveal>
           </div>
@@ -91,7 +102,7 @@ export function Contact() {
                     <span className="meta block text-muted">{c.label}</span>
                     <span className="mt-1 block truncate transition-colors group-hover:text-accent">{c.value}</span>
                   </span>
-                  <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
+                  <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted transition-transform duration-300 ease-spring group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent" />
                 </a>
               </li>
             ))}

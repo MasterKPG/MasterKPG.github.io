@@ -43,13 +43,13 @@ function Box({ x, y, w, h, label, sub }: { x: number; y: number; w: number; h: n
         y={sub ? y + h / 2 - 4 : y + h / 2 + 5}
         fill="rgb(var(--fg))"
         fontSize="14"
-        fontFamily="IBM Plex Sans, sans-serif"
+        fontFamily="Figtree, sans-serif"
         fontWeight="500"
       >
         {label}
       </text>
       {sub && (
-        <text x={x + 14} y={y + h / 2 + 14} fill="rgb(var(--muted))" fontSize="11" fontFamily="IBM Plex Mono, monospace">
+        <text x={x + 14} y={y + h / 2 + 14} fill="rgb(var(--muted))" fontSize="11" fontFamily="Figtree, sans-serif">
           {sub}
         </text>
       )}
@@ -97,7 +97,7 @@ export function SoliboxDiagram() {
         ))}
 
         <Box x={40} y={160} w={138} h={80} label="Raspberry Pi" sub="Linux · systemd" />
-        <text x={190} y={168} fill="rgb(var(--muted))" fontSize="11" fontFamily="IBM Plex Mono, monospace">
+        <text x={190} y={168} fill="rgb(var(--muted))" fontSize="11" fontFamily="Figtree, sans-serif">
           {t({ en: 'own WiFi', fr: 'WiFi dédié' })}
         </text>
         <Box x={262} y={160} w={140} h={80} label={t({ en: 'Captive portal', fr: 'Portail captif' })} sub="Flask · NGINX" />
@@ -110,75 +110,9 @@ export function SoliboxDiagram() {
           <path d="M10 30h34a10 10 0 0 0 0-20 14 14 0 0 0-27-3A11 11 0 0 0 10 30z" />
           <path d="M6 4l44 32" />
         </g>
-        <text x={116} y={327} fill="rgb(var(--muted))" fontSize="12" fontFamily="IBM Plex Mono, monospace">
+        <text x={116} y={327} fill="rgb(var(--muted))" fontSize="12" fontFamily="Figtree, sans-serif">
           {t({ en: 'no internet needed', fr: 'sans internet' })}
         </text>
-      </svg>
-    </Sheet>
-  )
-}
-
-/** The parking simulator: processes talking through FIFOs and shared memory. */
-export function IpcDiagram() {
-  // Drawn in the top half of the tile; the bottom is left for the tile's text.
-  return (
-    <Sheet>
-      <svg viewBox="0 0 320 200" className="h-full w-full" aria-hidden preserveAspectRatio="xMidYMin slice">
-        <Line d="M92 34 H150 V64 H186" />
-        <Line d="M92 94 H150 V64" delay={0.15} />
-        <Line d="M252 44 V32" delay={0.3} dashed />
-        <Via cx={150} cy={64} />
-        <Box x={24} y={18} w={68} h={32} label="proc" />
-        <Box x={24} y={78} w={68} h={32} label="proc" />
-        <Box x={186} y={44} w={88} h={40} label="FIFO" />
-        <Box x={218} y={6} w={68} h={26} label="shm" />
-      </svg>
-    </Sheet>
-  )
-}
-
-/** K-Means: three clusters of points around their centroids, kept to the top of the tile. */
-export function ClusterPlot() {
-  const clusters = [
-    { cx: 80, cy: 52, pts: [[-22, -10], [-8, 14], [12, -16], [18, 8], [-14, -26], [4, 22], [26, -4]] },
-    { cx: 240, cy: 46, pts: [[-18, 10], [10, -14], [20, 12], [-6, -20], [-24, -6], [6, 18]] },
-    { cx: 160, cy: 92, pts: [[-20, -8], [14, -12], [22, 10], [-10, 16], [0, -22], [-26, 8], [8, 4]] },
-  ]
-  return (
-    <Sheet>
-      <svg viewBox="0 0 320 200" className="h-full w-full" aria-hidden preserveAspectRatio="xMidYMin slice">
-        {clusters.map((c, i) => (
-          <g key={i}>
-            {c.pts.map(([dx, dy], j) => (
-              <motion.circle
-                key={j}
-                cx={c.cx + dx}
-                cy={c.cy + dy}
-                r="3.5"
-                fill="rgb(var(--muted))"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 0.8 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.1 + j * 0.04 }}
-              />
-            ))}
-            <Line d={`M${c.cx - 7} ${c.cy} H${c.cx + 7} M${c.cx} ${c.cy - 7} V${c.cy + 7}`} delay={0.6 + i * 0.1} />
-            <motion.circle
-              cx={c.cx}
-              cy={c.cy}
-              r="34"
-              fill="none"
-              stroke="rgb(var(--accent))"
-              strokeOpacity="0.5"
-              strokeDasharray="3 5"
-              initial={{ opacity: 0, scale: 0.6 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              style={{ transformOrigin: `${c.cx}px ${c.cy}px` }}
-              transition={{ duration: 0.9, delay: 0.7 + i * 0.1, ease: EASE }}
-            />
-          </g>
-        ))}
       </svg>
     </Sheet>
   )

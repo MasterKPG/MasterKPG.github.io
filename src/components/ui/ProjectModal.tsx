@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { Project, ProjectDoc } from '@/lib/content'
 import { CATEGORY_LABELS, COPY } from '@/lib/content'
 import { termKey, useLang } from '@/lib/i18n'
-import { CoverImage } from './SmartMedia'
+import { Thumb } from './thumbs'
+import { EASE } from './motion'
 import { ArrowUpRight, Close } from './icons'
 
 /** True when a HEAD request finds the file and it has the expected content type. */
@@ -26,13 +27,27 @@ function LinkButton({ href, children }: { href: string; children: ReactNode }) {
   )
 }
 
+/** Where the preview grows from: the clicked tile's centre, measured from the viewport's. */
+export interface Origin {
+  x: number
+  y: number
+}
+
 /**
- * Project preview: video or cover, the full description, a short fact list, tags, and
+ * Project preview: video or picture, the full description, a short fact list, tags, and
  * links to the code, the live site, the demo video and documents. Video and document
  * links only render when the file exists (probed via HEAD), so a missing file never
  * becomes a dead link.
  */
-export function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
+export function ProjectModal({
+  project,
+  origin,
+  onClose,
+}: {
+  project: Project | null
+  origin?: Origin | null
+  onClose: () => void
+}) {
   const { t } = useLang()
   const [hasVideo, setHasVideo] = useState(false)
   const [docs, setDocs] = useState<ProjectDoc[]>([])
@@ -111,18 +126,23 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
             role="dialog"
             aria-modal="true"
             aria-labelledby="project-title"
-            className="panel relative z-10 max-h-[92svh] w-full max-w-3xl overflow-y-auto rounded-b-none shadow-[0_24px_80px_rgb(0_0_0/0.35)] sm:max-h-[88vh] sm:rounded-b-md"
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 16 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            className="panel relative z-10 max-h-[92svh] w-full max-w-3xl overflow-y-auto rounded-b-none shadow-[0_24px_80px_rgb(0_0_0/0.35)] sm:max-h-[88vh] sm:rounded-b-card"
+            // Opened from a tile, the preview grows out of that tile and shrinks back into it.
+            initial={origin ? { opacity: 0, scale: 0.3, x: origin.x, y: origin.y } : { opacity: 0, y: 32 }}
+            animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+            exit={
+              origin
+                ? { opacity: 0, scale: 0.3, x: origin.x, y: origin.y, transition: { duration: 0.28, ease: EASE } }
+                : { opacity: 0, y: 16 }
+            }
+            transition={{ duration: 0.5, ease: EASE }}
           >
             <div className="sticky top-0 z-20 flex h-0 justify-end">
               <button
                 ref={closeRef}
                 onClick={onClose}
                 aria-label={t(COPY.work.close)}
-                className="mr-3 mt-3 flex h-9 w-9 items-center justify-center rounded-md bg-bg/80 text-fg backdrop-blur-sm transition-colors hover:bg-surface-2"
+                className="mr-3 mt-3 flex h-9 w-9 items-center justify-center rounded-full bg-bg/80 text-fg backdrop-blur-sm transition-colors hover:bg-surface-2"
               >
                 <Close className="h-4 w-4" />
               </button>
@@ -133,7 +153,10 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
                 <video src={project.video} className="h-full w-full object-contain" controls autoPlay muted loop playsInline />
               </div>
             ) : (
-              project.cover && <CoverImage src={project.cover} alt={t(project.title)} className="aspect-video w-full" />
+              // The drawings play their move here without waiting for a hover.
+              <div className="is-live aspect-video w-full">
+                <Thumb p={project} alt={t(project.title)} />
+              </div>
             )}
 
             <div className="p-6 sm:p-10">

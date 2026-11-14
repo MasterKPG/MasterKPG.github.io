@@ -102,7 +102,7 @@ export function Nav({ base, current }: { base?: string; current?: 'cv' } = {}) {
             <button
               onClick={toggleLang}
               aria-label={lang === 'en' ? 'Passer en français' : 'Switch to English'}
-              className="flex h-9 min-w-9 items-center justify-center rounded-md px-2 font-mono text-xs font-medium text-muted transition-colors hover:bg-surface-2 hover:text-fg"
+              className="flex h-9 min-w-9 items-center justify-center rounded-md px-2 text-xs font-semibold text-muted transition-colors hover:bg-surface-2 hover:text-fg"
             >
               {lang === 'en' ? 'FR' : 'EN'}
             </button>

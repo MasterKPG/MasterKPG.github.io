@@ -72,9 +72,9 @@
     line-height: 1.08;
   }
 
-  /* Dates, part numbers, counts: monospace with tabular figures. */
+  /* Dates and counts: small, medium weight, tabular figures. */
   .meta {
-    @apply font-mono text-[13px] leading-5;
+    @apply text-[13px] font-medium leading-5;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0;
   }
@@ -115,7 +115,7 @@
 
   /* A small label that is not a button: technologies, status. */
   .chip {
-    @apply inline-flex items-center rounded border px-1.5 py-px font-mono text-xs leading-5;
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium leading-5;
     border-color: rgb(var(--rule));
     color: rgb(var(--muted));
   }
@@ -129,7 +129,7 @@
   .panel {
     background: rgb(var(--surface));
     border: 1px solid rgb(var(--rule));
-    border-radius: 6px;
+    border-radius: 16px;
   }
 
   /* Inline text link: underline in the rule colour, accent on hover. */
