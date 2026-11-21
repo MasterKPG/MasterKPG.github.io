@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en" data-astryx-theme="neutral">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VHDL Forge: how it works</title>
+<meta name="description" content="VHDL Forge is a Rust desktop app that turns VHDL into a live gate-level schematic. Technical overview: the pipeline, the crates, the simulator, the layout, the app's sections and the lesson checker.">
+<meta property="og:title" content="VHDL Forge">
+<meta property="og:description" content="Type VHDL, see the gate-level circuit, rebuilt on every keystroke.">
+<meta property="og:image" content="https://masterkpg.github.io/vhdl-forge/social-dark.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon-dark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@astryxdesign/core@0.7.9/src/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@astryxdesign/core@0.7.9/dist/astryx.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@astryxdesign/theme-neutral@0.7.9/dist/theme.css">
+<script>
+  // Follow the system theme; Astryx reads data-astryx-media.
+  (function () {
+    var q = window.matchMedia('(prefers-color-scheme: dark)');
+    var set = function () { document.documentElement.setAttribute('data-astryx-media', q.matches ? 'dark' : 'light'); };
+    set();
+    q.addEventListener('change', set);
+  })();
+</script>
+<script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.2.0",
+      "react/jsx-runtime": "https://esm.sh/react@19.2.0/jsx-runtime",
+      "react-dom": "https://esm.sh/react-dom@19.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@19.2.0/client",
+      "htm": "https://esm.sh/htm@3.1.1",
+      "@astryxdesign/core": "https://esm.sh/@astryxdesign/core@0.7.9?external=react,react-dom"
+    }
+  }
+</script>
+<style>
+  :root {
+    --vf-ink: #1d1d1f; --vf-lit: #1fa83f; --vf-dim: #b8bcc4; --vf-grid: #e6e7eb; --vf-zero: #a9c9b3; --vf-sub: #6e6e73;
+    --vf-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  }
+  :root[data-astryx-media="dark"] {
+    --vf-ink: #f5f5f7; --vf-lit: #32d74b; --vf-dim: #4a4a50; --vf-grid: #26272b; --vf-zero: #2f6b45; --vf-sub: #98989f;
+  }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { font-family: var(--font-family-body, Figtree, system-ui, sans-serif); background: var(--color-background-body); margin: 0; }
+  .vf-top { position: sticky; top: 0; z-index: 10; backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    background: color-mix(in srgb, var(--color-background-body) 82%, transparent); border-bottom: 1px solid var(--color-border); }
+  .vf-top-inner, .vf-page { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+  .vf-top-inner { height: 56px; display: flex; align-items: center; gap: 20px; }
+  .vf-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; font-weight: 600; letter-spacing: -0.01em; }
+  .vf-brand { white-space: nowrap; }
+  .vf-brand img { width: 26px; height: 26px; display: block; }
+  @media (max-width: 480px) { .vf-wide { display: none; } }
+  .vf-spacer { flex: 1; }
+  .vf-page { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 56px; padding-block: 48px 96px; }
+  .vf-toc { position: sticky; top: 88px; align-self: start; display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+  .vf-toc a { color: var(--color-text-secondary, inherit); text-decoration: none; padding: 5px 10px; border-radius: 8px; border-left: 2px solid transparent; }
+  .vf-toc a:hover { color: var(--color-text-primary, inherit); background: var(--color-background-muted); }
+  .vf-toc a.on { color: var(--color-text-primary, inherit); border-left-color: var(--vf-lit); border-radius: 0 8px 8px 0; }
+  .vf-main { min-width: 0; max-width: 760px; }
+  @media (max-width: 900px) { .vf-page { grid-template-columns: 1fr; gap: 0; } .vf-toc { display: none; } }
+  .vf-section { padding-top: 56px; }
+  .vf-section:first-child { padding-top: 0; }
+  .vf-num { font: 500 12px var(--vf-mono); color: var(--vf-lit); letter-spacing: 0.02em; }
+  .vf-figure { border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-background-card); padding: 20px; overflow-x: auto; }
+  .vf-figure svg { display: block; width: 100%; height: auto; min-width: 560px; }
+  .vf-figure figcaption { font-size: 13px; color: var(--color-text-secondary, inherit); margin-top: 12px; }
+  figure { margin: 0; }
+  .vf-list { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  ul.vf-list { list-style: disc; }
+  ol.vf-list { list-style: decimal; }
+  .vf-list li::marker { color: var(--vf-sub); font-family: var(--vf-mono); font-size: 12px; }
+  .vf-cells { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+  .vf-kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 16px; font-size: 14px; margin: 0; }
+  .vf-kv dt { font-family: var(--vf-mono); font-size: 13px; color: var(--color-text-primary, inherit); }
+  .vf-kv dd { margin: 0; color: var(--color-text-secondary, inherit); }
+  @media (max-width: 560px) { .vf-kv { grid-template-columns: 1fr; gap: 2px 0; } .vf-kv dd { margin-bottom: 8px; } }
+  .vf-hero-mark { width: 72px; height: 72px; }
+  .vf-foot { border-top: 1px solid var(--color-border); }
+  .vf-foot-inner { max-width: 1120px; margin: 0 auto; padding: 28px 16px 40px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--color-text-secondary, inherit); }
+  .vf-noscript { max-width: 640px; margin: 64px auto; padding: 0 16px; font: 15px/1.6 Figtree, system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<noscript>
+  <div class="vf-noscript">
+    <h1>VHDL Forge</h1>
+    <p>A Rust desktop app that turns VHDL into a live gate-level schematic, with lessons that check your answers. This page needs JavaScript to render. The source and README are on <a href="https://github.com/MasterKPG/vhdl-forge">GitHub</a>.</p>
+  </div>
+</noscript>
+<div id="root"></div>
+<script type="module">
+import * as React from 'react';
+import { createRoot } from 'react-dom/client';
+import htm from 'htm';
+import { Stack, HStack, Heading, Text, Card, CodeBlock, Badge, Divider, Link, Code, Button, Kbd } from '@astryxdesign/core';
+
+const html = htm.bind(React.createElement);
+const REPO = 'https://github.com/MasterKPG/vhdl-forge';
+const VERSION = '0.4.1';
+
+// ---------------------------------------------------------------- figures
+
+const S = { fill: 'none', stroke: 'var(--vf-ink)', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round' };
+const LIT = { ...S, stroke: 'var(--vf-lit)' };
+const DIM = { ...S, stroke: 'var(--vf-dim)' };
+const T = (x, y, s, opts = {}) => html`<text x=${x} y=${y} fill=${opts.fill || 'var(--vf-ink)'} fontSize=${opts.size || 13}
+  fontFamily=${opts.mono ? 'JetBrains Mono, monospace' : 'Figtree, sans-serif'} fontWeight=${opts.weight || 500}
+  textAnchor=${opts.anchor || 'middle'}>${s}</text>`;
+
+function Box({ x, y, w, h, title, sub, lit }) {
+  return html`<g>
+    <rect x=${x} y=${y} width=${w} height=${h} rx="10" ...${lit ? LIT : S}/>
+    ${T(x + w / 2, y + h / 2 - 2, title, { weight: 600 })}
+    ${T(x + w / 2, y + h / 2 + 16, sub, { mono: true, size: 11, fill: 'var(--vf-sub)', weight: 400 })}
+  </g>`;
+}
+
+function Pipeline() {
+  const y = 56, h = 64, w = 112, gap = 34;
+  const steps = [
+    ['Source', '.vhd files'],
+    ['Parse', 'vhdl_lang'],
+    ['Elaborate', 'vf-elab'],
+    ['Flatten', 'vf-netlist'],
+    ['Simulate', 'vf-sim'],
+    ['Lay out', 'vf-layout'],
+  ];
+  const xs = steps.map((_, i) => 8 + i * (w + gap));
+  return html`<figure className="vf-figure">
+    <svg viewBox="0 0 ${xs[5] + w + 8} 200" role="img" aria-label="Pipeline: source, parse, elaborate, flatten, simulate, lay out, then draw">
+      ${steps.map(([t, s], i) => html`<${Box} key=${t} x=${xs[i]} y=${y} w=${w} h=${h} title=${t} sub=${s} lit=${i === 4}/>`)}
+      ${steps.slice(1).map((_, i) => html`<g key=${i}>
+        <path d="M${xs[i] + w} ${y + h / 2} H${xs[i + 1]}" ...${LIT}/>
+        <circle cx=${xs[i + 1] - 3} cy=${y + h / 2} r="2" fill="var(--vf-lit)"/>
+      </g>`)}
+      <path d="M${xs[5] + w / 2} ${y + h} V${y + h + 34} H${xs[0] + w / 2} V${y + h}" ...${DIM} strokeDasharray="3 5"/>
+      ${T((xs[0] + xs[5] + w) / 2, y + h + 52, 'on every keystroke: well under 1 ms for the examples, 16 ms budget for 1,000 gates', { size: 12, fill: 'var(--vf-sub)', weight: 400 })}
+      ${T(xs[2] + w / 2, 30, 'diagnostics with line numbers', { size: 12, fill: 'var(--vf-sub)', weight: 400 })}
+      <path d="M${xs[2] + w / 2} ${y} V40" ...${DIM}/>
+      ${T(xs[4] + w / 2, 30, 'input clicks and clock edges', { size: 12, fill: 'var(--vf-sub)', weight: 400 })}
+      <path d="M${xs[4] + w / 2} 40 V${y}" ...${LIT}/>
+    </svg>
+    <figcaption>One rebuild. Clicking an input or stepping the clock only re-runs the simulator; the layout is kept.</figcaption>
+  </figure>`;
+}
+
+function Mux() {
+  // The netlist's Mux2 with its input order, drawn like the logo.
+  return html`<figure className="vf-figure">
+    <svg viewBox="0 0 640 176" role="img" aria-label="Mux2 cell with inputs sel, when_0 and when_1">
+      <path d="M330 28 L410 58 V112 L330 142 Z" ...${S}/>
+      <path d="M200 56 H330 L410 85 H560" ...${LIT}/>
+      <path d="M200 114 H330" ...${DIM}/>
+      <path d="M370 127 V160" ...${LIT}/>
+      <circle cx="200" cy="56" r="3" fill="var(--vf-lit)"/><circle cx="200" cy="114" r="3" fill="var(--vf-dim)"/><circle cx="560" cy="85" r="3" fill="var(--vf-lit)"/>
+      ${T(188, 60, "inputs[2]  when_1 = d1", { anchor: 'end', mono: true, size: 12 })}
+      ${T(188, 118, "inputs[1]  when_0 = d0", { anchor: 'end', mono: true, size: 12, fill: 'var(--vf-sub)' })}
+      ${T(380, 170, "inputs[0]  sel = '1'", { anchor: 'start', mono: true, size: 12 })}
+      ${T(572, 89, 'y', { anchor: 'start', mono: true, size: 12 })}
+    </svg>
+    <figcaption><code>${"y <= d1 when sel = '1' else d0;"}</code> becomes one Mux2. Anything on sel other than '1', 'U' included, picks when_0, as in VHDL.</figcaption>
+  </figure>`;
+}
+
+function AppMap() {
+  // How the app's parts share one Circuit.
+  const box = (x, y, w, title, sub, lit) => html`<${Box} x=${x} y=${y} w=${w} h=${56} title=${title} sub=${sub} lit=${lit}/>`;
+  return html`<figure className="vf-figure">
+    <svg viewBox="0 0 720 300" role="img" aria-label="The editor feeds a Circuit that the canvas, inspector, waveform and state diagram all read">
+      ${box(16, 122, 130, 'Editor', 'Project files', false)}
+      ${box(250, 122, 170, 'Circuit', 'design + sim + layouts', true)}
+      ${box(540, 16, 164, 'Canvas', 'schematic, States', false)}
+      ${box(540, 92, 164, 'Inspector', 'truth table, problems', false)}
+      ${box(540, 168, 164, 'Waveform', 'one column per cycle', false)}
+      ${box(540, 244, 164, 'Clock bar', 'run, step, restart', false)}
+      <path d="M146 150 H250" ...${LIT}/>
+      ${T(198, 140, 'rebuild', { size: 11, mono: true, fill: 'var(--vf-sub)', weight: 400 })}
+      ${[44, 120, 196].map((y) => html`<path key=${y} d="M420 150 C480 150 480 ${y} 540 ${y}" ...${S}/>`)}
+      <path d="M540 272 C480 272 480 160 420 160" ...${DIM} strokeDasharray="3 5"/>
+      <path d="M540 52 C500 70 470 130 420 140" ...${DIM} strokeDasharray="3 5"/>
+    </svg>
+    <figcaption>Every view reads the same Circuit. Solid lines are reads; dashed lines are writes back into the simulator (input clicks on the canvas, clock edges from the clock bar).</figcaption>
+  </figure>`;
+}
+
+// ---------------------------------------------------------------- content
+
+const SECTIONS = [
+  ['overview', 'Overview'],
+  ['pipeline', 'The pipeline'],
+  ['crates', 'Crates'],
+  ['netlist', 'Netlist'],
+  ['elaboration', 'Elaboration'],
+  ['simulation', 'Simulation'],
+  ['layout', 'Layout'],
+  ['app', 'The app'],
+  ['learn', 'Lessons and checking'],
+  ['updates', 'Updates'],
+  ['build', 'Build and run'],
+  ['roadmap', 'Roadmap'],
+];
+
+function Section({ id, n, title, children }) {
+  return html`<section id=${id} className="vf-section">
+    <${Stack} gap=${3}>
+      <span className="vf-num">${String(n).padStart(2, '0')}</span>
+      <${Heading} level=${2}>${title}</${Heading}>
+      ${children}
+    </${Stack}>
+  </section>`;
+}
+
+const P = ({ children }) => html`<${Text} as="p" color="secondary">${children}</${Text}>`;
+const Kv = ({ rows }) => html`<dl className="vf-kv">${rows.map(([k, v]) => html`<${React.Fragment} key=${k}><dt>${k}</dt><dd>${v}</dd></${React.Fragment}>`)}</dl>`;
+
+const LESSON = `# Processes and if
+> A process describes logic one statement after another.
+
+## example: A multiplexer written as a process
+Prose, then the code to study:
+\`\`\`vhdl
+...
+\`\`\`
+
+## order: Put the process together
+\`\`\`vhdl
+(the lines, shuffled)
+\`\`\`
+\`\`\`vhdl answer
+(the working design)
+\`\`\`
+hint: The entity comes before the architecture.
+
+## complete: Invert on request
+## blank: A motor with a stop button`;
+
+const BUILD = `git clone ${REPO}.git
+cd vhdl-forge
+cargo run --release -p vhdl-forge
+
+cargo test --workspace
+cargo clippy --workspace --all-targets`;
+
+function Toc() {
+  const [on, setOn] = React.useState('overview');
+  React.useEffect(() => {
+    // The current section is the last one whose top has passed under the bar.
+    const update = () => {
+      let cur = SECTIONS[0][0];
+      for (const [id] of SECTIONS) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top < 120) cur = id;
+      }
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = SECTIONS[SECTIONS.length - 1][0];
+      setOn(cur);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+  return html`<nav className="vf-toc" aria-label="On this page">
+    ${SECTIONS.map(([id, t]) => html`<a key=${id} href=${'#' + id} className=${on === id ? 'on' : ''} aria-current=${on === id ? 'location' : undefined}>${t}</a>`)}
+  </nav>`;
+}
+
+function Page() {
+  return html`<${React.Fragment}>
+  <header className="vf-top">
+    <div className="vf-top-inner">
+      <a className="vf-brand" href="#overview"><picture><source srcSet="logo-dark.svg" media="(prefers-color-scheme: dark)"/><img src="logo-light.svg" alt=""/></picture>VHDL Forge</a>
+      <span className="vf-spacer"></span>
+      <span className="vf-wide"><${Link} href=${REPO + '/blob/main/CHANGELOG.md'} size="sm">Changelog</${Link}></span>
+      <span className="vf-wide"><${Link} href=${REPO} size="sm">Source</${Link}></span>
+      <${Button} variant="primary" size="sm" label="Download" onClick=${() => { location.href = REPO + '/releases/latest'; }}/>
+    </div>
+  </header>
+
+  <div className="vf-page">
+    <${Toc}/>
+    <main className="vf-main">
+
+      <section id="overview" className="vf-section">
+        <${Stack} gap=${4}>
+          <${HStack} gap=${2} wrap="wrap">
+            <${Badge} variant="green" label=${'v' + VERSION}/>
+            <${Badge} variant="neutral" label="Rust 2024"/>
+            <${Badge} variant="neutral" label="egui 0.37"/>
+            <${Badge} variant="neutral" label="Windows · Linux · macOS"/>
+          </${HStack}>
+          <${Heading} level=${1}>VHDL Forge</${Heading}>
+          <${Text} as="p" size="lg">A desktop app for learning VHDL. You type VHDL on the left and the gate-level circuit appears on the right, rebuilt on every keystroke. Click an input and the change travels through the gates.</${Text}>
+          <${P}>This page describes how it is built: the pipeline from source text to a drawn, simulated circuit, the crates that implement each stage, the parts of the app that sit on top, and how lessons check an answer. For installing and using it, the <${Link} href=${REPO + '#readme'}>README</${Link}> is shorter.</${P}>
+          <div className="vf-cells">
+            <${Card} padding=${4}><${Stack} gap=${1}><${Text} weight="semibold">Playground</${Text}><${Text} size="sm" color="secondary">Editor, live schematic, truth table, waveform and state diagram, all fed by one rebuild.</${Text}></${Stack}></${Card}>
+            <${Card} padding=${4}><${Stack} gap=${1}><${Text} weight="semibold">Learn</${Text}><${Text} size="sm" color="secondary">Seven lessons from gates to state machines. Answers are simulated against a reference.</${Text}></${Stack}></${Card}>
+            <${Card} padding=${4}><${Stack} gap=${1}><${Text} weight="semibold">Offline</${Text}><${Text} size="sm" color="secondary">No account, no server. A simulator (GHDL, NVC, Questa) is optional and only for later testbench lessons.</${Text}></${Stack}></${Card}>
+          </div>
+        </${Stack}>
+      </section>
+
+      <${Section} id="pipeline" n=${1} title="The pipeline">
+        <${P}>Every edit runs the whole chain on the UI thread: parse all files, elaborate the top entity to a netlist, flatten instances, simulate, lay out. It is fast enough not to need a background thread or incremental updates; the status capsule over the canvas shows the time each rebuild took.</${P}>
+        <${Pipeline}/>
+        <${P}>Errors stop the chain at the stage that found them. A parse or elaboration error keeps the last good circuit on screen, dimmed, and the problem appears in the inspector and as an underline in the editor.</${P}>
+      </${Section}>
+
+      <${Section} id="crates" n=${2} title="Crates">
+        <${P}>A Cargo workspace of five crates. Only the last one knows about egui; the other four are plain libraries with their own tests, and the examples in <${Code}>content/examples</${Code}> double as their fixtures.</${P}>
+        <${Kv} rows=${[
+          ['vf-netlist', 'The circuit graph: modules, cells, nets, the std_logic value type and flattening. No dependencies.'],
+          ['vf-elab', 'Walks vhdl_lang syntax trees and lowers each architecture to a netlist module, with diagnostics.'],
+          ['vf-sim', 'Evaluates a flat netlist: combinational passes, registers on clock edges, truth tables, state-machine discovery.'],
+          ['vf-layout', 'Places cells in columns and routes orthogonal wires, signals flowing left to right.'],
+          ['vhdl-forge', 'The eframe/egui app: editor, canvas, inspector, waveform, Learn tab, settings and updater.'],
+        ]}/>
+      </${Section}>
+
+      <${Section} id="netlist" n=${3} title="Netlist">
+        <${P}>Cells and nets live in flat vectors and point at each other by index (<${Code}>CellId</${Code}>, <${Code}>NetId</${Code}>), so the simulator and the layout walk contiguous memory instead of chasing pointers. A net is a bus of <${Code}>width</${Code}> bits and has at most one driver. A design holds one module per entity and generic setting; <${Code}>flatten</${Code}> inlines instances for simulation while keeping a map back to the hierarchy, so the canvas can show one level at a time.</${P}>
+        <${Kv} rows=${[
+          ['Ports', 'Input, Output'],
+          ['Logic', 'Buf, Not, And, Or, Nand, Nor, Xor, Xnor, Mux2'],
+          ['Arithmetic', 'Add, Sub, Mul, Neg, Eq, Ne, Lt, Le, Gt, Ge'],
+          ['Wiring', 'Const, Slice, Concat, Resize'],
+          ['Structure', 'Instance (a child module), Dff (rising-edge register, optional sync or async reset)'],
+        ]}/>
+        <${Mux}/>
+      </${Section}>
+
+      <${Section} id="elaboration" n=${4} title="Elaboration">
+        <${P}><${Link} href="https://github.com/VHDL-LS/rust_hdl">vhdl_lang</${Link}> (MPL-2.0) parses and analyses each file. vf-elab then lowers what the current milestone supports and refuses the rest: a construct outside the subset produces a diagnostic naming the milestone that adds it, never a circuit that is silently wrong.</${P}>
+        <ul className="vf-list">
+          <li><${Text} color="secondary">Concurrent assignments, <${Code}>when ... else</${Code}> chains and <${Code}>with ... select</${Code}> become gates and Mux2 cells; the first true condition is the one closest to the output.</${Text}></li>
+          <li><${Text} color="secondary"><${Code}>std_logic_vector</${Code}>, <${Code}>unsigned</${Code}>, <${Code}>signed</${Code}> and integer ranges are buses. <${Code}>numeric_std</${Code}> operators become arithmetic cells, and width mismatches are explained rather than resized.</${Text}></li>
+          <li><${Text} color="secondary">A process under <${Code}>if rising_edge(clk)</${Code}> becomes Dff cells; a reset checked outside the edge is asynchronous, inside it synchronous.</${Text}></li>
+          <li><${Text} color="secondary">Combinational processes are evaluated symbolically: <${Code}>if</${Code}> and <${Code}>case</${Code}> become mux trees, variables and <${Code}>for</${Code}> loops unroll. A signal not assigned on every path is reported as a latch, since it would need memory.</${Text}></li>
+          <li><${Text} color="secondary">Enumerated types are binary encoded in the fewest bits that hold every literal; the names travel with the design so every view shows <${Code}>s_green</${Code}>, not <${Code}>"01"</${Code}>.</${Text}></li>
+          <li><${Text} color="secondary">Generics, <${Code}>for/if generate</${Code}>, entity and component instances, across several files; the top entity is the one nothing else instantiates, or the one picked in the sidebar.</${Text}></li>
+        </ul>
+      </${Section}>
+
+      <${Section} id="simulation" n=${5} title="Simulation">
+        <${P}>Values are a five-state subset of std_logic: '0', '1', 'U' (never driven), 'X' (conflict or unknown) and 'Z' (released). All net values sit in one arena indexed by per-net offsets, so a pass allocates nothing per gate. Combinational cells run once each in topological order; then any register whose clock rose takes its input, and the logic settles again, up to eight rounds.</${P}>
+        <${Kv} rows=${[
+          ['Registers', "Start at 'U' unless reset; outputs are written before any logic in each pass, so logic never sees a value from before the edge."],
+          ['Clock', 'Step drives every clock input low, then high. Run repeats that at the animation speed; restart resets registers and keeps the inputs.'],
+          ['Truth tables', 'Every input combination, up to 16 input bits in the library; the inspector shows up to 8 and follows the current row.'],
+          ['State machines', "A register of an enumerated type is a state machine. Its transitions come from simulation: put it in each state, apply every combination of the inputs its next-state logic reads, read the value waiting at its input."],
+        ]}/>
+        <${P}>Because transitions are discovered by simulating, the state diagram is right for any coding style: one process, two processes, or plain <${Code}>when ... else</${Code}>.</${P}>
+      </${Section}>
+
+      <${Section} id="layout" n=${6} title="Layout">
+        <${P}>A simplified Sugiyama layout in logical pixels; the canvas applies pan and zoom on top.</${P}>
+        <ol className="vf-list">
+          <li><${Text} color="secondary"><strong>Layering.</strong> Each cell sits one column right of its deepest driver. Inputs are column 0, outputs share the last column, and registers break cycles so feedback routes over the top.</${Text}></li>
+          <li><${Text} color="secondary"><strong>Ordering.</strong> A few barycenter sweeps reorder each column to cut crossings. Ports keep their declaration order, which is what a learner expects.</${Text}></li>
+          <li><${Text} color="secondary"><strong>Placement.</strong> Cells move toward the average height of their neighbours, then are pushed apart to keep a minimum gap. Columns are as wide as their widest cell.</${Text}></li>
+          <li><${Text} color="secondary"><strong>Routing.</strong> Orthogonal wires with the vertical segment in the channel just left of the sink, spread over a few tracks.</${Text}></li>
+        </ol>
+      </${Section}>
+
+      <${Section} id="app" n=${7} title="The app">
+        <${P}>The Playground, Learn and Settings pages share one state struct. The Playground's views all read the same <${Code}>Circuit</${Code}>: the design, its flat netlist, the simulator, a layout per module, and the state machines found in it.</${P}>
+        <${AppMap}/>
+        <${Kv} rows=${[
+          ['Editor', 'Line numbers, VHDL highlighting, errors underlined. The cursor line highlights its gates; hovering a gate highlights its code.'],
+          ['Canvas', 'Wire colour is the value. Click an input to flip it and watch the change move column by column. Double-click +, - or * for the gates inside, or an instance to step into it.'],
+          ['States', 'The same circuit as a state diagram: current state filled, the arrow the next edge takes highlighted, the one just taken flashing.'],
+          ['Inspector', 'Truth table (click a row to load it) and the problem list (click to jump to the line).'],
+          ['Waveform', 'For clocked designs: one column per cycle for inputs, registers and outputs, buses and states written in their lanes.'],
+          ['Settings', 'Theme, text and editor size, reduced motion, animation speed, starting input value, default simulator, About and updates.'],
+        ]}/>
+        <${P}>Shortcuts: <${Kbd} keys="Space"/> run or pause, <${Kbd} keys="Enter"/> one clock edge, <${Kbd} keys="Escape"/> step out of an instance, <${Kbd} keys="Mod+Enter"/> check an exercise, <${Kbd} keys="Mod+S"/> save.</${P}>
+      </${Section}>
+
+      <${Section} id="learn" n=${8} title="Lessons and checking">
+        <${P}>Lessons are plain text files in <${Code}>content/lessons</${Code}>, compiled into the binary. Each concept follows the order the learning research recommends: two worked examples, then lines to put in order, then code to finish, then code to write.</${P}>
+        <${CodeBlock} code=${LESSON} language="markdown" title="content/lessons/03-processes-and-if.md (shape)" size="sm"/>
+        <${P}>Checking never compares text. Both the answer and the reference are elaborated and simulated, ports are matched by name, and the feedback says why an answer is wrong:</${P}>
+        <${Kv} rows=${[
+          ['Combinational', 'Every input combination, in the reference port order. The first one where an output differs is reported with its input values.'],
+          ['Clocked', 'Both designs get the same inputs for 48 cycles from a fixed pseudo-random sequence. A reset input (named rst, reset, clr or clear; active low if it ends in n) is held in cycle 1 and cycle 30. Outputs are compared before and after every rising edge.'],
+          ['Leniency', "A synchronous and an asynchronous reset both pass: during a reset cycle only the value after the edge counts, and a reference value of 'U' accepts anything."],
+          ['Ordering', 'The arranged lines are checked like typed code, so any order that builds the same circuit passes; a line the elaborator points at turns red.'],
+        ]}/>
+        <${Card} padding=${4} variant="muted">
+          <${Text} size="sm" color="secondary"><span style=${{ fontFamily: 'var(--vf-mono)' }}>After clock edge 2 with rst = '0' and en = '0', your count is "0001" (1) but it should be "0000" (0).</span></${Text}>
+        </${Card}>
+        <${P}>Every lesson is tested in CI: its examples must elaborate, each answer must pass its own check, and each starting point must fail it.</${P}>
+      </${Section}>
+
+      <${Section} id="updates" n=${9} title="Updates">
+        <${P}>Settings > About checks GitHub, at startup unless turned off. The method depends on how the copy was installed, and the work runs on a background thread; the new version starts after a restart.</${P}>
+        <${Kv} rows=${[
+          ['git checkout', 'git fetch to compare, then git pull --ff-only and cargo build --release.'],
+          ['release binary', 'Compares with the newest GitHub release, downloads the asset whose name holds this target triple, checks its SHA-256 when GitHub gives one, and replaces the running file.'],
+        ]}/>
+        <${P}>Releases are built by a GitHub Actions workflow on every version tag, for x86_64 Windows and Linux and Apple-silicon macOS, after the full test suite passes on each.</${P}>
+      </${Section}>
+
+      <${Section} id="build" n=${10} title="Build and run">
+        <${P}>Rust 1.95 or newer (the minimum eframe sets). On Linux, file dialogs go through the desktop portal.</${P}>
+        <${CodeBlock} code=${BUILD} language="bash" hasCopyButton size="sm"/>
+        <${P}>The interface uses SF Pro when its font files are present in <${Code}>assets/fonts</${Code}> at build time, and the system font otherwise. Icons are Phosphor.</${P}>
+      </${Section}>
+
+      <${Section} id="roadmap" n=${11} title="Roadmap">
+        <${Kv} rows=${[
+          ['v0.1 to v0.3', 'Gates, buses, hierarchy, processes, registers, clock and waveform. Done.'],
+          ['v0.4', 'Learn tab: seven lessons, ordering exercises, clocked checking, state diagrams, updates. Done.'],
+          ['v0.5', 'Challenges: the app shows a circuit or truth table, you write the VHDL.'],
+          ['v0.6', 'Testbenches: stimulus, assert and report, run on Questa, GHDL or NVC, VCD into the waveform.'],
+          ['v0.7', 'Applied designs: fixed point, MAC units, a systolic array for matrix multiplication, FIR, UART.'],
+          ['v1.0', 'Installers, keyboard-only use and screen-reader labels.'],
+        ]}/>
+      </${Section}>
+
+    </main>
+  </div>
+
+  <footer className="vf-foot">
+    <div className="vf-foot-inner">
+      <picture><source srcSet="logo-dark.svg" media="(prefers-color-scheme: dark)"/><img src="logo-light.svg" alt="" width="22" height="22"/></picture>
+      <span>VHDL Forge ${VERSION}</span>
+      <span className="vf-spacer"></span>
+      <${Link} href=${REPO} size="sm">Source</${Link}>
+      <${Link} href=${REPO + '/releases'} size="sm">Releases</${Link}>
+      <${Link} href=${REPO + '/issues/new/choose'} size="sm">Report a problem</${Link}>
+      <${Link} href="/" size="sm">masterkpg.github.io</${Link}>
+    </div>
+  </footer>
+  </${React.Fragment}>`;
+}
+
+createRoot(document.getElementById('root')).render(html`<${Page}/>`);
+</script>
+</body>
+</html>
