@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="VHDL Forge">
+  <g transform="translate(0 0) scale(1.0)" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+    <path d="M24 13 L42 22 V42 L24 51 Z" stroke="#f5f5f7"/>
+    <path d="M6 40 H24" stroke="#48484d"/>
+    <path d="M33 46.5 V58" stroke="#48484d"/>
+    <path d="M6 24 H24 L42 32 H58" stroke="#32d74b"/>
+    <circle cx="6" cy="24" r="1.9" fill="#32d74b" stroke="none"/>
+    <circle cx="6" cy="40" r="1.9" fill="#48484d" stroke="none"/>
+    <circle cx="58" cy="32" r="1.9" fill="#32d74b" stroke="none"/>
+  </g>
+</svg>
